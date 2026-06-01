@@ -1,0 +1,18 @@
+<div class="custom-select-group">
+  <label *ngIf="label" [for]="name">{{ label }}</label>
+  
+  <div class="select-wrapper">
+    <select 
+      [id]="name" 
+      [name]="name" 
+      [ngModel]="value"
+      (ngModelChange)="onValueChange($event)"
+      [ngModelOptions]="{standalone: true}"
+    >
+      <option value="" disabled selected>Selecione uma opção...</option>
+      <option *ngFor="let opt of options" [value]="opt.value">
+        {{ opt.label }}
+      </option>
+    </select>
+  </div>
+</div>

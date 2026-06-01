@@ -1,0 +1,52 @@
+.custom-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.custom-input-group label {
+  color: #888888;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 14px 18px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Efeito de Focus com o rosa neon do osu! */
+.input-wrapper input:focus {
+  outline: none;
+  border-color: #ff66aa;
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 12px rgba(255, 102, 170, 0.2);
+}
+
+.input-wrapper input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Customização interna para o input do tipo date no modo escuro */
+.input-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+  opacity: 0.6;
+}

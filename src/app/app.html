@@ -1,3 +1,11 @@
+<div class="loading-overlay" *ngIf="loadingService.loading$ | async">
+    <div class="loading-box">
+        <div class="spinner"></div>
+        <h2>Carregando...</h2>
+        <p>Aguarde um momento</p>
+    </div>
+</div>
+
 <router-outlet></router-outlet>
 
 <app-modal></app-modal>

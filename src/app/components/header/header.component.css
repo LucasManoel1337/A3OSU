@@ -91,3 +91,55 @@
   background-color: rgba(255, 68, 68, 0.15);
   transform: translateX(3px);
 }
+
+.avatar-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Menu Flutuante */
+.dropdown-menu {
+  position: absolute;
+  top: 55px; /* Empurra o menu para baixo do header */
+  right: 0;
+  background-color: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  min-width: 170px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  padding: 6px 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  animation: menuFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Animação de surgimento sutil vindo de cima */
+@keyframes menuFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Links internos do menu */
+.dropdown-menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #aaaaaa;
+  text-decoration: none;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* Hover estilizado com o rosa clássico do osu! */
+.dropdown-menu a:hover {
+  background-color: rgba(255, 102, 170, 0.1);
+  color: #ff66aa;
+}
+
+.menu-icon {
+  font-size: 1.1rem;
+}

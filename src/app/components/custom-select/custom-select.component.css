@@ -1,0 +1,64 @@
+.custom-select-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.custom-select-group label {
+  color: #888888;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper select {
+  width: 100%;
+  padding: 14px 18px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  appearance: none; /* Remove a setinha padrão feia do navegador */
+  -webkit-appearance: none;
+  box-sizing: border-box;
+}
+
+/* Criando uma setinha customizada elegante em CSS puro */
+.select-wrapper::after {
+  content: '▼';
+  font-size: 0.75rem;
+  color: #666;
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: color 0.2s;
+}
+
+.select-wrapper select:focus {
+  outline: none;
+  border-color: #ff66aa;
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 12px rgba(255, 102, 170, 0.2);
+}
+
+.select-wrapper select:focus + ::after {
+  color: #ff66aa;
+}
+
+/* Garante que o fundo das opções fique escuro no Windows/Linux */
+.select-wrapper select option {
+  background-color: #161616;
+  color: #ffffff;
+}

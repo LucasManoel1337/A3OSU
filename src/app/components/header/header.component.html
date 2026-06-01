@@ -9,8 +9,18 @@
       <span class="nick">{{ username }}</span>
     </div>
     
-    <!-- Usando uma imagem genérica de avatar do osu! -->
-    <img src="https://a.ppy.sh/" alt="Avatar" class="avatar" routerLink="/perfil">
+    <div class="avatar-container">
+      <img src="https://a.ppy.sh/" alt="Avatar" class="avatar" (click)="toggleMenu($event)">
+      
+      <div class="dropdown-menu" *ngIf="menuAberto" (click)="$event.stopPropagation()">
+        <a routerLink="/perfil" (click)="menuAberto = false">
+          <span class="menu-icon">👤</span> Meu Perfil
+        </a>
+        <a routerLink="/config" (click)="menuAberto = false">
+          <span class="menu-icon">⚙️</span> Configurações
+        </a>
+      </div>
+    </div>
     
     <div class="divider"></div>
 

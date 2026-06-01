@@ -1,0 +1,139 @@
+<div class="app-layout">
+
+  <app-sidebar></app-sidebar>
+
+  <div class="main-wrapper">
+
+    <app-header></app-header>
+
+    <main class="content-area">
+
+      <div class="config-container">
+
+        <!-- HEADER -->
+
+        <div class="config-header-card">
+
+          <div class="config-header-content">
+
+            <div class="config-icon">
+              ⚙️
+            </div>
+
+            <div>
+
+              <h1 class="config-title">
+                Configurações da Conta
+              </h1>
+
+              <p class="config-subtitle">
+                Gerencie suas informações pessoais e segurança da conta.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PERFIL -->
+
+        <section class="config-card">
+
+          <div class="section-header">
+
+            <h3>👤 Informações de Perfil</h3>
+
+            <p>
+              Atualize seus dados públicos e preferências da plataforma.
+            </p>
+
+          </div>
+
+          <form class="config-form" (submit)="$event.preventDefault(); salvarPerfil()">
+
+            <div class="form-grid">
+
+              <app-custom-input label="Nickname" name="nickname" [(value)]="nickname" [disabled]="true">
+              </app-custom-input>
+
+              <app-custom-input label="E-mail" type="email" name="email" [(value)]="email" [disabled]="true">
+              </app-custom-input>
+
+              <app-custom-select label="Nacionalidade" name="nacionalidade" [options]="listaNacionalidades"
+                [(value)]="nacionalidade">
+              </app-custom-select>
+
+              <app-custom-select label="Idioma do Sistema" name="idioma" [options]="listaIdiomas" [(value)]="idioma">
+              </app-custom-select>
+
+            </div>
+
+            <div class="button-area">
+
+              <button type="submit" class="btn-primary" [disabled]="carregandoPerfil">
+
+                {{
+                carregandoPerfil
+                ? 'Salvando...'
+                : 'Salvar Alterações'
+                }}
+
+              </button>
+
+            </div>
+
+          </form>
+
+        </section>
+
+        <!-- SENHA -->
+
+        <section class="config-card danger-card">
+
+          <div class="section-header">
+
+            <h3>🔒 Segurança e Senha</h3>
+
+            <p>
+              Atualize sua senha de acesso com segurança.
+            </p>
+
+          </div>
+
+          <form class="config-form" (submit)="$event.preventDefault(); alterarSenha()">
+
+            <div class="password-stack">
+
+              <app-custom-input label="Senha Atual" type="password" name="senhaAtual"
+                placeholder="Digite sua senha atual" [(value)]="senhaAtual">
+              </app-custom-input>
+
+              <app-custom-input label="Nova Senha" type="password" name="novaSenha" placeholder="Digite sua nova senha"
+                [(value)]="novaSenha">
+              </app-custom-input>
+
+              <app-custom-input label="Confirmar Nova Senha" type="password" name="confirmarNovaSenha"
+                placeholder="Confirme sua nova senha" [(value)]="confirmarNovaSenha">
+              </app-custom-input>
+
+            </div>
+
+            <div class="button-area">
+
+              <button type="submit" class="btn-secondary" [disabled]="carregandoSenha">
+
+                {{
+                carregandoSenha
+                ? 'Atualizando...'
+                : 'Atualizar Senha'
+                }}
+
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="custom-input-group">
+  <label *ngIf="label" [for]="name">{{ label }}</label>
+  
+  <div class="input-wrapper">
+    <input 
+      [type]="type" 
+      [id]="name" 
+      [name]="name" 
+      [placeholder]="placeholder" 
+      [disabled]="disabled"
+      [ngModel]="value"
+      (ngModelChange)="onValueChange($event)"
+      [ngModelOptions]="{standalone: true}" 
+    />
+  </div>
+</div>
