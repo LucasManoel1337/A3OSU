@@ -1,0 +1,85 @@
+.auth-container {
+  background-color: var(--osu-card-bg);
+  padding: 40px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.osu-logo {
+  background-color: var(--osu-pink);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 0 20px rgba(255, 102, 170, 0.4);
+}
+
+.osu-logo h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-style: italic;
+  font-weight: 800;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  background-color: #2a2a2a;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  color: white;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--osu-pink);
+}
+
+.osu-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--osu-pink);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.osu-btn:hover {
+  background-color: var(--osu-pink-hover);
+  transform: scale(1.02);
+}
+
+.switch-page {
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.switch-page a {
+  color: var(--osu-pink);
+  text-decoration: none;
+  font-weight: bold;
+}

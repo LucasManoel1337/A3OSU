@@ -1,0 +1,93 @@
+.glass-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  /* Efeito de Vidro Fosco (Glassmorphism) */
+  background-color: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.header-title h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.welcome-text {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nick {
+  color: #ff66aa;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-shadow: 0 0 10px rgba(255, 102, 170, 0.3);
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  object-fit: cover;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.avatar:hover {
+  border-color: #ff66aa;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 102, 170, 0.2);
+}
+
+.divider {
+  height: 30px;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 0 5px;
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  color: #ff4444;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.btn-icon:hover {
+  background-color: rgba(255, 68, 68, 0.15);
+  transform: translateX(3px);
+}

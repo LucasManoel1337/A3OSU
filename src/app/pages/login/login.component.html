@@ -1,0 +1,19 @@
+<div class="auth-container">
+  <form (submit)="onLogin($event)">
+    <div class="input-group">
+      <label for="username">Usuário</label>
+      <input type="text" id="username" name="username" [(ngModel)]="username" placeholder="Seu nome de jogador" required>
+    </div>
+    
+    <div class="input-group">
+      <label for="password">Senha</label>
+      <input type="password" id="password" name="password" [(ngModel)]="password" placeholder="Sua senha" required>
+    </div>
+    
+    <button type="submit" class="osu-btn" [disabled]="carregando">
+      {{ carregando ? 'Conectando...' : 'Entrar' }}
+    </button>
+  </form>
+  
+  <p class="switch-page">Ainda não tem conta? <a routerLink="/cadastro">Cadastre-se</a></p>
+</div>

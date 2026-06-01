@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --osu-pink: #ff66aa;
+  --osu-pink-hover: #ff4499;
+  --osu-bg: #111111;
+  --osu-card-bg: #1e1e1e;
+  --text-main: #ffffff;
+  --text-muted: #aaaaaa;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--osu-bg);
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--osu-bg);
+  color: var(--text-main);
+  /* Removemos o display: flex e o justify-content daqui */
+}

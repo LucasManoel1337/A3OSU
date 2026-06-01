@@ -1,0 +1,26 @@
+<div class="auth-container">
+  <h2>Criar nova conta</h2>
+  
+  <form (submit)="onCadastro($event)">
+    <div class="input-group">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" [(ngModel)]="email" placeholder="seu@email.com" required>
+    </div>
+
+    <div class="input-group">
+      <label for="new-username">Usuário</label>
+      <input type="text" id="new-username" name="username" [(ngModel)]="username" placeholder="Como quer ser chamado?" required>
+    </div>
+    
+    <div class="input-group">
+      <label for="new-password">Senha</label>
+      <input type="password" id="new-password" name="password" [(ngModel)]="password" placeholder="Crie uma senha forte" required>
+    </div>
+    
+    <button type="submit" class="osu-btn" [disabled]="carregando">
+      {{ carregando ? 'Registrando...' : 'Registrar e Jogar' }}
+    </button>
+  </form>
+  
+  <p class="switch-page">Já tem uma conta? <a routerLink="/login">Faça Login</a></p>
+</div>
