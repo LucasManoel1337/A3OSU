@@ -12,6 +12,11 @@
     </a>
   </nav>
 
+  <div class="server-status">
+    <div class="status-dot"></div>
+    <span class="status-text">Conectado: Nó {{ statusService.currentServer$ | async }}</span>
+  </div>
+
   <div class="sidebar-footer">
     <p>v1.0.0 - Sist. Distribuídos</p>
   </div>
