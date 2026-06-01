@@ -36,6 +36,42 @@
 
         </div>
 
+        <section class="config-card">
+          <div class="config-header-card profile-style">
+            <div class="banner-preview">
+
+              <img class="banner-image" [src]="bannerPreview" alt="Banner">
+
+              <label class="upload-overlay">
+                <input type="file" (change)="onFileSelected($event, 'banner')" hidden>
+                <span>Alterar Capa</span>
+              </label>
+
+            </div>
+
+            <div class="profile-info-wrapper">
+              <div class="avatar-preview">
+
+                <img class="avatar-image" [src]="avatarPreview" alt="Avatar">
+
+                <label class="upload-overlay">
+                  <input type="file" (change)="onFileSelected($event, 'avatar')" hidden>
+                  <span>Trocar</span>
+                </label>
+
+              </div>
+
+              <div class="user-details">
+                <div class="title-row">
+                  <h1 class="config-title">{{ nickname }}</h1>
+                  <img [src]="'https://flagcdn.com/w40/' + nacionalidade.toLowerCase() + '.png'" class="country-flag">
+                </div>
+                <p class="role-text">Configurações de Conta</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- PERFIL -->
 
         <section class="config-card">

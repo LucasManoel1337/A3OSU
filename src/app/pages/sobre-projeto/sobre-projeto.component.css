@@ -1,0 +1,143 @@
+.app-layout { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
+.main-wrapper { flex: 1; display: flex; flex-direction: column; }
+.content-area { padding: 40px; overflow-y: auto; flex: 1; }
+.perfil-container { max-width: 1050px; margin: 0 auto; display: flex; flex-direction: column; gap: 35px; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ========================================== */
+/* CABEÇALHO DO PERFIL */
+/* ========================================== */
+.profile-header-card {
+  background-color: #161616;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cover-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  /* Degradê para misturar a imagem com o fundo preto */
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
+}
+
+.profile-info-wrapper {
+  display: flex;
+  align-items: flex-end;
+  padding: 0 40px 40px 40px;
+  margin-top: -60px; /* Faz o avatar subir por cima da capa */
+  gap: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+.avatar-section { position: relative; }
+
+.avatar-large {
+  width: 160px;
+  height: 160px;
+  border-radius: 25px;
+  object-fit: cover;
+  border: 4px solid #111;
+  box-shadow: 0 10px 30px rgba(255, 102, 170, 0.3);
+}
+
+.status-badge {
+  position: absolute; bottom: 8px; right: -5px; width: 28px; height: 28px;
+  border-radius: 50%; border: 4px solid #111;
+}
+.status-badge.online { background-color: #2ecc71; box-shadow: 0 0 15px #2ecc71; }
+
+.user-details { flex: 1; padding-bottom: 10px; }
+
+.title-row { display: flex; align-items: center; gap: 15px; margin-bottom: 5px; }
+
+.nick-title { color: #fff; font-size: 2.8rem; margin: 0; font-weight: 800; letter-spacing: 1px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+
+.country-flag { width: 35px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+
+.role-text { color: #ff66aa; font-size: 1.1rem; font-weight: 600; margin: 0 0 15px 0; letter-spacing: 2px; text-transform: uppercase; }
+
+/* BARRA DE XP */
+.level-container { display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.3); padding: 8px 15px; border-radius: 12px; width: fit-content; border: 1px solid rgba(255,255,255,0.05); }
+.level-badge { background: #ff66aa; color: #fff; font-weight: bold; padding: 4px 10px; border-radius: 8px; font-size: 0.9rem; }
+.xp-bar-bg { width: 200px; height: 10px; background: #222; border-radius: 5px; overflow: hidden; }
+.xp-bar-fill { height: 100%; background: linear-gradient(90deg, #d42276, #ff66aa); border-radius: 5px; box-shadow: 0 0 10px rgba(255,102,170,0.5); }
+.xp-text { color: #888; font-size: 0.85rem; font-weight: bold; }
+
+/* ========================================== */
+/* GRID DE ESTATÍSTICAS */
+/* ========================================== */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+
+.stat-card {
+  background-color: #161616; padding: 25px; border-radius: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.stat-card:hover { transform: translateY(-3px); border-color: rgba(255, 102, 170, 0.3); }
+
+.stat-card.glow-pink { position: relative; overflow: hidden; border-color: rgba(255, 102, 170, 0.2); }
+.stat-card.glow-pink::before {
+  content: ''; position: absolute; top: -50px; right: -50px; width: 100px; height: 100px;
+  background: radial-gradient(circle, rgba(255,102,170,0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 50%;
+}
+
+.stat-label { color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+.stat-value { color: #fff; font-size: 2rem; font-weight: 800; }
+.stat-subtext { color: #666; font-size: 0.85rem; }
+.text-success { color: #2ecc71; text-shadow: 0 0 10px rgba(46, 204, 113, 0.2); }
+.text-up { color: #2ecc71; }
+
+/* ========================================== */
+/* SEÇÕES E MEDALHAS */
+/* ========================================== */
+.section-block { display: flex; flex-direction: column; gap: 15px; }
+.section-title { color: #fff; font-size: 1.4rem; margin: 0; font-weight: 600; border-left: 4px solid #ff66aa; padding-left: 12px; }
+
+.medals-showcase { display: flex; gap: 20px; flex-wrap: wrap; }
+
+.medal-item {
+  background: #1a1a1a; padding: 15px 25px; border-radius: 14px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  border: 1px solid rgba(255,255,255,0.05); cursor: help;
+  transition: all 0.3s ease;
+}
+.medal-item:hover { transform: translateY(-5px); }
+.medal-icon { font-size: 2.5rem; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
+.medal-item span { color: #aaa; font-size: 0.9rem; font-weight: 600; }
+
+.medal-item.founder { border-color: rgba(241, 196, 15, 0.3); background: rgba(241, 196, 15, 0.05); }
+.medal-item.founder .medal-icon { filter: drop-shadow(0 0 15px rgba(241, 196, 15, 0.4)); }
+.medal-item.champion { border-color: rgba(155, 89, 182, 0.3); background: rgba(155, 89, 182, 0.05); }
+.medal-item.champion .medal-icon { filter: drop-shadow(0 0 15px rgba(155, 89, 182, 0.4)); }
+.medal-item.sniper { border-color: rgba(52, 152, 219, 0.3); background: rgba(52, 152, 219, 0.05); }
+.medal-item.sniper .medal-icon { filter: drop-shadow(0 0 15px rgba(52, 152, 219, 0.4)); }
+.medal-item.empty { opacity: 0.5; filter: grayscale(100%); cursor: not-allowed; }
+
+/* ========================================== */
+/* HISTÓRICO DE PARTIDAS (TABELA) */
+/* ========================================== */
+.history-table-container { background: #161616; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
+
+.history-table { width: 100%; border-collapse: collapse; text-align: left; }
+.history-table th { background: rgba(0,0,0,0.4); color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; padding: 18px 20px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.history-table td { padding: 18px 20px; color: #ddd; font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.02); vertical-align: middle; }
+.history-table tbody tr { transition: background-color 0.2s ease; }
+.history-table tbody tr:hover { background-color: rgba(255,255,255,0.02); }
+
+.history-table td strong { color: #fff; }
+.history-table td small { color: #888; margin-left: 5px; }
+
+/* Estilos de Vitória e Derrota nas linhas */
+.row-win td:first-child { box-shadow: inset 4px 0 0 #2ecc71; }
+.row-loss td:first-child { box-shadow: inset 4px 0 0 #e74c3c; }
+
+.badge { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; letter-spacing: 1px; }
+.badge.win { background: rgba(46, 204, 113, 0.1); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.2); }
+.badge.loss { background: rgba(231, 76, 60, 0.1); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.2); }

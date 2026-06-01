@@ -46,4 +46,32 @@ export class UserService {
   getProfile(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/me`, this.getHeadersJson());
   }
+
+  uploadAsset(file: File, type: 'avatar' | 'banner') {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    return this.http.post(`${this.apiUrl}/upload/${type}`, formData, {
+      responseType: 'text'
+      ,headers: this.getHeadersJson().headers
+    });
+  }
+
+  getAvatar(userId: number): Observable<Blob> {
+    const token = localStorage.getItem('jwt_token'); // ✅ chave correta
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get(`${this.apiUrl}/${userId}/avatar`, {
+      headers,
+      responseType: 'blob'
+    });
+  }
+
+  getBanner(userId: number): Observable<Blob> {
+    const token = localStorage.getItem('jwt_token'); // ✅ chave correta
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get(`${this.apiUrl}/${userId}/banner`, {
+      headers,
+      responseType: 'blob'
+    });
+  }
 }

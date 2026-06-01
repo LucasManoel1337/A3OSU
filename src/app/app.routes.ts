@@ -5,6 +5,7 @@ import { CadastroComponent } from './pages/cadastro/cadastro.component';
 import { authGuard } from './core/guards/auth.guard';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { ConfigComponent } from './pages/config/config.component';
+import { SobreProjetoComponent } from './pages/sobre-projeto/sobre-projeto.component';
 
 export const routes: Routes = [
   // Rota raiz: redireciona automaticamente para o login ao abrir o app
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
   { path: 'perfil', component: PerfilComponent, canActivate: [authGuard] },
   { path: 'config', component: ConfigComponent, canActivate: [authGuard] },
+  { path: 'sobre-projeto', component: SobreProjetoComponent, canActivate: [authGuard] },
   
   // Rota curinga: se o usuário digitar qualquer URL inválida, volta para o login
   { path: '**', redirectTo: 'login' }

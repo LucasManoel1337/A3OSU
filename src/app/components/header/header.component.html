@@ -2,16 +2,21 @@
   <div class="header-title">
     <h2>Visão Geral</h2>
   </div>
-  
+
   <div class="user-profile">
     <div class="user-info">
       <span class="welcome-text">Bem-vindo(a),</span>
       <span class="nick">{{ username }}</span>
     </div>
-    
+
     <div class="avatar-container">
-      <img src="https://a.ppy.sh/" alt="Avatar" class="avatar" (click)="toggleMenu($event)">
-      
+      <img
+        [src]="avatarPreview || 'https://a.ppy.sh/'"
+        alt="Avatar"
+        class="avatar"
+        (click)="toggleMenu($event)"
+      >
+
       <div class="dropdown-menu" *ngIf="menuAberto" (click)="$event.stopPropagation()">
         <a routerLink="/perfil" (click)="menuAberto = false">
           <span class="menu-icon">👤</span> Meu Perfil
@@ -21,7 +26,7 @@
         </a>
       </div>
     </div>
-    
+
     <div class="divider"></div>
 
     <button class="btn-icon" (click)="sair()" title="Sair do sistema">

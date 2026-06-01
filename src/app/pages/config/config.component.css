@@ -396,3 +396,72 @@
     width: 100%;
   }
 }
+
+.profile-style { 
+  padding: 0; /* O banner preenche o card */
+  overflow: hidden; 
+}
+
+.banner-preview {
+  height: 180px; width: 100%;
+  background-size: cover; background-position: center;
+  position: relative; cursor: pointer;
+}
+
+.profile-info-wrapper {
+  display: flex; align-items: flex-end;
+  padding: 0 40px 30px 40px;
+  margin-top: -50px; gap: 20px;
+}
+
+.avatar-preview {
+  width: 140px; height: 140px;
+  border-radius: 20px; border: 4px solid #161616;
+  background-size: cover; background-position: center;
+  position: relative; cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.title-row { display: flex; align-items: center; gap: 15px; }
+.country-flag { width: 32px; border-radius: 4px; }
+.role-text { color: #ff66aa; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Mantém o efeito de hover que criamos antes */
+.upload-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.6); color: #fff;
+  opacity: 0; transition: opacity 0.3s ease; cursor: pointer;
+}
+.banner-preview:hover .upload-overlay,
+.avatar-preview:hover .upload-overlay { opacity: 1; }
+
+.banner-preview {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-preview {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
