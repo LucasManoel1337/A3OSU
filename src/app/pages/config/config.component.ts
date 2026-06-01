@@ -45,8 +45,8 @@ export class ConfigComponent implements OnInit {
   carregandoSenha = false;
 
   currentUserId: number = 0;
-  avatarPreview = '';
-  bannerPreview = '';
+  avatarPreview = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s';
+  bannerPreview = 'https://images4.alphacoders.com/991/thumb-1920-991403.png';
 
   private isBrowser: boolean;
 

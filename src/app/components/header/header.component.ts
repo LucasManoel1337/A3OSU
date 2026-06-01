@@ -81,4 +81,8 @@ export class HeaderComponent implements OnInit {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
+
+  get avatarSrc(): string {
+    return this.avatarPreview || 'assets/avatar.png';
+  }
 }
