@@ -1,175 +1,165 @@
-<div class="app-layout">
+<main class="content-area">
 
-  <app-sidebar></app-sidebar>
+  <div class="config-container">
 
-  <div class="main-wrapper">
+    <!-- HEADER -->
 
-    <app-header></app-header>
+    <div class="config-header-card">
 
-    <main class="content-area">
+      <div class="config-header-content">
 
-      <div class="config-container">
+        <div class="config-icon">
+          ⚙️
+        </div>
 
-        <!-- HEADER -->
+        <div>
 
-        <div class="config-header-card">
+          <h1 class="config-title">
+            Configurações da Conta
+          </h1>
 
-          <div class="config-header-content">
-
-            <div class="config-icon">
-              ⚙️
-            </div>
-
-            <div>
-
-              <h1 class="config-title">
-                Configurações da Conta
-              </h1>
-
-              <p class="config-subtitle">
-                Gerencie suas informações pessoais e segurança da conta.
-              </p>
-
-            </div>
-
-          </div>
+          <p class="config-subtitle">
+            Gerencie suas informações pessoais e segurança da conta.
+          </p>
 
         </div>
 
-        <section class="config-card">
-          <div class="config-header-card profile-style">
-            <div class="banner-preview">
-
-              <img class="banner-image" [src]="bannerPreview" alt="Banner">
-
-              <label class="upload-overlay">
-                <input type="file" (change)="onFileSelected($event, 'banner')" hidden>
-                <span>Alterar Capa</span>
-              </label>
-
-            </div>
-
-            <div class="profile-info-wrapper">
-              <div class="avatar-preview">
-
-                <img class="avatar-image" [src]="avatarPreview" alt="Avatar">
-
-                <label class="upload-overlay">
-                  <input type="file" (change)="onFileSelected($event, 'avatar')" hidden>
-                  <span>Trocar</span>
-                </label>
-
-              </div>
-
-              <div class="user-details">
-                <div class="title-row">
-                  <h1 class="config-title">{{ nickname }}</h1>
-                  <img [src]="'https://flagcdn.com/w40/' + nacionalidade.toLowerCase() + '.png'" class="country-flag">
-                </div>
-                <p class="role-text">Configurações de Conta</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- PERFIL -->
-
-        <section class="config-card">
-
-          <div class="section-header">
-
-            <h3>👤 Informações de Perfil</h3>
-
-            <p>
-              Atualize seus dados públicos e preferências da plataforma.
-            </p>
-
-          </div>
-
-          <form class="config-form" (submit)="$event.preventDefault(); salvarPerfil()">
-
-            <div class="form-grid">
-
-              <app-custom-input label="Nickname" name="nickname" [(value)]="nickname" [disabled]="true">
-              </app-custom-input>
-
-              <app-custom-input label="E-mail" type="email" name="email" [(value)]="email" [disabled]="true">
-              </app-custom-input>
-
-              <app-custom-select label="Nacionalidade" name="nacionalidade" [options]="listaNacionalidades"
-                [(value)]="nacionalidade">
-              </app-custom-select>
-
-              <app-custom-select label="Idioma do Sistema" name="idioma" [options]="listaIdiomas" [(value)]="idioma">
-              </app-custom-select>
-
-            </div>
-
-            <div class="button-area">
-
-              <button type="submit" class="btn-primary" [disabled]="carregandoPerfil">
-
-                {{
-                carregandoPerfil
-                ? 'Salvando...'
-                : 'Salvar Alterações'
-                }}
-
-              </button>
-
-            </div>
-
-          </form>
-
-        </section>
-
-        <!-- SENHA -->
-
-        <section class="config-card danger-card">
-
-          <div class="section-header">
-
-            <h3>🔒 Segurança e Senha</h3>
-
-            <p>
-              Atualize sua senha de acesso com segurança.
-            </p>
-
-          </div>
-
-          <form class="config-form" (submit)="$event.preventDefault(); alterarSenha()">
-
-            <div class="password-stack">
-
-              <app-custom-input label="Senha Atual" type="password" name="senhaAtual"
-                placeholder="Digite sua senha atual" [(value)]="senhaAtual">
-              </app-custom-input>
-
-              <app-custom-input label="Nova Senha" type="password" name="novaSenha" placeholder="Digite sua nova senha"
-                [(value)]="novaSenha">
-              </app-custom-input>
-
-              <app-custom-input label="Confirmar Nova Senha" type="password" name="confirmarNovaSenha"
-                placeholder="Confirme sua nova senha" [(value)]="confirmarNovaSenha">
-              </app-custom-input>
-
-            </div>
-
-            <div class="button-area">
-
-              <button type="submit" class="btn-secondary" [disabled]="carregandoSenha">
-
-                {{
-                carregandoSenha
-                ? 'Atualizando...'
-                : 'Atualizar Senha'
-                }}
-
-              </button>
-            </div>
-          </form>
-        </section>
       </div>
-    </main>
+
+    </div>
+
+    <section class="config-card">
+      <div class="config-header-card profile-style">
+        <div class="banner-preview">
+
+          <img class="banner-image" [src]="bannerPreview" alt="Banner">
+
+          <label class="upload-overlay">
+            <input type="file" (change)="onFileSelected($event, 'banner')" hidden>
+            <span>Alterar Capa</span>
+          </label>
+
+        </div>
+
+        <div class="profile-info-wrapper">
+          <div class="avatar-preview">
+
+            <img class="avatar-image" [src]="avatarPreview" alt="Avatar">
+
+            <label class="upload-overlay">
+              <input type="file" (change)="onFileSelected($event, 'avatar')" hidden>
+              <span>Trocar</span>
+            </label>
+
+          </div>
+
+          <div class="user-details">
+            <div class="title-row">
+              <h1 class="config-title">{{ nickname }}</h1>
+              <img [src]="'https://flagcdn.com/w40/' + nacionalidade.toLowerCase() + '.png'" class="country-flag">
+            </div>
+            <p class="role-text">Configurações de Conta</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PERFIL -->
+
+    <section class="config-card">
+
+      <div class="section-header">
+
+        <h3>👤 Informações de Perfil</h3>
+
+        <p>
+          Atualize seus dados públicos e preferências da plataforma.
+        </p>
+
+      </div>
+
+      <form class="config-form" (submit)="$event.preventDefault(); salvarPerfil()">
+
+        <div class="form-grid">
+
+          <app-custom-input label="Nickname" name="nickname" [(value)]="nickname" [disabled]="true">
+          </app-custom-input>
+
+          <app-custom-input label="E-mail" type="email" name="email" [(value)]="email" [disabled]="true">
+          </app-custom-input>
+
+          <app-custom-select label="Nacionalidade" name="nacionalidade" [options]="listaNacionalidades"
+            [(value)]="nacionalidade">
+          </app-custom-select>
+
+          <app-custom-select label="Idioma do Sistema" name="idioma" [options]="listaIdiomas" [(value)]="idioma">
+          </app-custom-select>
+
+        </div>
+
+        <div class="button-area">
+
+          <button type="submit" class="btn-primary" [disabled]="carregandoPerfil">
+
+            {{
+            carregandoPerfil
+            ? 'Salvando...'
+            : 'Salvar Alterações'
+            }}
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+    <!-- SENHA -->
+
+    <section class="config-card danger-card">
+
+      <div class="section-header">
+
+        <h3>🔒 Segurança e Senha</h3>
+
+        <p>
+          Atualize sua senha de acesso com segurança.
+        </p>
+
+      </div>
+
+      <form class="config-form" (submit)="$event.preventDefault(); alterarSenha()">
+
+        <div class="password-stack">
+
+          <app-custom-input label="Senha Atual" type="password" name="senhaAtual" placeholder="Digite sua senha atual"
+            [(value)]="senhaAtual">
+          </app-custom-input>
+
+          <app-custom-input label="Nova Senha" type="password" name="novaSenha" placeholder="Digite sua nova senha"
+            [(value)]="novaSenha">
+          </app-custom-input>
+
+          <app-custom-input label="Confirmar Nova Senha" type="password" name="confirmarNovaSenha"
+            placeholder="Confirme sua nova senha" [(value)]="confirmarNovaSenha">
+          </app-custom-input>
+
+        </div>
+
+        <div class="button-area">
+
+          <button type="submit" class="btn-secondary" [disabled]="carregandoSenha">
+
+            {{
+            carregandoSenha
+            ? 'Atualizando...'
+            : 'Atualizar Senha'
+            }}
+
+          </button>
+        </div>
+      </form>
+    </section>
   </div>
-</div>
+</main>

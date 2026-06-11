@@ -1,141 +1,136 @@
-<div class="app-layout">
-  
-  <app-sidebar></app-sidebar>
+<main class="content-area">
 
-  <div class="main-wrapper">
-    <app-header></app-header>
-    
-    <main class="content-area">
-      
-      <div class="perfil-container">
-        
-        <!-- ========================================== -->
-        <!-- 1. CABEÇALHO DO PERFIL (BANNER E INFO) -->
-        <!-- ========================================== -->
-        <div class="profile-header-card">
-          <!-- Imagem de Capa (Beatmap Background genérico) -->
-          <div class="cover-image" [style.background-image]="bannerPreview ? 'url(' + bannerPreview + ')' : 'url(https://images4.alphacoders.com/991/thumb-1920-991403.png)'"></div>
-          
-          <div class="profile-info-wrapper">
-            <div class="avatar-section">
-              <img [src]="avatarPreview || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'" alt="Avatar" class="avatar-large">
-            </div>
-            
-            <div class="user-details">
-              <div class="title-row">
-                <h1 class="nick-title">{{ username }}</h1>
-                <!-- Bandeira do Brasil via CDN para dar o clima global -->
-                <img src="https://flagcdn.com/w40/br.png" alt="Brasil" class="country-flag" title="Brasil">
-              </div>
-              <p class="role-text">Competidor de Torneios</p>
-              
-              <!-- Barra de Nível -->
-              <div class="level-container">
-                <div class="level-badge">Lv. 84</div>
-                <div class="xp-bar-bg">
-                  <div class="xp-bar-fill" style="width: 72%;"></div>
-                </div>
-                <span class="xp-text">72%</span>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="perfil-container">
 
-        <!-- ========================================== -->
-        <!-- 2. GRID DE ESTATÍSTICAS (STATS) -->
-        <!-- ========================================== -->
-        <div class="stats-grid">
-          <div class="stat-card glow-pink">
-            <span class="stat-label">Global Rank</span>
-            <span class="stat-value">#12,403</span>
-            <span class="stat-subtext">Top 5%</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">Accuracy (Torneios)</span>
-            <span class="stat-value">98.45%</span>
-            <span class="stat-subtext text-up">+0.12% essa semana</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">Winrate (Chaves)</span>
-            <span class="stat-value text-success">68%</span>
-            <span class="stat-subtext">34 Vitórias / 16 Derrotas</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">Max Combo Oficial</span>
-            <span class="stat-value">2,140x</span>
-            <span class="stat-subtext">Mrekk's Grandmaster Cup</span>
-          </div>
-        </div>
-
-        <!-- ========================================== -->
-        <!-- 3. VITRINE DE INSÍGNIAS E MEDALHAS -->
-        <!-- ========================================== -->
-        <div class="section-block">
-          <h3 class="section-title">Conquistas Notáveis</h3>
-          <div class="medals-showcase">
-            <div class="medal-item founder" title="Fundador do Sistema Distribuído">
-              <div class="medal-icon">⭐</div>
-              <span>Fundador Beta</span>
-            </div>
-            <div class="medal-item champion" title="Venceu o Torneio de Inverno">
-              <div class="medal-icon">🏆</div>
-              <span>Campeão Inverno</span>
-            </div>
-            <div class="medal-item sniper" title="Mais de 99.5% de Acc em Finais">
-              <div class="medal-icon">🎯</div>
-              <span>Sniper SS</span>
-            </div>
-            <div class="medal-item empty">
-              <div class="medal-icon">🔒</div>
-              <span>Bloqueado</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ========================================== -->
-        <!-- 4. HISTÓRICO DE PARTIDAS (MATCH HISTORY) -->
-        <!-- ========================================== -->
-        <div class="section-block">
-          <h3 class="section-title">Últimas Partidas Oficiais</h3>
-          <div class="history-table-container">
-            <table class="history-table">
-              <thead>
-                <tr>
-                  <th>Resultado</th>
-                  <th>Torneio</th>
-                  <th>Adversário</th>
-                  <th>Beatmap (Tiebreaker)</th>
-                  <th>Pontuação</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="row-win">
-                  <td><span class="badge win">VITÓRIA</span></td>
-                  <td>Copa da Faculdade - Oitavas</td>
-                  <td><strong>Ruan_Sniper</strong></td>
-                  <td>xi - FREEDOM DiVE [FOUR DIMENSIONS]</td>
-                  <td>1,430,200 <small>(99.1%)</small></td>
-                </tr>
-                <tr class="row-loss">
-                  <td><span class="badge loss">DERROTA</span></td>
-                  <td>Copa da Faculdade - Quartas</td>
-                  <td><strong>Karin_Osu</strong></td>
-                  <td>Camellia - GHOST [Expert]</td>
-                  <td>890,500 <small>(94.2%)</small></td>
-                </tr>
-                <tr class="row-win">
-                  <td><span class="badge win">VITÓRIA</span></td>
-                  <td>Torneio Amador SP</td>
-                  <td><strong>Guilherme99</strong></td>
-                  <td>ICDD - Yomi yori [Kyouaku]</td>
-                  <td>2,100,000 <small>(98.8%)</small></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
+    <!-- ========================================== -->
+    <!-- 1. CABEÇALHO DO PERFIL (BANNER E INFO) -->
+    <!-- ========================================== -->
+    <div class="profile-header-card">
+      <!-- Imagem de Capa (Beatmap Background genérico) -->
+      <div class="cover-image"
+        [style.background-image]="bannerPreview ? 'url(' + bannerPreview + ')' : 'url(https://images4.alphacoders.com/991/thumb-1920-991403.png)'">
       </div>
-    </main>
+
+      <div class="profile-info-wrapper">
+        <div class="avatar-section">
+          <img
+            [src]="avatarPreview || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'"
+            alt="Avatar" class="avatar-large">
+        </div>
+
+        <div class="user-details">
+          <div class="title-row">
+            <h1 class="nick-title">{{ username }}</h1>
+            <!-- Bandeira do Brasil via CDN para dar o clima global -->
+            <img src="https://flagcdn.com/w40/br.png" alt="Brasil" class="country-flag" title="Brasil">
+          </div>
+          <p class="role-text">Competidor de Torneios</p>
+
+          <!-- Barra de Nível -->
+          <div class="level-container">
+            <div class="level-badge">Lv. 84</div>
+            <div class="xp-bar-bg">
+              <div class="xp-bar-fill" style="width: 72%;"></div>
+            </div>
+            <span class="xp-text">72%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 2. GRID DE ESTATÍSTICAS (STATS) -->
+    <!-- ========================================== -->
+    <div class="stats-grid">
+      <div class="stat-card glow-pink">
+        <span class="stat-label">Global Rank</span>
+        <span class="stat-value">#12,403</span>
+        <span class="stat-subtext">Top 5%</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Accuracy (Torneios)</span>
+        <span class="stat-value">98.45%</span>
+        <span class="stat-subtext text-up">+0.12% essa semana</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Winrate (Chaves)</span>
+        <span class="stat-value text-success">68%</span>
+        <span class="stat-subtext">34 Vitórias / 16 Derrotas</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Max Combo Oficial</span>
+        <span class="stat-value">2,140x</span>
+        <span class="stat-subtext">Mrekk's Grandmaster Cup</span>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 3. VITRINE DE INSÍGNIAS E MEDALHAS -->
+    <!-- ========================================== -->
+    <div class="section-block">
+      <h3 class="section-title">Conquistas Notáveis</h3>
+      <div class="medals-showcase">
+        <div class="medal-item founder" title="Fundador do Sistema Distribuído">
+          <div class="medal-icon">⭐</div>
+          <span>Fundador Beta</span>
+        </div>
+        <div class="medal-item champion" title="Venceu o Torneio de Inverno">
+          <div class="medal-icon">🏆</div>
+          <span>Campeão Inverno</span>
+        </div>
+        <div class="medal-item sniper" title="Mais de 99.5% de Acc em Finais">
+          <div class="medal-icon">🎯</div>
+          <span>Sniper SS</span>
+        </div>
+        <div class="medal-item empty">
+          <div class="medal-icon">🔒</div>
+          <span>Bloqueado</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4. HISTÓRICO DE PARTIDAS (MATCH HISTORY) -->
+    <!-- ========================================== -->
+    <div class="section-block">
+      <h3 class="section-title">Últimas Partidas Oficiais</h3>
+      <div class="history-table-container">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Resultado</th>
+              <th>Torneio</th>
+              <th>Adversário</th>
+              <th>Beatmap (Tiebreaker)</th>
+              <th>Pontuação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-win">
+              <td><span class="badge win">VITÓRIA</span></td>
+              <td>Copa da Faculdade - Oitavas</td>
+              <td><strong>Ruan_Sniper</strong></td>
+              <td>xi - FREEDOM DiVE [FOUR DIMENSIONS]</td>
+              <td>1,430,200 <small>(99.1%)</small></td>
+            </tr>
+            <tr class="row-loss">
+              <td><span class="badge loss">DERROTA</span></td>
+              <td>Copa da Faculdade - Quartas</td>
+              <td><strong>Karin_Osu</strong></td>
+              <td>Camellia - GHOST [Expert]</td>
+              <td>890,500 <small>(94.2%)</small></td>
+            </tr>
+            <tr class="row-win">
+              <td><span class="badge win">VITÓRIA</span></td>
+              <td>Torneio Amador SP</td>
+              <td><strong>Guilherme99</strong></td>
+              <td>ICDD - Yomi yori [Kyouaku]</td>
+              <td>2,100,000 <small>(98.8%)</small></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
-</div>
+</main>

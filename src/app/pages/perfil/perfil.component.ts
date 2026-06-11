@@ -1,16 +1,13 @@
 import { Component, OnInit, Inject, PLATFORM_ID, NgZone, ChangeDetectorRef } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { forkJoin, catchError, of } from 'rxjs';
-
-import { HeaderComponent } from '../../components/header/header.component';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { UserService } from '../../core/services/user.service';
 import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [HeaderComponent, SidebarComponent, CommonModule],
+  imports: [CommonModule],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
 })

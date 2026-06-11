@@ -2,9 +2,6 @@ import { ChangeDetectorRef, Component, NgZone, OnInit, PLATFORM_ID, Inject } fro
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { catchError, forkJoin, of } from 'rxjs';
-
-import { HeaderComponent } from '../../components/header/header.component';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { CustomInputComponent } from '../../components/custom-input/custom-input.component';
 import {
   CustomSelectComponent,
@@ -22,8 +19,6 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
   imports: [
     CommonModule,
     FormsModule,
-    HeaderComponent,
-    SidebarComponent,
     CustomInputComponent,
     CustomSelectComponent
   ],
@@ -108,30 +103,30 @@ export class ConfigComponent implements OnInit {
   }
 
   buscarImagens(): void {
-  const avatar$ = this.userService.getAvatar(this.currentUserId).pipe(
-    catchError(() => of(new Blob())) // se falhar, retorna blob vazio
-  );
-  const banner$ = this.userService.getBanner(this.currentUserId).pipe(
-    catchError(() => of(new Blob())) // se falhar, retorna blob vazio
-  );
+    const avatar$ = this.userService.getAvatar(this.currentUserId).pipe(
+      catchError(() => of(new Blob())) // se falhar, retorna blob vazio
+    );
+    const banner$ = this.userService.getBanner(this.currentUserId).pipe(
+      catchError(() => of(new Blob())) // se falhar, retorna blob vazio
+    );
 
-  forkJoin([avatar$, banner$]).subscribe({
-    next: async ([avatarBlob, bannerBlob]) => {
-      if (avatarBlob?.size > 0) {
-        this.avatarPreview = await this.blobParaBase64(avatarBlob);
-      }
-      if (bannerBlob?.size > 0) {
-        this.bannerPreview = await this.blobParaBase64(bannerBlob);
-      }
-      this.ngZone.run(() => this.cdr.detectChanges());
-    },
-    error: () => {
-      console.log('Erro inesperado ao buscar imagens');
-      this.loadingService.hide();
-    },
-    complete: () => this.loadingService.hide()
-  });
-}
+    forkJoin([avatar$, banner$]).subscribe({
+      next: async ([avatarBlob, bannerBlob]) => {
+        if (avatarBlob?.size > 0) {
+          this.avatarPreview = await this.blobParaBase64(avatarBlob);
+        }
+        if (bannerBlob?.size > 0) {
+          this.bannerPreview = await this.blobParaBase64(bannerBlob);
+        }
+        this.ngZone.run(() => this.cdr.detectChanges());
+      },
+      error: () => {
+        console.log('Erro inesperado ao buscar imagens');
+        this.loadingService.hide();
+      },
+      complete: () => this.loadingService.hide()
+    });
+  }
 
   salvarPerfil(): void {
     if (!this.nacionalidade || !this.idioma) {
