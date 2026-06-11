@@ -10,7 +10,7 @@ import { ModalComponent } from './components/modal/modal.component';
   imports: [
     RouterOutlet,
     CommonModule,
-    ModalComponent
+    ModalComponent,
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']

@@ -1,1 +1,154 @@
-<p>Criar torneios</p>
+<main class="content-area dark-theme-wrapper">
+  <div class="config-container">
+
+    <div class="config-header-card mb-4">
+      <h1 class="page-title">Criar Novo Torneio</h1>
+      <p class="page-subtitle">Configure o visual, as regras e o formato da sua competição.</p>
+    </div>
+
+    <form [formGroup]="torneioForm" (ngSubmit)="criarTorneio()" class="config-form">
+
+      <section class="config-card identity-card mb-5">
+        <div class="tournament-visuals">
+          
+          <div class="banner-box" [class.has-image]="bannerSelecionado">
+            <input type="file" id="uploadBanner" (change)="onFileSelected($event, 'banner')" accept="image/*" hidden>
+            
+            <label for="uploadBanner" class="upload-placeholder" *ngIf="!bannerSelecionado">
+              <span class="icon">🖼️</span>
+              <span class="placeholder-text">Adicionar Banner</span>
+            </label>
+
+            <img *ngIf="bannerSelecionado" [src]="bannerSelecionado" alt="Banner" class="banner-img">
+            
+            <label for="uploadBanner" class="upload-overlay" *ngIf="bannerSelecionado">
+              <span>Alterar Banner</span>
+            </label>
+          </div>
+
+          <div class="logo-box" [class.has-image]="logoSelecionada">
+            <input type="file" id="uploadLogo" (change)="onFileSelected($event, 'logo')" accept="image/*" hidden>
+            
+            <label for="uploadLogo" class="upload-placeholder logo-placeholder" *ngIf="!logoSelecionada">
+              <span class="icon">📷</span>
+              <span class="placeholder-text text-mini">Logo</span>
+            </label>
+
+            <img *ngIf="logoSelecionada" [src]="logoSelecionada" alt="Logo" class="logo-img">
+            
+            <label for="uploadLogo" class="upload-overlay logo-overlay" *ngIf="logoSelecionada">
+              <span>Trocar</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="config-card mb-4">
+        <div class="section-header">
+          <h3 class="section-title">Detalhes do Torneio</h3>
+          <p class="section-desc">Defina o nome, formato, vagas e as regras gerais da competição.</p>
+        </div>
+
+        <div class="form-grid-2x2">
+          
+          <!-- CAMPO: NOME -->
+          <div class="input-wrapper">
+            <app-custom-input
+              label="Nome do Torneio"
+              placeholder="Ex: Copa de Inverno"
+              [value]="torneioForm.get('nome')?.value"
+              (valueChange)="atualizarCampo('nome', $event)">
+            </app-custom-input>
+            <small class="error-text" *ngIf="torneioForm.get('nome')?.errors?.['required'] && torneioForm.get('nome')?.touched">Nome obrigatório.</small>
+            <small class="error-text" *ngIf="torneioForm.get('nome')?.errors?.['minlength'] && torneioForm.get('nome')?.touched">Mínimo de 5 caracteres.</small>
+            <small class="error-text" *ngIf="torneioForm.get('nome')?.errors?.['maxlength'] && torneioForm.get('nome')?.touched">Máximo de 80 caracteres.</small>
+          </div>
+
+          <!-- CAMPO: TIPO (CASUAL/RANKED) -->
+          <div class="input-wrapper">
+            <app-custom-select
+              label="Tipo de Torneio"
+              [options]="tiposTorneioOptions"
+              [value]="torneioForm.get('tipo')?.value"
+              (valueChange)="atualizarCampo('tipo', $event)">
+            </app-custom-select>
+            <small class="error-text" *ngIf="torneioForm.get('tipo')?.invalid && torneioForm.get('tipo')?.touched">Selecione o tipo do torneio.</small>
+          </div>
+
+          <!-- CAMPO: MODO -->
+          <div class="input-wrapper">
+            <app-custom-select
+              label="Modo de Jogo"
+              [options]="modosOsuOptions"
+              [value]="torneioForm.get('modo')?.value"
+              (valueChange)="atualizarCampo('modo', $event)">
+            </app-custom-select>
+            <small class="error-text" *ngIf="torneioForm.get('modo')?.invalid && torneioForm.get('modo')?.touched">Selecione um modo.</small>
+          </div>
+
+          <!-- CAMPO: VAGAS -->
+          <div class="input-wrapper">
+            <app-custom-input
+              label="Máx. Inscritos (Vagas)"
+              type="number"
+              placeholder="0 a 200"
+              [value]="torneioForm.get('vagas')?.value"
+              (valueChange)="atualizarCampo('vagas', $event)">
+            </app-custom-input>
+            <small class="error-text" *ngIf="torneioForm.get('vagas')?.errors?.['required'] && torneioForm.get('vagas')?.touched">Vagas obrigatório.</small>
+            <small class="error-text" *ngIf="torneioForm.get('vagas')?.errors?.['max'] && torneioForm.get('vagas')?.touched">Máximo de 200 vagas.</small>
+          </div>
+        </div>
+
+        <div class="input-wrapper mt-4">
+          <label class="custom-label">Descrição e Regras</label>
+          <textarea
+            formControlName="descricao"
+            class="custom-textarea dark-textarea"
+            rows="5"
+            placeholder="Detalhes do torneio, formato, horários, mappool, etc... (máx 1000 caracteres)">
+          </textarea>
+          <div class="textarea-footer">
+            <small class="error-text" *ngIf="torneioForm.get('descricao')?.invalid && torneioForm.get('descricao')?.touched">A descrição é obrigatória.</small>
+            <small class="char-counter">{{ torneioForm.get('descricao')?.value?.length || 0 }}/1000</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="config-card mb-4">
+        <div class="section-header">
+          <h3 class="section-title">Privacidade</h3>
+          <p class="section-desc">Controle quem pode acessar e participar do seu torneio.</p>
+        </div>
+
+        <div class="password-stack">
+          <app-custom-checkbox
+            label="Tornar este torneio Privado (Exige Senha)"
+            [checked]="torneioForm.get('isPrivado')?.value"
+            (checkedChange)="atualizarCampo('isPrivado', $event)">
+          </app-custom-checkbox>
+
+          <div class="input-wrapper mt-3" *ngIf="torneioForm.get('isPrivado')?.value">
+            <app-custom-input
+              label="Senha de Acesso"
+              type="password"
+              placeholder="Mínimo de 6 caracteres"
+              [value]="torneioForm.get('senha')?.value"
+              (valueChange)="atualizarCampo('senha', $event)">
+            </app-custom-input>
+            <small class="error-text" *ngIf="torneioForm.get('senha')?.errors?.['required'] && torneioForm.get('senha')?.touched">A senha é obrigatória.</small>
+            <small class="error-text" *ngIf="torneioForm.get('senha')?.errors?.['minlength'] && torneioForm.get('senha')?.touched">Mínimo de 6 caracteres.</small>
+          </div>
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+        <button type="submit" class="btn-criar" [disabled]="carregando">
+          {{ carregando ? 'Criando...' : 'Criar Torneio' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</main>

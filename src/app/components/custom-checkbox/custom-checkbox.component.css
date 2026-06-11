@@ -1,0 +1,20 @@
+.custom-checkbox-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+  font-size: 14px;
+  user-select: none;
+}
+.custom-checkbox-container input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #ff66aa; /* Fica rosa ao ser clicado */
+  background-color: #1a1a1a;
+  border: 1px solid #444;
+}
+.label-text {
+  font-weight: 500;
+  color: #e0e0e0; /* Cor clara para combinar com o fundo escuro */
+}

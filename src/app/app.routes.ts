@@ -6,7 +6,6 @@ import { authGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { ConfigComponent } from './pages/config/config.component';
-import { SobreProjetoComponent } from './pages/sobre-projeto/sobre-projeto.component';
 import { TorneiosComponent } from './pages/torneios/torneios.component';
 import { CriarTorneiosComponent } from './pages/criar-torneios/criar-torneios.component';
 import { PesquisarComponent } from './pages/pesquisar/pesquisar.component';
@@ -23,7 +22,6 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'perfil', component: PerfilComponent },
       { path: 'config', component: ConfigComponent },
-      { path: 'sobre-projeto', component: SobreProjetoComponent },
       { path: 'torneios', component: TorneiosComponent },
       { path: 'criar-torneio', component: CriarTorneiosComponent },
       { path: 'pesquisar-perfil', component: PesquisarComponent }
