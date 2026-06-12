@@ -26,7 +26,7 @@ export const routes: Routes = [
       { path: 'torneios', component: TorneiosComponent },
       { path: 'criar-torneio', component: CriarTorneiosComponent },
       { path: 'pesquisar-perfil', component: PesquisarComponent },
-      { path: 'perfil/:username', component: PerfilComponent },
+      { path: 'perfil/:idUsuario', component: PerfilComponent },
       { path: 'pegadinha', component: PegadinhaComponent }
     ]
   },

@@ -21,13 +21,21 @@
         <div class="user-details">
           <div class="title-row">
             <h1 class="nick-title">{{ username }}</h1>
-            <!-- Bandeira do Brasil via CDN para dar o clima global -->
-            <img src="https://flagcdn.com/w40/br.png" alt="Brasil" class="country-flag" title="Brasil">
+            
+            @if (isVerified) {
+            <span class="verified-badge" title="Jogador Verificado">
+              <svg viewBox="0 0 24 24" aria-label="Verificado" role="img">
+                <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z" fill="#ff66aa"></path>
+              </svg>
+            </span>
+            }
+
+            <img [src]="'https://flagcdn.com/w40/' + nacionalidade + '.png'" alt="País" class="country-flag" [title]="nacionalidade | uppercase">
           </div>
           <p class="role-text">Competidor de Torneios</p>
 
           <!-- Barra de Nível -->
-          <div class="level-container">
+          <div class="level-container" *ngIf="false">
             <div class="level-badge">Lv. 84</div>
             <div class="xp-bar-bg">
               <div class="xp-bar-fill" style="width: 72%;"></div>
@@ -41,7 +49,7 @@
     <!-- ========================================== -->
     <!-- 2. GRID DE ESTATÍSTICAS (STATS) -->
     <!-- ========================================== -->
-    <div class="stats-grid">
+    <div class="stats-grid" *ngIf="false">
       <div class="stat-card glow-pink">
         <span class="stat-label">Global Rank</span>
         <span class="stat-value">#12,403</span>
@@ -67,7 +75,7 @@
     <!-- ========================================== -->
     <!-- 3. VITRINE DE INSÍGNIAS E MEDALHAS -->
     <!-- ========================================== -->
-    <div class="section-block">
+    <div class="section-block" *ngIf="false">
       <h3 class="section-title">Conquistas Notáveis</h3>
       <div class="medals-showcase">
         <div class="medal-item founder" title="Fundador do Sistema Distribuído">
@@ -92,7 +100,7 @@
     <!-- ========================================== -->
     <!-- 4. HISTÓRICO DE PARTIDAS (MATCH HISTORY) -->
     <!-- ========================================== -->
-    <div class="section-block">
+    <div class="section-block" *ngIf="false">
       <h3 class="section-title">Últimas Partidas Oficiais</h3>
       <div class="history-table-container">
         <table class="history-table">

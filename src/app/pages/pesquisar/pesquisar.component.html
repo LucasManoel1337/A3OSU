@@ -1,1 +1,68 @@
-<p>Pesquisar Perfil</p>
+<main class="content-area dark-theme-wrapper">
+  <div class="search-container">
+
+    <div class="search-header">
+      <h1 class="page-title">Encontrar Jogadores</h1>
+      <p class="page-subtitle">Pesquise por nicknames para encontrar perfis, estatísticas e enviar convites.</p>
+      
+      <div class="huge-search-box">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          [formControl]="buscaControl" 
+          placeholder="Digite o nickname..." 
+          class="huge-search-input"
+          autocomplete="off">
+        
+        <span class="spinner" *ngIf="carregando"></span>
+      </div>
+    </div>
+
+    <div class="results-area" *ngIf="pesquisaRealizada && !carregando">
+      
+      <div class="users-grid" *ngIf="usuarios.length > 0">
+        
+        <a *ngFor="let user of usuarios" [routerLink]="['/perfil', user.id]" class="user-card">
+          
+          <div class="avatar-box">
+            <img 
+              [src]="user.avatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'" 
+              alt="Avatar" 
+              class="user-avatar">
+          </div>
+
+          <div class="user-info">
+            <div class="name-row">
+              <span class="username">{{ user.username }}</span>
+              
+              <span class="verified-badge" *ngIf="user.isVerified" title="Jogador Verificado">
+                <svg viewBox="0 0 24 24" aria-label="Verificado" role="img">
+                  <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z" fill="#ff66aa"></path>
+                </svg>
+              </span>
+            </div>
+
+            <div class="nation-row">
+              <img [src]="'https://flagcdn.com/w20/' + user.nacionalidade + '.png'" alt="Flag" class="small-flag">
+              <span class="nation-text">{{ user.nacionalidade | uppercase }}</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="empty-state" *ngIf="usuarios.length === 0">
+        <span class="empty-icon">👻</span>
+        <h3>Nenhum jogador encontrado</h3>
+        <p>Não encontramos ninguém com o nickname "{{ buscaControl.value }}".</p>
+      </div>
+
+    </div>
+
+    <div class="initial-state" *ngIf="!pesquisaRealizada && !carregando">
+      <span class="initial-icon">⌨️</span>
+      <p>Digite um nickname acima para começar a buscar.</p>
+    </div>
+
+  </div>
+</main>

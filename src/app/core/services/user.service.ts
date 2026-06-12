@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+export interface UsuarioBusca {
+  id: number;
+  username: string;
+  avatarUrl: string | null;
+  nacionalidade: string;
+  isVerified: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +66,7 @@ export class UserService {
   }
 
   getAvatar(userId: number): Observable<Blob> {
-    const token = localStorage.getItem('jwt_token'); // ✅ chave correta
+    const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get(`${this.apiUrl}/${userId}/avatar`, {
       headers,
@@ -67,11 +75,26 @@ export class UserService {
   }
 
   getBanner(userId: number): Observable<Blob> {
-    const token = localStorage.getItem('jwt_token'); // ✅ chave correta
+    const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get(`${this.apiUrl}/${userId}/banner`, {
       headers,
       responseType: 'blob'
     });
+  }
+
+  buscarUsuariosPorNick(termo: string): Observable<UsuarioBusca[]> {
+    const params = new HttpParams().set('termo', termo);
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<UsuarioBusca[]>(`${this.apiUrl}/busca`, { 
+      headers,
+      params: params 
+    });
+  }
+
+  getProfileById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/perfil/${id}`, this.getHeadersJson());
   }
 }

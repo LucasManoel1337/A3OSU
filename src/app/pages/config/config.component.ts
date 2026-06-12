@@ -40,6 +40,7 @@ export class ConfigComponent implements OnInit {
   carregandoSenha = false;
 
   currentUserId: number = 0;
+  isVerified: boolean = false;
   avatarPreview = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s';
   bannerPreview = 'https://images4.alphacoders.com/991/thumb-1920-991403.png';
 
@@ -81,6 +82,7 @@ export class ConfigComponent implements OnInit {
         this.nacionalidade = user.nationality || '';
         this.idioma = user.language || '';
         this.currentUserId = user.idUser;
+        this.isVerified = user.verificado;
         this.buscarImagens();
       },
       error: () => {

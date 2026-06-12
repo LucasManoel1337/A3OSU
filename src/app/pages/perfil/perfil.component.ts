@@ -21,6 +21,9 @@ export class PerfilComponent implements OnInit {
   avatarPreview = '';
   bannerPreview = '';
 
+  nacionalidade: string = 'br';
+  isVerified: boolean = false;
+
   private isBrowser: boolean;
 
   constructor(
@@ -37,18 +40,13 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     this.loadingService.show();
 
-    // 3. Fica escutando as mudanças na URL
     this.route.paramMap.subscribe(params => {
-      const urlUsername = params.get('username');
+      // Pega o ID da URL (certifique-se que no app.routes.ts está :idUsuario)
+      const idUrl = params.get('idUsuario'); 
 
-      if (urlUsername) {
-        // Se tem nome na URL, estamos visitando o perfil de alguém!
-        this.username = urlUsername;
-        
-        // AQUI: Você chamaria algo como this.userService.getProfileByUsername(urlUsername)
-        this.buscarPerfilPublico(urlUsername); 
+      if (idUrl) {
+        this.buscarPerfilPublico(Number(idUrl)); 
       } else {
-        // Se NÃO tem nome na URL (acessou direto /perfil), é o próprio usuário logado
         this.buscarPerfil();
       }
     });
@@ -59,6 +57,8 @@ export class PerfilComponent implements OnInit {
       next: (user) => {
         this.username = user.username;
         this.currentUserId = user.idUser;
+        this.nacionalidade = user.nationality;
+        this.isVerified = user.verificado;
         this.buscarImagens();
       },
       error: () => {
@@ -67,7 +67,26 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-  buscarPerfilPublico(nick: string) {
+  buscarPerfilPublico(idUsuario: number): void {
+    this.userService.getProfileById(idUsuario).subscribe({
+      next: (user) => {
+        this.username = user.username;
+        this.currentUserId = user.idUser; 
+        this.nacionalidade = user.nationality || 'un';
+        this.isVerified = user.verificado || false;
+
+        if (user.criadoEm) {
+          const dataBanco = new Date(user.criadoEm);
+          this.dataEntrada = `${dataBanco.toLocaleString('pt-BR', { month: 'long' })} de ${dataBanco.getFullYear()}`;
+        }
+
+        this.buscarImagens(); 
+      },
+      error: () => {
+        console.error('Perfil não encontrado');
+        this.loadingService.hide();
+      }
+    });
   }
 
   private blobParaBase64(blob: Blob): Promise<string> {

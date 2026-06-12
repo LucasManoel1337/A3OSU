@@ -411,3 +411,35 @@
   color: #e74c3c;
   border: 1px solid rgba(231, 76, 60, 0.2);
 }
+
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Dá um respiro entre o nome, o verificado e a bandeira */
+}
+
+.nick-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.verified-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  cursor: help; /* Muda o cursor para indicar que tem um tooltip (title) */
+}
+
+.verified-badge svg {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.2s ease;
+}
+
+.verified-badge:hover svg {
+  transform: scale(1.1); /* Dá um leve "pulo" ao passar o mouse */
+}
