@@ -8,5 +8,9 @@ export const serverRoutes: ServerRoute[] = [
   {
     path: '**',
     renderMode: RenderMode.Prerender
+  },
+  {
+    path: 'perfil/:username',
+    renderMode: RenderMode.Client
   }
 ];

@@ -1,1 +1,70 @@
-<p>Torneios</p>
+<main class="content-area dark-theme-wrapper">
+  <div class="torneios-container">
+
+    <div class="header-actions mb-5">
+      <div>
+        <h1 class="page-title">Torneios Ativos</h1>
+        <p class="page-subtitle">Encontre e participe dos melhores campeonatos da comunidade.</p>
+      </div>
+
+      <div class="actions-group">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            [(ngModel)]="termoBusca" 
+            (input)="filtrarTorneios()"
+            placeholder="Buscar por nome ou modo..." 
+            class="dark-input search-input">
+        </div>
+      </div>
+    </div>
+
+    <div class="torneios-grid">
+      
+      <div class="torneio-card" *ngFor="let t of torneiosFiltrados" (click)="verDetalhes(t.id)">
+        
+        <div class="card-visuals">
+          <div class="banner-box">
+            <img [src]="t.banner" alt="Banner" class="banner-img">
+            
+            <div class="badges-container">
+              <span class="badge type-badge">{{ t.tipo | uppercase }}</span>
+              <span class="badge lock-badge" *ngIf="t.isPrivado">🔒 Privado</span>
+            </div>
+          </div>
+
+          <div class="logo-box">
+            <img *ngIf="t.logo" [src]="t.logo" alt="Logo" class="logo-img">
+            <span *ngIf="!t.logo" class="logo-placeholder-text">{{ t.nome.charAt(0) | uppercase }}</span>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <h3 class="torneio-nome" [title]="t.nome">{{ t.nome }}</h3>
+          
+          <div class="torneio-stats">
+            <div class="stat-item">
+              <span class="stat-icon">🎯</span>
+              <span class="stat-text">osu!{{ t.modo }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-icon">👥</span>
+              <span class="stat-text">Vagas restantes: {{ t.vagas }}</span>
+            </div>
+          </div>
+
+          <p class="torneio-desc">{{ t.descricao }}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="empty-state" *ngIf="torneiosFiltrados.length === 0">
+      <span class="empty-icon">🏜️</span>
+      <h3>Nenhum torneio encontrado</h3>
+      <p>Parece que não há campeonatos rolando com esse filtro.</p>
+    </div>
+
+  </div>
+</main>

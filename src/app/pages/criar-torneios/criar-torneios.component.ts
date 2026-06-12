@@ -5,10 +5,12 @@ import { Router } from '@angular/router';
 
 import { CustomInputComponent } from '../../components/custom-input/custom-input.component';
 import { CustomSelectComponent, SelectOption } from '../../components/custom-select/custom-select.component';
-import { CustomCheckboxComponent } from '../../components/custom-checkbox/custom-checkbox.component'; 
+import { CustomCheckboxComponent } from '../../components/custom-checkbox/custom-checkbox.component';
 
 import { ModalService } from '../../core/services/modal.service';
 import { LoadingService } from '../../core/services/loading.service';
+import { TorneioService } from '../../core/services/torneios.service';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-criar-torneios',
@@ -29,6 +31,8 @@ export class CriarTorneiosComponent implements OnInit {
   logoSelecionada: string | null = null;
   carregando = false;
 
+  currentUserId: number = 0;
+
   tiposTorneioOptions: SelectOption[] = [
     { value: 'casual', label: 'Casual' },
     { value: 'ranked', label: 'Ranked' }
@@ -47,7 +51,9 @@ export class CriarTorneiosComponent implements OnInit {
     private modalService: ModalService,
     private loadingService: LoadingService,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private torneioService: TorneioService,
+    private userService: UserService
   ) {
     this.torneioForm = this.fb.group({
       banner: [null],
@@ -63,6 +69,16 @@ export class CriarTorneiosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userService.getProfile().subscribe({
+      next: (user) => {
+        this.currentUserId = user.idUser; // Salva o ID!
+      },
+      error: () => {
+        this.modalService.abrir('error', 'Sessão expirada. Faça login novamente.');
+        this.router.navigate(['/login']);
+      }
+    });
+
     this.torneioForm.get('isPrivado')?.valueChanges.subscribe(privado => {
       const senhaControl = this.torneioForm.get('senha');
       if (privado) {
@@ -120,15 +136,29 @@ export class CriarTorneiosComponent implements OnInit {
       return;
     }
 
+    if (this.currentUserId === 0) {
+      this.modalService.abrir('error', 'Erro ao identificar usuário logado.');
+      return;
+    }
+
     this.carregando = true;
     this.loadingService.show();
 
-    setTimeout(() => {
-      console.log('Dados do Torneio:', this.torneioForm.value);
-      this.carregando = false;
-      this.loadingService.hide();
-      this.modalService.abrir('success', 'Torneio criado com sucesso!');
-      this.router.navigate(['/torneios']);
-    }, 1500);
+    this.torneioService.criarTorneio(this.torneioForm.value, this.currentUserId).subscribe({
+      next: (resposta) => {
+        console.log('Torneio criado no banco com sucesso!', resposta);
+        this.carregando = false;
+        this.loadingService.hide();
+        this.modalService.abrir('success', 'Torneio criado com sucesso!');
+
+        this.router.navigate(['/torneios']);
+      },
+      error: (erro) => {
+        console.error('Erro ao criar torneio no Spring Boot', erro);
+        this.carregando = false;
+        this.loadingService.hide();
+        this.modalService.abrir('error', 'Ocorreu um erro ao criar o torneio. Tente novamente.');
+      }
+    });
   }
 }
