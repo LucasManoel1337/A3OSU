@@ -1,0 +1,105 @@
+/* =========================================
+   LAYOUT CENTRALIZADO
+   ========================================= */
+.dark-theme-wrapper {
+  color: #e0e0e0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pegadinha-container {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+}
+
+/* =========================================
+   CARD DA PEGADINHA
+   ========================================= */
+.pegadinha-card {
+  background-color: #121212;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.icon-wrapper {
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.icon-detetive {
+  font-size: 72px;
+  display: inline-block;
+}
+
+/* Animaçãozinha boba pro emoji flutuar */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.pegadinha-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.pegadinha-text {
+  font-size: 16px;
+  color: #a0a0a0;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* =========================================
+   CAIXA DE ALERTA DE DESENVOLVIMENTO
+   ========================================= */
+.alerta-box {
+  background-color: #1e1e1e;
+  border-left: 4px solid #ffcc00; /* Amarelo estilo construção */
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.alerta-icon {
+  font-size: 24px;
+}
+
+.alerta-box p {
+  margin: 0;
+  font-size: 14px;
+  color: #d0d0d0;
+  font-weight: 500;
+}
+
+/* =========================================
+   BOTÃO DE VOLTAR
+   ========================================= */
+.btn-voltar {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  background-color: #ff66aa;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.btn-voltar:hover {
+  background-color: #e55c99;
+}

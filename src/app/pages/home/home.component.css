@@ -1,47 +1,86 @@
-.app-layout {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+/* Layout Base */
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.main-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.mb-4 { margin-bottom: 24px; }
+.mb-5 { margin-bottom: 40px; }
+
+.section-heading {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #2a2a2a;
+  padding-bottom: 8px;
 }
 
-.content-area {
-  padding: 30px;
-  overflow-y: auto;
-  flex: 1;
-}
-
-/* Estilos dos cards do dashboard */
-.dashboard-cards {
+/* =========================================
+   MURAL DE AVISOS
+   ========================================= */
+.notices-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 20px;
 }
 
-.stat-card {
-  background-color: var(--osu-card-bg);
+.notice-card {
   padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  border-left: 4px solid var(--osu-pink);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  border-left: 4px solid #ff66aa; /* Destaque lateral */
+  transition: transform 0.2s ease;
 }
 
-.stat-card h3 {
-  margin: 0 0 10px 0;
-  color: var(--text-muted);
-  font-size: 1rem;
+.notice-card:hover {
+  transform: translateY(-2px);
 }
 
-.stat-value {
+.notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.notice-icon {
+  font-size: 20px;
+}
+
+.notice-date {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+}
+
+.notice-title {
+  font-size: 16px;
+  color: #fff;
+  margin: 0 0 8px 0;
+}
+
+.notice-text {
+  font-size: 14px;
+  color: #a0a0a0;
+  line-height: 1.5;
   margin: 0;
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: white;
+}
+
+/* =========================================
+   GRID DE RANKINGS
+   ========================================= */
+.rankings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Duas colunas por padrão */
+  gap: 24px;
+}
+
+.full-width {
+  grid-column: 1 / -1; /* Força a tabela de países a ocupar a tela toda */
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .rankings-grid {
+    grid-template-columns: 1fr; /* No celular/tablet pequeno, fica 1 coluna */
+  }
 }

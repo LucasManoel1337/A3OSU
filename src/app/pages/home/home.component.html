@@ -1,1 +1,87 @@
-<p>Home</p>
+<main class="content-area dark-theme-wrapper">
+  <div class="home-container">
+
+    <!-- CABEÇALHO -->
+    <div class="home-header mb-4">
+      <h1 class="page-title">Visão Geral</h1>
+      <p class="page-subtitle">Acompanhe as últimas novidades e os rankings globais do sistema.</p>
+    </div>
+
+    <!-- MURAL DE AVISOS -->
+    <section class="notices-section mb-5">
+      <h2 class="section-heading">📢 Mural de Avisos</h2>
+      <div class="notices-grid">
+        
+        <div class="notice-card config-card" *ngFor="let aviso of avisos">
+          <div class="notice-header">
+            <span class="notice-icon">{{ aviso.icon }}</span>
+            <span class="notice-date">{{ aviso.data }}</span>
+          </div>
+          <h3 class="notice-title">{{ aviso.titulo }}</h3>
+          <p class="notice-text">{{ aviso.texto }}</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ÁREA DE RANKINGS -->
+    <section class="rankings-section">
+      <h2 class="section-heading">🌎 Leaderboards</h2>
+      
+      <div class="rankings-grid">
+        <!-- Ranking de Nacionalidade (Ocupa a largura toda ou destaque) -->
+        <div class="ranking-wrapper full-width">
+          <app-ranking-table
+            title="Ranking Global por Nações"
+            icon="🏳️"
+            [columns]="colunasPaises"
+            [data]="rankNacionalidade">
+          </app-ranking-table>
+        </div>
+
+        <!-- Ranking Modos (Grid 2x2) -->
+        <div class="ranking-wrapper">
+          <app-ranking-table
+            title="Ranking Modo Standard"
+            icon="🎯"
+            [columns]="colunasJogadores"
+            [data]="rankOsu"
+            (rowClick)="irParaPerfil($event)">
+          </app-ranking-table>
+        </div>
+
+        <div class="ranking-wrapper">
+          <app-ranking-table
+            title="Ranking Modo Taiko"
+            icon="🥁"
+            [columns]="colunasJogadores"
+            [data]="rankTaiko"
+            (rowClick)="irParaPerfil($event)">
+          </app-ranking-table>
+        </div>
+
+        <div class="ranking-wrapper">
+          <app-ranking-table
+            title="Ranking Modo Catch"
+            icon="🍎"
+            [columns]="colunasJogadores"
+            [data]="rankCatch"
+            (rowClick)="irParaPerfil($event)">
+          </app-ranking-table>
+        </div>
+
+        <div class="ranking-wrapper">
+          <app-ranking-table
+            title="Ranking Modo Mania"
+            icon="🎹"
+            [columns]="colunasJogadores"
+            [data]="rankMania"
+            (rowClick)="irParaPerfil($event)">
+          </app-ranking-table>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</main>

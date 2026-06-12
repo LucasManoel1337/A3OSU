@@ -1,0 +1,46 @@
+<div class="ranking-card config-card">
+  <div class="ranking-header">
+    <h3 class="section-title"><span class="icon">{{ icon }}</span> {{ title }}</h3>
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" [(ngModel)]="searchTerm" (input)="filterData()" placeholder="Buscar jogador, pontos..." class="dark-input search-input">
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="dark-table">
+      <thead>
+        <tr>
+          <th *ngFor="let col of columns">{{ col.label }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of filteredData; let i = index" 
+            [class.top-rank]="row['pos'] <= 3"
+            (click)="onRowClick(row)" 
+            class="clickable-row">
+          <td *ngFor="let col of columns; let first = first">
+            
+            <div class="td-content">
+              <span *ngIf="first && row['pos'] === 1" class="crown">👑</span>
+              
+              <img *ngIf="col.hasFlag && row['sigla']" 
+                   [src]="'https://flagcdn.com/w20/' + row['sigla'] + '.png'" 
+                   class="tabela-flag" 
+                   [alt]="row['sigla']">
+              
+              <span>{{ row[col.key] }}</span>
+            </div>
+
+          </td>
+        </tr>
+        
+        <tr *ngIf="filteredData.length === 0">
+          <td [attr.colspan]="columns.length" class="text-center empty-state">
+            Nenhum resultado para "{{ searchTerm }}"
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

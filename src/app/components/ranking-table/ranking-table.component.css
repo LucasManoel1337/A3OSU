@@ -1,0 +1,185 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+/* =========================================
+   CONTAINER ESTILO "CARD"
+   ========================================= */
+.ranking-card {
+    background-color: #121212;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    /* A mágica que impede o padding de vazar o tamanho */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.ranking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.section-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* =========================================
+   CAMPO DE BUSCA
+   ========================================= */
+.search-box {
+    position: relative;
+    width: 220px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #888;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 12px 10px 36px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #e0e0e0;
+    font-size: 13px;
+    box-sizing: border-box;
+    transition: all 0.3s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #ff66aa;
+    background-color: #222;
+}
+
+/* =========================================
+   ÁREA COM SCROLL INTERNO
+   ========================================= */
+.table-responsive {
+    max-height: 350px;
+    overflow-y: auto;
+    border-radius: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: #444 #121212;
+}
+
+.table-responsive::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #121212;
+    border-radius: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background-color: #ff66aa;
+}
+
+/* =========================================
+   TABELA E BANDEIRAS
+   ========================================= */
+.dark-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.dark-table th {
+    position: sticky;
+    top: 0;
+    background-color: #121212;
+    z-index: 10;
+    padding: 16px 12px;
+    color: #a0a0a0;
+    font-weight: 600;
+    border-bottom: 2px solid #2a2a2a;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.dark-table td {
+    padding: 14px 12px;
+    color: #d0d0d0;
+    border-bottom: 1px solid #1f1f1f;
+    transition: background-color 0.2s;
+}
+
+.dark-table tbody tr:hover td {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+.td-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tabela-flag {
+    width: 20px;
+    height: auto;
+    border-radius: 2px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.top-rank {
+    font-weight: 600;
+}
+
+.top-rank td {
+    color: #ffffff;
+}
+
+.crown {
+    color: #ffd700;
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.empty-state {
+    color: #888;
+    padding: 40px !important;
+    font-style: italic;
+}
+
+.clickable-row {
+    cursor: pointer;
+}
+
+.dark-table tbody .clickable-row:hover td {
+    background-color: #222;
+    /* Dá um destaque extra no clique */
+}

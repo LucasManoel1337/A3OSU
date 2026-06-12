@@ -3,6 +3,7 @@ import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { forkJoin, catchError, of } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
 import { LoadingService } from '../../core/services/loading.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-perfil',
@@ -27,7 +28,8 @@ export class PerfilComponent implements OnInit {
     private userService: UserService,
     private loadingService: LoadingService,
     private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -35,15 +37,21 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     this.loadingService.show();
 
-    if (this.isBrowser) {
-      const nickSalvo = localStorage.getItem('username');
-      if (nickSalvo) this.username = nickSalvo;
-    }
+    // 3. Fica escutando as mudanças na URL
+    this.route.paramMap.subscribe(params => {
+      const urlUsername = params.get('username');
 
-    const hoje = new Date();
-    this.dataEntrada = `${hoje.toLocaleString('pt-BR', { month: 'long' })} de ${hoje.getFullYear()}`;
-
-    this.buscarPerfil();
+      if (urlUsername) {
+        // Se tem nome na URL, estamos visitando o perfil de alguém!
+        this.username = urlUsername;
+        
+        // AQUI: Você chamaria algo como this.userService.getProfileByUsername(urlUsername)
+        this.buscarPerfilPublico(urlUsername); 
+      } else {
+        // Se NÃO tem nome na URL (acessou direto /perfil), é o próprio usuário logado
+        this.buscarPerfil();
+      }
+    });
   }
 
   buscarPerfil(): void {
@@ -57,6 +65,9 @@ export class PerfilComponent implements OnInit {
         this.loadingService.hide();
       }
     });
+  }
+
+  buscarPerfilPublico(nick: string) {
   }
 
   private blobParaBase64(blob: Blob): Promise<string> {

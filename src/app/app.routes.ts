@@ -9,6 +9,7 @@ import { ConfigComponent } from './pages/config/config.component';
 import { TorneiosComponent } from './pages/torneios/torneios.component';
 import { CriarTorneiosComponent } from './pages/criar-torneios/criar-torneios.component';
 import { PesquisarComponent } from './pages/pesquisar/pesquisar.component';
+import { PegadinhaComponent } from './pages/pegadinha/pegadinha.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -24,7 +25,9 @@ export const routes: Routes = [
       { path: 'config', component: ConfigComponent },
       { path: 'torneios', component: TorneiosComponent },
       { path: 'criar-torneio', component: CriarTorneiosComponent },
-      { path: 'pesquisar-perfil', component: PesquisarComponent }
+      { path: 'pesquisar-perfil', component: PesquisarComponent },
+      { path: 'perfil/:username', component: PerfilComponent },
+      { path: 'pegadinha', component: PegadinhaComponent }
     ]
   },
 
