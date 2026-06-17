@@ -1,0 +1,202 @@
+<main class="content-area dark-theme-wrapper">
+    <div class="config-container">
+
+        <div class="config-header-card mb-4 header-detalhes">
+            <div>
+                <h1 class="page-title">Painel de Controle: {{ torneio?.nome || 'Carregando...' }}</h1>
+            </div>
+
+            <div class="status-badges" *ngIf="torneio">
+                <span class="badge badge-status-atual">{{ torneio.status || 'Aguardando Início' }}</span>
+                <span class="badge" [class.badge-ranked]="torneio.tipo === 'RANKED'">{{ torneio.tipo }}</span>
+            </div>
+        </div>
+
+        <section class="config-card identity-card mb-5">
+            <div class="tournament-visuals">
+                <div class="banner-box has-image readonly-box">
+                    <img [src]="torneio?.bannerUrl || 'assets/default-banner.jpg'" alt="Banner" class="banner-img">
+                </div>
+                <div class="logo-box has-image readonly-logo">
+                    <img [src]="torneio?.logoUrl || 'assets/default-logo.png'" alt="Logo" class="logo-img">
+                </div>
+            </div>
+        </section>
+
+        <div class="details-footer-layout mt-5 mb-4">
+
+            <div class="table-container-side">
+                <section class="inscritos-section">
+                    <div class="ranking-card dark-theme-wrapper">
+
+                        <div class="ranking-header" style="flex-wrap: wrap; gap: 15px;">
+                            <h3 class="ranking-title">⚙️ Gerenciar Pontuações</h3>
+
+                            <div class="search-wrapper">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" placeholder="Buscar jogador..." class="dark-input search-input"
+                                    [(ngModel)]="termoBusca" (input)="aoBuscar()">
+                            </div>
+                        </div>
+
+                        <div class="ranking-list">
+                            <div class="ranking-list-header">
+                                <div class="col-pos">#</div>
+                                <div class="col-player">JOGADOR</div>
+                                <div class="col-score-edit">DEFINIR PONTUAÇÃO</div>
+                            </div>
+
+                            <div class="ranking-row row-admin" *ngFor="let jogador of jogadoresPaginados; let i = index"
+                                (click)="verPerfilJogador(jogador)">
+
+                                <div class="col-pos">
+                                    <span class="pos-number">{{ calcularPosicaoReal(i) }}</span>
+                                </div>
+
+                                <div class="col-player">
+                                    <img [src]="jogador.avatarUrl || 'assets/default-avatar.png'" class="player-avatar"
+                                        alt="Avatar">
+                                    <img [src]="'https://flagcdn.com/w20/' + jogador.nacionalidade + '.png'"
+                                        class="player-flag" *ngIf="jogador.nacionalidade">
+                                    <span class="player-nick">{{ jogador.username }}</span>
+
+                                    <span class="verified-badge-mini" *ngIf="jogador.isVerified"
+                                        title="Jogador Verificado">
+                                        <svg viewBox="0 0 24 24" aria-label="Verificado" role="img">
+                                            <path
+                                                d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z"
+                                                fill="#ff66aa"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+
+                                <div class="col-score-edit" (click)="$event.stopPropagation()">
+                                    <div class="score-input-wrapper">
+                                        <input type="number" [(ngModel)]="jogador.pontuacao"
+                                            class="dark-input input-score-table" placeholder="0" disabled="torneio?.status !== 'Encerrado'">
+                                        <button class="btn-save-row" title="Salvar apenas este jogador" *ngIf="torneio?.status !== 'Encerrado'"
+                                            (click)="salvarPontuacaoSingle(jogador, $event)">
+                                            💾
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="empty-state" *ngIf="jogadoresFiltrados.length === 0">
+                                <p>Nenhum jogador encontrado.</p>
+                            </div>
+                        </div>
+
+                        <div class="pagination-controls" *ngIf="totalPaginas > 1">
+                            <button class="btn-page" (click)="mudarPagina(paginaAtual - 1)"
+                                [disabled]="paginaAtual === 1">
+                                &laquo; Anterior
+                            </button>
+
+                            <span class="page-info">
+                                Página <span class="text-highlight">{{ paginaAtual }}</span> de {{ totalPaginas }}
+                            </span>
+
+                            <button class="btn-page" (click)="mudarPagina(paginaAtual + 1)"
+                                [disabled]="paginaAtual === totalPaginas">
+                                Próxima &raquo;
+                            </button>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="moderadores-section mt-4" style="margin-top: 30px;">
+                    <div class="ranking-card dark-theme-wrapper">
+                        <div class="ranking-header">
+                            <h3 class="ranking-title">🛠️ Equipe de Moderação</h3>
+
+                            <div class="mod-search-wrapper" style="position: relative; width: 280px;">
+                                <span class="search-icon"
+                                    style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%);">🔍</span>
+
+                                <input type="text" [formControl]="buscaModeradorControl"
+                                    placeholder="Buscar novo moderador..." class="dark-input mod-search-input"
+                                    style="width: 100%; padding-left: 36px;" autocomplete="off">
+                                <span class="spinner-small" *ngIf="buscandoMod"></span>
+
+                                <div class="mod-dropdown" *ngIf="resultadosModeradores.length > 0">
+                                    <div class="mod-dropdown-item" *ngFor="let res of resultadosModeradores">
+
+                                        <div class="flex-grow" (click)="adicionarModeradorLista(res)"
+                                            style="display:flex; align-items:center; gap: 10px;">
+                                            <img [src]="res.avatarUrl || 'assets/default-avatar.png'"
+                                                class="mod-dropdown-avatar">
+
+                                            <div class="mod-dropdown-info">
+                                                <div style="display: flex; align-items: center; gap: 5px;">
+                                                    <span class="mod-dropdown-nick">{{ res.username }}</span>
+                                                    <span class="verified-badge-mini" *ngIf="res.isVerified"
+                                                        title="Verificado">✓</span>
+                                                    <img [src]="'https://flagcdn.com/w20/' + res.nacionalidade + '.png'"
+                                                        class="mod-flag" *ngIf="res.nacionalidade">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mod-list">
+                            <div class="selected-mods-grid" *ngIf="moderadoresSelecionados.length > 0">
+                                <div class="mod-chip" *ngFor="let mod of moderadoresSelecionados">
+                                    <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;"
+                                        (click)="verPerfilJogador(mod)">
+                                        <img [src]="mod.avatarUrl || 'assets/default-avatar.png'"
+                                            class="mod-chip-avatar">
+                                        <div class="mod-chip-info">
+                                            <div style="display: flex; align-items: center; gap: 5px;">
+                                                <span class="mod-chip-nick">{{ mod.username }}</span>
+                                                <span class="verified-badge-mini" *ngIf="mod.isVerified"
+                                                    title="Verificado">✓</span>
+                                                <img [src]="'https://flagcdn.com/w20/' + mod.nacionalidade + '.png'"
+                                                    class="mod-flag" *ngIf="mod.nacionalidade">
+                                            </div>
+                                            <span class="mod-chip-role">Moderador</span>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn-remove-mod"
+                                        (click)="removerModerador(mod)">✕</button>
+                                </div>
+                            </div>
+
+                            <div class="mod-row-placeholder" *ngIf="moderadoresSelecionados.length === 0">
+                                <p class="empty-text-mod">Nenhum moderador atribuído a este torneio ainda.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="actions-sidebar-card">
+                <h4 class="sidebar-title">Status da Competição</h4>
+                <p class="sidebar-desc">Controle o ciclo de vida do campeonato. Alterar o status notificará os
+                    participantes inscritos.</p>
+
+                <div class="sidebar-buttons">
+                    <button *ngIf="torneio?.status !== 'Em Andamento' && torneio?.status !== 'Encerrado'"
+                        class="btn-side-start" (click)="alterarStatus('Em Andamento')">
+                        ▶️ Começar Torneio
+                    </button>
+
+                    <button *ngIf="torneio?.status === 'Em Andamento'" class="btn-side-end"
+                        (click)="alterarStatus('Encerrado')">
+                        ⏹️ Encerrar Torneio
+                    </button>
+
+                    <button class="btn-side-voltar" [routerLink]="['/torneios', torneioId]">
+                        👁️ Ver Visão Pública
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>

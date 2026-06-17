@@ -39,6 +39,7 @@ export interface TorneioDetalhesDTO {
   criadoEm?: string;
   dataInicio?: string;
   horaInicio?: string;
+  status: string;
 }
 
 @Injectable({
@@ -131,5 +132,41 @@ export class TorneioService {
   // Busca os que o jogador é moderador
   listarModerando(idUsuario: number): Observable<TorneioResponse[]> {
     return this.http.get<TorneioResponse[]>(`${this.apiUrl}/moderando/${idUsuario}`, this.getHeadersJson());
+  }
+
+  listarModeradores(torneioId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${torneioId}/moderadores`, this.getHeadersJson());
+  }
+
+  adicionarModerador(torneioId: number, idModerador: number) {
+    return this.http.post(
+      `${this.apiUrl}/${torneioId}/moderadores/${idModerador}`, 
+      {},
+      { 
+        ...this.getHeadersJson(), 
+        responseType: 'text' as const 
+      }
+    );
+  }
+
+  removerModerador(torneioId: number, idModerador: number) {
+    return this.http.delete(`${this.apiUrl}/${torneioId}/moderadores/${idModerador}`, {
+      ...this.getHeadersJson(),
+      responseType: 'text' as const
+    });
+  }
+
+  atualizarStatus(torneioId: number, novoStatus: string): Observable<string> {
+    return this.http.put(`${this.apiUrl}/${torneioId}/status`, { status: novoStatus }, {
+      ...this.getHeadersJson(),
+      responseType: 'text' as const
+    });
+  }
+
+  atualizarPontuacao(torneioId: number, jogadorId: number, pontuacao: number): Observable<string> {
+    return this.http.put(`${this.apiUrl}/${torneioId}/inscritos/${jogadorId}/pontuacao`, { pontuacao }, {
+      ...this.getHeadersJson(),
+      responseType: 'text' as const
+    });
   }
 }

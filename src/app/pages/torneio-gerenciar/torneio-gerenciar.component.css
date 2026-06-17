@@ -1,0 +1,933 @@
+/* =========================================
+   CABEÇALHO E BADGES
+   ========================================= */
+.header-detalhes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.status-badges {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.badge {
+  padding: 6px 14px;
+  border-radius: 24px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: #ff66aa;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(255, 102, 170, 0.2);
+}
+
+.badge-ranked {
+  background-color: #5887ff;
+  box-shadow: 0 2px 8px rgba(88, 135, 255, 0.2);
+}
+
+.badge-privado {
+  background-color: #222;
+  border: 1px solid #444;
+  color: #bbb;
+  box-shadow: none;
+}
+
+/* =========================================
+   IMAGENS (BANNER E LOGO EM MODO LEITURA)
+   ========================================= */
+.readonly-box {
+  border: 1px solid #2a2a2a !important;
+  cursor: default !important;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+.readonly-logo {
+  border: 4px solid #121212 !important;
+  cursor: default !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.6) !important;
+}
+
+/* =========================================
+   BLOCOS DE INFORMAÇÃO (INFO GRID)
+   ========================================= */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.info-block {
+  background-color: #161616;
+  border: 1px solid #2a2a2a;
+  padding: 18px 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.info-block:hover {
+  border-color: #3a3a3a;
+  transform: translateY(-2px);
+}
+
+.info-label {
+  font-size: 12px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.info-value {
+  font-size: 18px;
+  color: #eee;
+  font-weight: 600;
+  margin-top: auto;    /* Empurra o texto para baixo... */
+  margin-bottom: auto; /* ...e centraliza ele no meio do card! */
+}
+
+.text-highlight {
+  color: #ff66aa;
+}
+
+/* =========================================
+   CAIXA DE DESCRIÇÃO E REGRAS
+   ========================================= */
+.desc-box {
+  background-color: #161616;
+  border: 1px solid #2a2a2a;
+  padding: 20px;
+  border-radius: 10px;
+  color: #c0c0c0;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+/* =========================================
+   VISUAL DO TORNEIO (ESTRUTURA)
+   ========================================= */
+.identity-card {
+  padding: 0 !important;
+  overflow: visible;
+  border-radius: 12px;
+  background-color: transparent;
+  border: none;
+}
+
+.tournament-visuals {
+  position: relative;
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.banner-box {
+  width: 100%;
+  height: 240px; 
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  background-color: #1a1a1a;
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.logo-box {
+  width: 120px;
+  height: 120px;
+  background-color: #1e1e1e;
+  border-radius: 16px;
+  position: absolute;
+  bottom: -40px; 
+  left: 40px;    
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================================
+   PERFIL DO ORGANIZADOR
+   ========================================= */
+.organizer-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.org-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid #2a2a2a;
+  background-color: #111;
+}
+
+.org-details {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.verified-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; 
+  height: 20px;
+  cursor: help;
+}
+
+.verified-badge svg {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.2s ease;
+}
+
+.verified-badge:hover svg {
+  transform: scale(1.1);
+}
+
+/* =========================================
+   LAYOUT LADO A LADO: TABELA + CONTAINER LATERAL
+   ========================================= */
+.details-footer-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px; /* Tabela estica, card de ações fixo em 320px */
+  gap: 30px;
+  margin-top: 45px !important; /* Afasta com folga a tabela da caixa de descrição */
+  align-items: start;
+}
+
+.table-container-side {
+  width: 100%;
+}
+
+/* CARD DE AÇÕES DA SIDEBAR */
+.actions-sidebar-card {
+  background-color: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  position: sticky;
+  top: 20px; /* Prende o card no topo caso a tabela seja muito longa */
+}
+
+.sidebar-title {
+  color: #fff;
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border-left: 4px solid #ff66aa;
+  padding-left: 10px;
+}
+
+.sidebar-desc {
+  color: #888;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+}
+
+.sidebar-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* BOTÕES REESTRUTURADOS DA SIDEBAR */
+.btn-side-participar {
+  width: 100%;
+  background-color: #ff66aa;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(255, 102, 170, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-side-participar:hover {
+  background-color: #e55c99;
+  transform: translateY(-1px);
+}
+
+.btn-side-voltar {
+  width: 100%;
+  background-color: transparent;
+  color: #a0a0a0;
+  padding: 12px 20px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.btn-side-voltar:hover {
+  background-color: #222;
+  color: #fff;
+}
+
+/* RESPONSIVIDADE: Quebra para empilhado caso o monitor seja estreito (celular/tablet) */
+@media (max-width: 900px) {
+  .details-footer-layout {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .actions-sidebar-card {
+    position: static;
+  }
+}
+
+/* =========================================
+   MODAL DE SENHA
+   ========================================= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content.dark-theme-modal {
+  background-color: #121212;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  padding: 24px;
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modal-header h3 {
+  color: #fff;
+  margin: 0;
+  font-size: 20px;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-close:hover {
+  color: #ff66aa;
+}
+
+.modal-body p {
+  color: #a0a0a0;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.dark-input {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.dark-input:focus {
+  outline: none;
+  border-color: #ff66aa;
+  box-shadow: 0 0 8px rgba(255, 102, 170, 0.2);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-cancelar {
+  background-color: transparent;
+  color: #a0a0a0;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-cancelar:hover {
+  color: #fff;
+}
+
+.btn-confirmar {
+  background-color: #ff66aa;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-confirmar:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.btn-confirmar:disabled {
+  background-color: #444;
+  color: #888;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* =========================================
+   TABELA DE RANKING (INSCRITOS)
+   ========================================= */
+.ranking-card {
+  background-color: #121212;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.ranking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.ranking-title {
+  color: #fff;
+  font-size: 20px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 300px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 14px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* ESTRUTURA DA LISTA */
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.ranking-list-header {
+  display: flex;
+  padding: 0 16px 12px 16px;
+  border-bottom: 1px solid #333;
+  color: #888;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.ranking-row {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #222;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.ranking-row:last-child {
+  border-bottom: none;
+}
+
+.ranking-row:hover {
+  background-color: #1a1a1a;
+  transform: translateX(4px); /* Efeito suave de mover para a direita ao passar o mouse */
+  border-radius: 8px;
+}
+
+/* LARGURA DAS COLUNAS */
+.col-pos {
+  width: 60px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: #888;
+}
+
+.first-place {
+  color: #fff;
+  font-size: 18px;
+}
+
+.crown {
+  font-size: 16px;
+}
+
+.col-player {
+  flex: 1; /* Ocupa todo o espaço do meio */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.col-score {
+  width: 120px;
+  text-align: right;
+  font-weight: 700;
+  color: #fff;
+  font-size: 15px;
+}
+
+/* ELEMENTOS DO JOGADOR */
+.player-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #333;
+}
+
+.player-flag {
+  border-radius: 2px;
+  box-shadow: 0 0 2px rgba(0,0,0,0.5);
+  width: 20px;
+}
+
+.player-nick {
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.verified-badge-mini {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.verified-badge-mini svg {
+  width: 100%;
+  height: 100%;
+}
+.col-score-edit {
+  width: 180px;
+  display: flex;
+  justify-content: 2px;
+  align-items: center;
+}
+
+.score-input-wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-score-table {
+  width: 120px !important;
+  padding: 6px 10px !important;
+  font-size: 14px !important;
+  text-align: center;
+  font-weight: 700;
+}
+
+.btn-save-row {
+  background-color: #222;
+  border: 1px solid #333;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-save-row:hover {
+  background-color: #ff66aa;
+  border-color: #ff66aa;
+  transform: scale(1.05);
+}
+
+/* Modificações na Linha Administrativa */
+.row-admin {
+  cursor: default !important;
+}
+.row-admin .col-player {
+  cursor: pointer; /* Mantém o feedback de clique apenas no nome/avatar */
+}
+
+/* Botões Operacionais do Status (Sidebar) */
+.btn-side-start {
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+  transition: all 0.2s ease;
+}
+.btn-side-start:hover {
+  background-color: #43a047;
+  transform: translateY(-1px);
+}
+
+.btn-side-end {
+  width: 100%;
+  background-color: #f44336;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.2);
+  transition: all 0.2s ease;
+}
+.btn-side-end:hover {
+  background-color: #e53935;
+  transform: translateY(-1px);
+}
+
+/* Estilização da caixa de adicionar moderadores */
+.add-mod-box {
+  display: flex;
+  gap: 10px;
+}
+.input-mini-mod {
+  width: 220px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+.btn-add-mod {
+  background-color: #5887ff;
+  border: none;
+  color: white;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+}
+.btn-add-mod:hover {
+  background-color: #4673e6;
+}
+.empty-text-mod {
+  color: #666;
+  font-size: 13px;
+  text-align: center;
+  padding: 20px 0;
+}
+.badge-status-atual {
+  background-color: #333 !important;
+  border: 1px solid #555;
+  color: #ddd !important;
+}
+
+/* =========================================
+   PAGINAÇÃO E BUSCA
+   ========================================= */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 14px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 16px 0 16px;
+  margin-top: 10px;
+  border-top: 1px solid #222;
+}
+
+.page-info {
+  color: #888;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-page {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  color: #ccc;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-page:hover:not(:disabled) {
+  background-color: #2a2a2a;
+  color: #ff66aa;
+  border-color: #444;
+}
+
+.btn-page:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Ajuste da bandeira */
+.mod-flag {
+  width: 20px;
+  height: 15px;
+  vertical-align: middle;
+  margin-right: 5px;
+  border-radius: 2px;
+}
+
+/* Ajuste do selo verificado */
+.verified-badge-mini {
+  color: #ff66aa;
+  font-size: 12px;
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+/* Flex para organizar Nick + Selo */
+.mod-dropdown-nick-row, .mod-chip-name-row {
+  display: flex;
+  align-items: center;
+}
+
+/* Ajuste de margens do container de info */
+.mod-dropdown-info, .mod-chip-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Container de busca deve ter position relative para o dropdown absoluto funcionar */
+.mod-search-wrapper {
+  position: relative;
+}
+
+.mod-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  margin-top: 4px;
+  z-index: 9999; /* Garante que fique acima de tudo */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.mod-dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mod-dropdown-item:hover {
+  background-color: #2a2a2a;
+}
+
+.mod-dropdown-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.mod-dropdown-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-mods-grid {
+  display: flex;
+  flex-wrap: wrap; /* Faz quebrar linha automaticamente se tiver muitos */
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.mod-chip {
+  display: flex;
+  align-items: center;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  padding: 8px 12px;
+  border-radius: 24px; /* Formato de chip arredondado */
+  gap: 10px;
+  transition: border-color 0.2s;
+}
+
+.mod-chip:hover {
+  border-color: #444;
+}
+
+.mod-chip-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.mod-chip-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.mod-chip-nick {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.mod-chip-role {
+  font-size: 10px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+/* Botão de Remover */
+.btn-remove-mod {
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 8px;
+  padding: 0 4px;
+}
+
+.btn-remove-mod:hover {
+  color: #ff4444;
+}
+
+/* Correção do alinhamento */
+.mod-dropdown-info, .mod-chip-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mod-flag {
+  width: 18px; /* Bandeira um pouco menor para alinhar melhor */
+  height: auto;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.verified-badge-mini {
+  color: #ff66aa;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* Garante que o avatar não quebre o layout */
+.mod-dropdown-avatar, .mod-chip-avatar {
+  min-width: 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #333; /* Cor de fundo caso a imagem falhe */
+}

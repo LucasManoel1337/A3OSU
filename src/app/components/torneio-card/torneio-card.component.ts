@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -11,12 +10,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./torneio-card.component.css']
 })
 export class TorneioCardComponent {
-  // Recebe o torneio do componente pai
+  
   @Input() torneio: any;
+  
+  @Input() modoAdmin: boolean = false; 
 
   constructor(private router: Router) {}
 
   abrirDetalhes() {
-    this.router.navigate(['/torneios', this.torneio.id]);
+    if (this.modoAdmin) {
+      this.router.navigate(['/torneios/gerenciar', this.torneio.id]);
+    } else {
+      // Se for apenas participante, vai para a visão pública
+      this.router.navigate(['/torneios', this.torneio.id]);
+    }
   }
 }
