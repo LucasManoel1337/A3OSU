@@ -7,6 +7,7 @@ export interface TorneioResponse {
   tipo: string;
   modo: string;
   vagas: number;
+  vagasRestantes: number;
   descricao: string;
   isPrivado: boolean;
   banner?: string; 

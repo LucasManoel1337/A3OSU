@@ -26,7 +26,7 @@
       </div>
       <div class="stat-item">
         <span class="stat-icon">👥</span>
-        <span class="stat-text">Vagas restantes: {{ torneio.vagas }}</span>
+        <span class="stat-text">Vagas restantes: {{ torneio.vagasRestantes }}</span>
       </div>
     </div>
 
@@ -47,7 +47,7 @@
 
     <div class="card-organizer">
       <img 
-          [src]="torneio.organizadorAvatar || 'assets/default-avatar.png'" 
+          [src]="torneio.organizadorAvatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&ss'" 
           alt="Avatar Organizador" 
           class="org-card-avatar"
         >
