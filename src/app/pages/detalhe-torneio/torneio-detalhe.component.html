@@ -19,10 +19,10 @@
     <section class="config-card identity-card mb-5">
       <div class="tournament-visuals">
         <div class="banner-box has-image readonly-box">
-          <img [src]="torneio?.bannerUrl || 'assets/default-banner.jpg'" alt="Banner" class="banner-img">
+          <img [src]="torneio?.bannerUrl || 'https://images4.alphacoders.com/991/thumb-1920-991403.png'" alt="Banner" class="banner-img">
         </div>
         <div class="logo-box has-image readonly-logo">
-          <img [src]="torneio?.logoUrl || 'assets/default-logo.png'" alt="Logo" class="logo-img">
+          <img *ngIf="torneio?.logoUrl" [src]="torneio?.logoUrl" alt="Logo" class="logo-img">
         </div>
       </div>
     </section>
@@ -36,7 +36,7 @@
         <div class="info-block">
           <span class="info-label">Organizador</span>
           <div class="organizer-profile">
-            <img [src]="torneio?.organizadorAvatarUrl || 'assets/default-avatar.png'" alt="Avatar" class="org-avatar">
+            <img [src]="torneio?.organizadorAvatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'" alt="Avatar" class="org-avatar">
             
             <div class="org-details">
               <span class="info-value text-highlight" style="cursor: pointer;" [routerLink]="['/perfil', torneio?.organizadorId]">
@@ -118,7 +118,7 @@
               </div>
               
               <div class="col-player">
-                <img [src]="jogador.avatarUrl || 'assets/default-avatar.png'" class="player-avatar" alt="Avatar">
+                <img [src]="jogador.avatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'" class="player-avatar" alt="Avatar">
                 <img [src]="'https://flagcdn.com/w20/' + jogador.nacionalidade + '.png'" class="player-flag" *ngIf="jogador.nacionalidade">
                 <span class="player-nick">{{ jogador.username }}</span>
                 

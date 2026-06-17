@@ -325,6 +325,15 @@
   filter: drop-shadow(0 0 15px rgba(216, 166, 30, 0.06));
 }
 
+.medal-item.organizador {
+  border-color: rgba(72, 12, 211, 0.3);
+  background: rgba(126, 30, 216, 0.05);
+}
+
+.medal-item.organizador .medal-icon {
+  filter: drop-shadow(0 0 15px rgba(126, 30, 216, 0.06));
+}
+
 .medal-item.empty {
   opacity: 0.5;
   filter: grayscale(100%);

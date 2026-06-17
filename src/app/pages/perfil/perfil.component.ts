@@ -54,6 +54,12 @@ export class PerfilComponent implements OnInit {
       icon: '⚔️', 
       cssClass: 'primeira-batalha', 
       desc: 'Entrou em um torneio pela 1º vez' 
+    },
+    'ORGANIZADOR': { 
+      label: 'Organizador de Copa', 
+      icon: '🏆', 
+      cssClass: 'organizador', 
+      desc: 'Entrou em um torneio pela 1º vez' 
     }
   };
 
