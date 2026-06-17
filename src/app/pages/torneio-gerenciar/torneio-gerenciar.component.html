@@ -73,11 +73,14 @@
                                 <div class="col-score-edit" (click)="$event.stopPropagation()">
                                     <div class="score-input-wrapper">
                                         <input type="number" [(ngModel)]="jogador.pontuacao"
-                                            class="dark-input input-score-table" placeholder="0" disabled="torneio?.status !== 'Encerrado'">
-                                        <button class="btn-save-row" title="Salvar apenas este jogador" *ngIf="torneio?.status !== 'Encerrado'"
-                                            (click)="salvarPontuacaoSingle(jogador, $event)">
-                                            💾
-                                        </button>
+                                            class="dark-input input-score-table" placeholder="0"
+                                            [disabled]="torneio?.status !== 'Em Andamento'">
+
+                                            <button class="btn-save-row" title="Salvar apenas este jogador"
+                                                *ngIf="torneio?.status === 'Em Andamento'"
+                                                (click)="salvarPontuacaoSingle(jogador, $event)">
+                                                💾
+                                            </button>
                                     </div>
                                 </div>
 
@@ -181,10 +184,8 @@
                     participantes inscritos.</p>
 
                 <div class="sidebar-buttons">
-    
-                    <button *ngIf="proximoStatus"
-                            class="btn-side-start" 
-                            (click)="alterarStatus(proximoStatus.status)">
+
+                    <button *ngIf="proximoStatus" class="btn-side-start" (click)="alterarStatus(proximoStatus.status)">
                         {{ proximoStatus.icon }} {{ proximoStatus.label }}
                     </button>
 
@@ -192,7 +193,8 @@
                         👁️ Ver Visão Pública
                     </button>
 
-                    <div *ngIf="torneio?.status === 'Encerrado'" class="sidebar-desc" style="text-align: center; margin-top: 10px;">
+                    <div *ngIf="torneio?.status === 'Encerrado'" class="sidebar-desc"
+                        style="text-align: center; margin-top: 10px;">
                         🏁 Torneio Finalizado
                     </div>
                 </div>
