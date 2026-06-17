@@ -47,14 +47,14 @@
                             </div>
 
                             <div class="ranking-row row-admin" *ngFor="let jogador of jogadoresPaginados; let i = index"
-                                (click)="verPerfilJogador(jogador)">
+                                [routerLink]="['/perfil', jogador.id]">
 
                                 <div class="col-pos">
                                     <span class="pos-number">{{ calcularPosicaoReal(i) }}</span>
                                 </div>
 
                                 <div class="col-player">
-                                    <img [src]="jogador.avatarUrl || 'assets/default-avatar.png'" class="player-avatar"
+                                    <img [src]="jogador.avatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'" class="player-avatar"
                                         alt="Avatar">
                                     <img [src]="'https://flagcdn.com/w20/' + jogador.nacionalidade + '.png'"
                                         class="player-flag" *ngIf="jogador.nacionalidade">
