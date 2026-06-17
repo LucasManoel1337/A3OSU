@@ -1,0 +1,310 @@
+/* =========================================
+   CABEÇALHO E BADGES
+   ========================================= */
+.header-detalhes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.status-badges {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.badge {
+  padding: 6px 14px;
+  border-radius: 24px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: #ff66aa;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(255, 102, 170, 0.2);
+}
+
+.badge-ranked {
+  background-color: #5887ff;
+  box-shadow: 0 2px 8px rgba(88, 135, 255, 0.2);
+}
+
+.badge-privado {
+  background-color: #222;
+  border: 1px solid #444;
+  color: #bbb;
+  box-shadow: none;
+}
+
+/* =========================================
+   IMAGENS (BANNER E LOGO EM MODO LEITURA)
+   ========================================= */
+.readonly-box {
+  border: 1px solid #2a2a2a !important;
+  cursor: default !important;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+.readonly-logo {
+  border: 4px solid #121212 !important;
+  cursor: default !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.6) !important;
+}
+
+/* =========================================
+   BLOCOS DE INFORMAÇÃO (INFO GRID)
+   ========================================= */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.info-block {
+  background-color: #161616;
+  border: 1px solid #2a2a2a;
+  padding: 18px 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.info-block:hover {
+  border-color: #3a3a3a;
+  transform: translateY(-2px);
+}
+
+.info-label {
+  font-size: 12px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.info-value {
+  font-size: 18px;
+  color: #eee;
+  font-weight: 600;
+  margin-top: auto;    /* Empurra o texto para baixo... */
+  margin-bottom: auto; /* ...e centraliza ele no meio do card! */
+}
+
+.text-highlight {
+  color: #ff66aa;
+}
+
+/* =========================================
+   CAIXA DE DESCRIÇÃO E REGRAS
+   ========================================= */
+.desc-box {
+  background-color: #161616;
+  border: 1px solid #2a2a2a;
+  padding: 20px;
+  border-radius: 10px;
+  color: #c0c0c0;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+/* =========================================
+   VISUAL DO TORNEIO (ESTRUTURA)
+   ========================================= */
+.identity-card {
+  padding: 0 !important;
+  overflow: visible;
+  border-radius: 12px;
+  background-color: transparent;
+  border: none;
+}
+
+.tournament-visuals {
+  position: relative;
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.banner-box {
+  width: 100%;
+  height: 240px; 
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  background-color: #1a1a1a;
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.logo-box {
+  width: 120px;
+  height: 120px;
+  background-color: #1e1e1e;
+  border-radius: 16px;
+  position: absolute;
+  bottom: -40px; 
+  left: 40px;    
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================================
+   PERFIL DO ORGANIZADOR
+   ========================================= */
+.organizer-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.org-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid #2a2a2a;
+  background-color: #111;
+}
+
+.org-details {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.verified-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; 
+  height: 20px;
+  cursor: help;
+}
+
+.verified-badge svg {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.2s ease;
+}
+
+.verified-badge:hover svg {
+  transform: scale(1.1);
+}
+
+/* =========================================
+   LAYOUT LADO A LADO: TABELA + CONTAINER LATERAL
+   ========================================= */
+.details-footer-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px; /* Tabela estica, card de ações fixo em 320px */
+  gap: 30px;
+  margin-top: 45px !important; /* Afasta com folga a tabela da caixa de descrição */
+  align-items: start;
+}
+
+.table-container-side {
+  width: 100%;
+}
+
+/* CARD DE AÇÕES DA SIDEBAR */
+.actions-sidebar-card {
+  background-color: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  position: sticky;
+  top: 20px; /* Prende o card no topo caso a tabela seja muito longa */
+}
+
+.sidebar-title {
+  color: #fff;
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border-left: 4px solid #ff66aa;
+  padding-left: 10px;
+}
+
+.sidebar-desc {
+  color: #888;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+}
+
+.sidebar-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* BOTÕES REESTRUTURADOS DA SIDEBAR */
+.btn-side-participar {
+  width: 100%;
+  background-color: #ff66aa;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(255, 102, 170, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-side-participar:hover {
+  background-color: #e55c99;
+  transform: translateY(-1px);
+}
+
+.btn-side-voltar {
+  width: 100%;
+  background-color: transparent;
+  color: #a0a0a0;
+  padding: 12px 20px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.btn-side-voltar:hover {
+  background-color: #222;
+  color: #fff;
+}
+
+/* RESPONSIVIDADE: Quebra para empilhado caso o monitor seja estreito (celular/tablet) */
+@media (max-width: 900px) {
+  .details-footer-layout {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .actions-sidebar-card {
+    position: static;
+  }
+}

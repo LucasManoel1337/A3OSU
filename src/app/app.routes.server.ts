@@ -12,5 +12,9 @@ export const serverRoutes: ServerRoute[] = [
   {
     path: 'perfil/:username',
     renderMode: RenderMode.Client
+  },
+  {
+    path: 'torneios/:id',
+    renderMode: RenderMode.Client
   }
 ];

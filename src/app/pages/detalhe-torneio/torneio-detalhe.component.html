@@ -1,0 +1,100 @@
+<main class="content-area dark-theme-wrapper">
+  <div class="config-container">
+
+    <div class="config-header-card mb-4 header-detalhes">
+      <div>
+        <h1 class="page-title">{{ torneio?.nome || 'Carregando detalhes...' }}</h1>
+      </div>
+      
+      <div class="status-badges" *ngIf="torneio">
+        <span class="badge" [class.badge-ranked]="torneio.tipo === 'RANKED'">
+          {{ torneio.tipo }}
+        </span>
+        <span class="badge badge-privado" *ngIf="torneio.isPrivado">
+          🔒 Privado
+        </span>
+      </div>
+    </div>
+
+    <section class="config-card identity-card mb-5">
+      <div class="tournament-visuals">
+        <div class="banner-box has-image readonly-box">
+          <img [src]="torneio?.bannerUrl || 'assets/default-banner.jpg'" alt="Banner" class="banner-img">
+        </div>
+        <div class="logo-box has-image readonly-logo">
+          <img [src]="torneio?.logoUrl || 'assets/default-logo.png'" alt="Logo" class="logo-img">
+        </div>
+      </div>
+    </section>
+
+    <section class="config-card mb-4">
+      <div class="section-header">
+        <h3 class="section-title">Informações Gerais</h3>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-block">
+          <span class="info-label">Organizador</span>
+          <div class="organizer-profile">
+            <img [src]="torneio?.organizadorAvatarUrl || 'assets/default-avatar.png'" alt="Avatar" class="org-avatar">
+            
+            <div class="org-details">
+              <span class="info-value text-highlight" style="cursor: pointer;" [routerLink]="['/perfil', torneio?.organizadorId]">
+                {{ torneio?.organizador || 'Sistema' }}
+              </span>
+              
+              <span class="verified-badge" title="Organizador Verificado" *ngIf="torneio?.organizadorVerificado === 'true'">
+                <svg viewBox="0 0 24 24" aria-label="Verificado" role="img">
+                  <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z" fill="#ff66aa"></path>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <span class="info-label">Modo de Jogo</span>
+          <span class="info-value">{{ torneio?.modo }}</span>
+        </div>
+
+        <div class="info-block">
+          <span class="info-label">Vagas Preenchidas</span>
+          <span class="info-value">{{ torneio?.vagasRestantes }} / {{ torneio?.vagas }}</span>
+        </div>
+      </div>
+
+      <div class="mt-4" style="margin-top: 20px;">
+        <span class="info-label mb-2" style="display:block;">Descrição e Regras</span>
+        <div class="desc-box">
+          {{ torneio?.descricao }}
+        </div>
+      </div>
+    </section>
+
+    <div class="details-footer-layout mt-5 mb-4">
+      
+      <div class="table-container-side">
+        <app-ranking-table
+          [title]="'Inscritos na Competição'"
+          icon="🏆"
+          [columns]="colunasTabela"
+          [data]="jogadores"
+          (rowClick)="verPerfilJogador($event)">
+        </app-ranking-table>
+      </div>
+
+      <div class="actions-sidebar-card">
+        <h4 class="sidebar-title">Painel do Torneio</h4>
+        <p class="sidebar-desc">Inscreva-se para garantir a sua vaga antes que o limite máximo de competidores seja atingido.</p>
+        
+        <div class="sidebar-buttons">
+          <button class="btn-side-participar" (click)="inscreverNoTorneio()">
+            🎮 Entrar no Torneio
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</main>

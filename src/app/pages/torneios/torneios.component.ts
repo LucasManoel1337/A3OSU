@@ -56,9 +56,7 @@ export class TorneiosComponent implements OnInit {
     );
   }
 
-  verDetalhes(id: number): void {
-    // Futuramente você pode criar uma tela de detalhes do torneio
-    console.log('Navegando para o torneio:', id);
-    // this.router.navigate(['/torneio', id]);
+  abrirDetalhes(id: number) {
+    this.router.navigate(['/torneios', id]);
   }
 }

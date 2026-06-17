@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-// Interface mapeando exatamente o DTO que o Spring Boot vai devolver
 export interface TorneioResponse {
   id: number;
   nome: string;
@@ -11,8 +9,27 @@ export interface TorneioResponse {
   vagas: number;
   descricao: string;
   isPrivado: boolean;
-  banner?: string; // O Spring devolve a string em Base64
-  logo?: string;   // O Spring devolve a string em Base64
+  banner?: string; 
+  logo?: string;   
+}
+
+export interface TorneioDetalhesDTO {
+  id: number;
+  nome: string;
+  tipo: string;
+  modo: string;
+  vagas: number;
+  vagasRestantes: number;
+  descricao: string;
+  isPrivado: boolean;
+  bannerUrlTorneio?: string;
+  logoUrlTorneio?: string;
+  organizadorId?: string;
+  organizador?: string;
+  organizadorNacionalidade?: string;
+  organizadorVerificado?: string;
+  organizadorAvatarUrl?: string;
+  criadoEm?: string;
 }
 
 @Injectable({
@@ -60,5 +77,9 @@ export class TorneioService {
 
   listarTorneios(): Observable<TorneioResponse[]> {
     return this.http.get<TorneioResponse[]>(this.apiUrl, this.getHeadersJson());
+  }
+
+  buscarTorneioPorId(id: number): Observable<TorneioDetalhesDTO> {
+    return this.http.get<TorneioDetalhesDTO>(`${this.apiUrl}/${id}`, this.getHeadersJson());
   }
 }
