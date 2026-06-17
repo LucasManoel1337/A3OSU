@@ -8,6 +8,7 @@ export interface UsuarioBusca {
   avatarUrl: string | null;
   nacionalidade: string;
   isVerified: boolean;
+  criadoEm: string;
 }
 
 @Injectable({

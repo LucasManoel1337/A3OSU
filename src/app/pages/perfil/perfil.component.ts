@@ -23,6 +23,7 @@ export class PerfilComponent implements OnInit {
 
   username: string | null = 'Jogador';
   dataEntrada: string = '';
+  criadoEm: string = '';
   currentUserId: number = 0;
 
   avatarPreview = '';
@@ -83,6 +84,7 @@ export class PerfilComponent implements OnInit {
         this.nacionalidade = user.nationality;
         this.isVerified = user.verificado;
         this.conquistasDoUsuario = user.conquistas;
+        this.criadoEm = user.criadoEm;
         this.buscarImagens();
       },
       error: () => {
@@ -98,6 +100,7 @@ export class PerfilComponent implements OnInit {
         this.currentUserId = user.idUser; 
         this.nacionalidade = user.nationality || 'un';
         this.isVerified = user.verificado || false;
+        this.criadoEm = user.criadoEm;
 
         if (user.criadoEm) {
           const dataBanco = new Date(user.criadoEm);

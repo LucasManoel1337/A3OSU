@@ -443,3 +443,35 @@
 .verified-badge:hover svg {
   transform: scale(1.1); /* Dá um leve "pulo" ao passar o mouse */
 }
+
+.info-block {
+  background-color: #161616;
+  border: 1px solid #2a2a2a;
+  padding: 18px 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.info-block:hover {
+  border-color: #3a3a3a;
+  transform: translateY(-2px);
+}
+
+.info-label {
+  font-size: 12px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.info-value {
+  font-size: 18px;
+  color: #eee;
+  font-weight: 600;
+  margin-top: auto;    /* Empurra o texto para baixo... */
+  margin-bottom: auto; /* ...e centraliza ele no meio do card! */
+}
