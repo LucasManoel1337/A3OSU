@@ -148,9 +148,18 @@
         <p class="sidebar-desc">Inscreva-se para garantir a sua vaga antes que o limite máximo de competidores seja atingido.</p>
         
         <div class="sidebar-buttons">
-          <button class="btn-side-participar" (click)="inscreverNoTorneio()">
+          @if (torneio.status == "Aguardando Início") {
+            <button class="btn-side-participar" (click)="inscreverNoTorneio()">
             🎮 Entrar no Torneio
-          </button>
+            </button>
+          } 
+
+          @if (torneio.status == "Em Andamento") {
+            <button class="btn-side-participar">
+              Torneio já iniciou!
+            </button>
+          }
+          
         </div>
       </div>
 
