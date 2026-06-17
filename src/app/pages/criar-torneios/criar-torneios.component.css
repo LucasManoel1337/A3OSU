@@ -310,3 +310,210 @@
     grid-template-columns: 1fr; 
   }
 }
+
+/* =========================================
+   BUSCA DE MODERADORES
+   ========================================= */
+.mod-search-input {
+  width: 100%;
+  padding: 14px 16px 14px 45px !important; /* Espaço para a lupa */
+  border-radius: 10px;
+}
+
+.spinner-small {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border: 2px solid #333;
+  border-top-color: #ff66aa;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* DROPDOWN FLUTUANTE */
+.mod-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  z-index: 50;
+  max-height: 250px;
+  overflow-y: auto;
+  animation: dropdownFadeIn 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mod-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #222;
+}
+
+.mod-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.mod-dropdown-item:hover {
+  background-color: rgba(255, 102, 170, 0.1);
+}
+
+.mod-dropdown-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.mod-dropdown-nick {
+  color: #ff66aa;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.mod-dropdown-flag {
+  border-radius: 2px;
+}
+
+/* =========================================
+   CHIPS DE MODERADORES SELECIONADOS
+   ========================================= */
+.selected-mods-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.mod-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #121212;
+  border: 1px solid #2a2a2a;
+  padding: 8px 12px 8px 8px;
+  border-radius: 30px; /* Estilo pílula */
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.mod-chip:hover {
+  border-color: #ff66aa;
+  transform: translateY(-2px);
+}
+
+.mod-chip-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #444;
+}
+
+.mod-chip-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.mod-chip-nick {
+  color: #ff66aa;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.mod-chip-role {
+  color: #ff66aa;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.btn-remove-mod {
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 6px;
+  margin-left: 5px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-remove-mod:hover {
+  color: #ff4444;
+  background-color: rgba(255, 68, 68, 0.1);
+}
+
+/* =========================================
+   BUSCA DE MODERADORES
+   ========================================= */
+.mod-search-input {
+  width: 100%;
+  padding: 14px 16px 14px 45px !important;
+  border-radius: 10px;
+  background-color: #121212; /* Fundo escuro */
+  border: 1px solid #2a2a2a; /* Borda sutil */
+  color: #fff;               /* Texto branco */
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.mod-search-input:focus {
+  outline: none;
+  border-color: #ff66aa;
+  box-shadow: 0 0 12px rgba(255, 102, 170, 0.15);
+  background-color: #161616;
+}
+
+/* CONTAINER ALINHADO DENTRO DO DROPDOWN */
+.mod-dropdown-info {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaço entre o nick, o selo e a bandeira */
+  flex: 1;
+}
+
+.mod-dropdown-nick {
+  color: #fff; /* Deixei o nick branco, fica mais legível no dropdown */
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* REAPROVEITANDO O SELO MINI (Caso não tenha adicionado no CSS antes) */
+.verified-badge-mini {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.verified-badge-mini svg {
+  width: 100%;
+  height: 100%;
+}
+
+.mod-chip-name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Espacinho curto para o selo ficar colado no nome */
+}

@@ -57,7 +57,7 @@ export class TorneioService {
     };
   }
 
-  criarTorneio(dadosFormulario: any, criadorId: number): Observable<TorneioResponse> {
+  criarTorneio(dadosFormulario: any, criadorId: number, moderadoresIds: number[], isRascunho: boolean): Observable<TorneioResponse> {
     const formData = new FormData();
 
     formData.append('criadorId', criadorId.toString());
@@ -81,6 +81,14 @@ export class TorneioService {
     if (dadosFormulario.logo instanceof File) {
       formData.append('logo', dadosFormulario.logo);
     }
+
+    if (moderadoresIds && moderadoresIds.length > 0) {
+      moderadoresIds.forEach(id => {
+        formData.append('moderadoresIds', id.toString());
+      });
+    }
+
+    formData.append('rascunho', isRascunho === true ? 'true' : 'false');
 
     return this.http.post<TorneioResponse>(this.apiUrl, formData, this.getHeadersJson());
   }

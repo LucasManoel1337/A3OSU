@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { CustomInputComponent } from '../../components/custom-input/custom-input.component';
@@ -11,6 +11,8 @@ import { ModalService } from '../../core/services/modal.service';
 import { LoadingService } from '../../core/services/loading.service';
 import { TorneioService } from '../../core/services/torneios.service';
 import { UserService } from '../../core/services/user.service';
+import { debounceTime, distinctUntilChanged, switchMap, tap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-criar-torneios',
@@ -44,6 +46,11 @@ export class CriarTorneiosComponent implements OnInit {
     { value: 'catch', label: 'catch' },
     { value: 'mania', label: 'mania' }
   ];
+
+  buscaModeradorControl = new FormControl('');
+  resultadosModeradores: any[] = [];
+  moderadoresSelecionados: any[] = [];
+  buscandoMod: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -91,6 +98,7 @@ export class CriarTorneiosComponent implements OnInit {
       }
       senhaControl?.updateValueAndValidity();
     });
+    this.configurarBuscaModeradores();
   }
 
   atualizarCampo(campo: string, valor: any) {
@@ -131,7 +139,7 @@ export class CriarTorneiosComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  criarTorneio(): void {
+  criarTorneio(isRascunho: boolean = false): void {
     if (this.torneioForm.invalid) {
       this.torneioForm.markAllAsTouched();
       this.modalService.abrir('warning', 'Preencha todos os campos obrigatórios corretamente.');
@@ -146,12 +154,15 @@ export class CriarTorneiosComponent implements OnInit {
     this.carregando = true;
     this.loadingService.show();
 
-    this.torneioService.criarTorneio(this.torneioForm.value, this.currentUserId).subscribe({
+    const idsModeradores = this.moderadoresSelecionados.map(mod => mod.id);
+
+    this.torneioService.criarTorneio(this.torneioForm.value, this.currentUserId, idsModeradores, isRascunho).subscribe({
       next: (resposta) => {
-        console.log('Torneio criado no banco com sucesso!', resposta);
         this.carregando = false;
         this.loadingService.hide();
-        this.modalService.abrir('success', 'Torneio criado com sucesso!');
+        
+        const msgSucesso = isRascunho ? 'Rascunho salvo com sucesso!' : 'Torneio criado com sucesso!';
+        this.modalService.abrir('success', msgSucesso);
 
         this.router.navigate(['/torneios']);
       },
@@ -162,5 +173,45 @@ export class CriarTorneiosComponent implements OnInit {
         this.modalService.abrir('error', 'Ocorreu um erro ao criar o torneio. Tente novamente.');
       }
     });
+  }
+
+  configurarBuscaModeradores() {
+    this.buscaModeradorControl.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      tap(termo => {
+        if (termo && termo.trim() !== '') {
+          this.buscandoMod = true;
+        }
+      }),
+      switchMap(termo => {
+        if (!termo || termo.trim() === '') {
+          this.resultadosModeradores = [];
+          this.buscandoMod = false;
+          return of([]); 
+        }
+        
+        return this.userService.buscarUsuariosPorNick(termo).pipe(
+          catchError(() => of([]))
+        );
+      })
+    ).subscribe({
+      next: (resultados) => {
+        this.resultadosModeradores = resultados.filter(
+          (r: any) => !this.moderadoresSelecionados.some(m => m.id === r.id)
+        );
+        this.buscandoMod = false;
+      }
+    });
+  }
+
+  adicionarModerador(user: any) {
+    this.moderadoresSelecionados.push(user);
+    this.buscaModeradorControl.setValue(''); // Limpa o input
+    this.resultadosModeradores = []; // Fecha o dropdown
+  }
+
+  removerModerador(user: any) {
+    this.moderadoresSelecionados = this.moderadoresSelecionados.filter(m => m.id !== user.id);
   }
 }

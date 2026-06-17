@@ -163,12 +163,82 @@
         </div>
       </section>
 
+      <section class="config-card mb-4 mt-5">
+      <div class="section-header">
+        <h3 class="section-title">Equipe do Torneio (Moderadores)</h3>
+        <p class="section-subtitle" style="color: #888; font-size: 13px; margin-top: 5px;">
+          Pesquise e adicione jogadores para ajudar a gerenciar as partidas. (Opcional)
+        </p>
+      </div>
+
+      <div class="mod-search-wrapper" style="position: relative; max-width: 500px;">
+        <span class="search-icon" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%);">🔍</span>
+        
+        <input 
+          type="text" 
+          [formControl]="buscaModeradorControl" 
+          placeholder="Buscar nickname do moderador..." 
+          class="dark-input mod-search-input"
+          autocomplete="off"
+        >
+        
+        <span class="spinner-small" *ngIf="buscandoMod"></span>
+
+        <div class="mod-dropdown" *ngIf="resultadosModeradores.length > 0">
+          <div 
+            class="mod-dropdown-item" 
+            *ngFor="let res of resultadosModeradores"
+            (click)="adicionarModerador(res)"
+          >
+            <img [src]="res.avatarUrl || 'assets/default-avatar.png'" class="mod-dropdown-avatar">
+            
+            <div class="mod-dropdown-info">
+              <span class="mod-dropdown-nick">{{ res.username }}</span>
+              
+              <span class="verified-badge-mini" title="Jogador Verificado" *ngIf="res.isVerified">
+                <svg viewBox="0 0 24 24" aria-label="Verificado" role="img">
+                  <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z" fill="#ff66aa"></path>
+                </svg>
+              </span>
+
+              <img [src]="'https://flagcdn.com/w20/' + res.nacionalidade + '.png'" class="mod-dropdown-flag" *ngIf="res.nacionalidade">
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="selected-mods-grid" *ngIf="moderadoresSelecionados.length > 0">
+        <div class="mod-chip" *ngFor="let mod of moderadoresSelecionados">
+          <img [src]="mod.avatarUrl || 'assets/default-avatar.png'" class="mod-chip-avatar">
+          
+          <div class="mod-chip-info">
+            <div class="mod-chip-name-row">
+              <span class="mod-chip-nick">{{ mod.username }}</span>
+              
+              <span class="verified-badge-mini" title="Jogador Verificado" *ngIf="mod.isVerified">
+                <svg viewBox="0 0 24 24" aria-label="Verificado" role="img">
+                  <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z" fill="#ff66aa"></path>
+                </svg>
+              </span>
+            </div>
+
+            <span class="mod-chip-role">Moderador</span>
+          </div>
+          
+          <button type="button" class="btn-remove-mod" (click)="removerModerador(mod)" title="Remover">✕</button>
+        </div>
+      </div>
+    </section>
+
       <div class="form-actions">
         <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
-        <button type="submit" class="btn-criar" [disabled]="carregando">
-          {{ carregando ? 'Criando...' : 'Salvar Rascunho' }}
+        
+        <button type="button" class="btn-criar btn-rascunho" [disabled]="carregando" (click)="criarTorneio(true)">
+          {{ carregando ? 'Salvando...' : 'Salvar Rascunho' }}
         </button>
-        <button type="submit" class="btn-criar" [disabled]="carregando">
+        
+        <button type="button" class="btn-criar" [disabled]="carregando" (click)="criarTorneio(false)">
           {{ carregando ? 'Criando...' : 'Criar Torneio' }}
         </button>
       </div>

@@ -65,6 +65,13 @@
 
       <div class="info-grid" style="margin-top: 20px;">
         <div class="info-block">
+          <span class="info-label">Data de criação</span>
+          <span class="info-value">
+            {{ torneio?.criadoEm | date:'dd/MM/yyyy \'às\' HH:mm' }}
+          </span>
+        </div>
+
+        <div class="info-block">
           <span class="info-label">Data e Hora de Início</span>
           <span class="info-value">
             {{ torneio?.dataInicio | date:'dd/MM/yyyy' }} às {{ torneio?.horaInicio | slice:0:5 }}
