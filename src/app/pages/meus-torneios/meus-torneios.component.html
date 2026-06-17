@@ -5,6 +5,10 @@
     <div class="torneios-grid" *ngIf="torneiosParticipando.length > 0">
       <app-torneio-card *ngFor="let t of torneiosParticipando" [torneio]="t"></app-torneio-card>
     </div>
+
+    @if (torneiosParticipando.length == 0) {
+      <p> Nenhum torneio encontrado que você esteja participando!</p>
+    }
   </section>
 
   <section class="torneio-section mb-5">
@@ -12,6 +16,9 @@
     <div class="torneios-grid" *ngIf="torneiosCriados.length > 0">
       <app-torneio-card *ngFor="let t of torneiosCriados" [torneio]="t"></app-torneio-card>
     </div>
+    @if (torneiosParticipando.length == 0) {
+      <p> Nenhum torneio encontrado que você tenha criado!</p>
+    }
   </section>
 
   <section class="torneio-section mb-5">
@@ -19,6 +26,9 @@
     <div class="torneios-grid" *ngIf="torneiosModerando.length > 0">
       <app-torneio-card *ngFor="let t of torneiosModerando" [torneio]="t"></app-torneio-card>
     </div>
+    @if (torneiosParticipando.length == 0) {
+      <p> Nenhum torneio encontrado que você esteja como moderador!</p>
+    }
   </section>
 
 </main>

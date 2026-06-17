@@ -308,8 +308,8 @@
 }
 
 .medal-item.champion {
-  border-color: rgba(155, 89, 182, 0.3);
-  background: rgba(155, 89, 182, 0.05);
+  border-color: rgba(0, 130, 170, 0.836);
+  background: rgba(1, 158, 150, 0.11);
 }
 
 .medal-item.champion .medal-icon {

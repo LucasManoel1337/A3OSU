@@ -75,26 +75,21 @@
     <!-- ========================================== -->
     <!-- 3. VITRINE DE INSÍGNIAS E MEDALHAS -->
     <!-- ========================================== -->
-    <div class="section-block" *ngIf="false">
+    <div class="section-block">
       <h3 class="section-title">Conquistas Notáveis</h3>
+      
       <div class="medals-showcase">
-        <div class="medal-item founder" title="Fundador do Sistema Distribuído">
-          <div class="medal-icon">⭐</div>
-          <span>Fundador Beta</span>
-        </div>
-        <div class="medal-item champion" title="Venceu o Torneio de Inverno">
-          <div class="medal-icon">🏆</div>
-          <span>Campeão Inverno</span>
-        </div>
-        <div class="medal-item sniper" title="Mais de 99.5% de Acc em Finais">
-          <div class="medal-icon">🎯</div>
-          <span>Sniper SS</span>
-        </div>
-        <div class="medal-item empty">
-          <div class="medal-icon">🔒</div>
-          <span>Bloqueado</span>
+        <div 
+          class="medal-item" 
+          *ngFor="let medalha of vitrineDeMedalhas"
+          [ngClass]="medalha.cssClass" 
+          [title]="medalha.desc"
+        >
+          <div class="medal-icon">{{ medalha.icon }}</div>
+          <span>{{ medalha.label }}</span>
         </div>
       </div>
+      
     </div>
 
     <!-- ========================================== -->

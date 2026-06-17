@@ -5,6 +5,13 @@ import { UserService } from '../../core/services/user.service';
 import { LoadingService } from '../../core/services/loading.service';
 import { ActivatedRoute } from '@angular/router';
 
+export interface MedalhaConfig {
+  label: string;
+  icon: string;
+  cssClass: string;
+  desc: string;
+}
+
 @Component({
   selector: 'app-perfil',
   standalone: true,
@@ -26,6 +33,23 @@ export class PerfilComponent implements OnInit {
 
   private isBrowser: boolean;
 
+  conquistasDoUsuario: string[] = []; 
+
+  dicionarioMedalhas: Record<string, MedalhaConfig> = {
+    'FOUNDER': { 
+      label: 'Fundador Beta', 
+      icon: '⭐', 
+      cssClass: 'founder', 
+      desc: 'Fundador do Sistema' 
+    },
+    'MEMBRO_BETA': { 
+      label: 'Membro Beta', 
+      icon: '💫', 
+      cssClass: 'champion', 
+      desc: 'Acessou o Sistema Durante o Beta' 
+    }
+  };
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private userService: UserService,
@@ -41,7 +65,6 @@ export class PerfilComponent implements OnInit {
     this.loadingService.show();
 
     this.route.paramMap.subscribe(params => {
-      // Pega o ID da URL (certifique-se que no app.routes.ts está :idUsuario)
       const idUrl = params.get('idUsuario'); 
 
       if (idUrl) {
@@ -59,6 +82,7 @@ export class PerfilComponent implements OnInit {
         this.currentUserId = user.idUser;
         this.nacionalidade = user.nationality;
         this.isVerified = user.verificado;
+        this.conquistasDoUsuario = user.conquistas;
         this.buscarImagens();
       },
       error: () => {
@@ -79,6 +103,8 @@ export class PerfilComponent implements OnInit {
           const dataBanco = new Date(user.criadoEm);
           this.dataEntrada = `${dataBanco.toLocaleString('pt-BR', { month: 'long' })} de ${dataBanco.getFullYear()}`;
         }
+
+        this.conquistasDoUsuario = user.conquistas;
 
         this.buscarImagens(); 
       },
@@ -127,5 +153,25 @@ export class PerfilComponent implements OnInit {
       },
       complete: () => this.loadingService.hide()
     });
+  }
+
+  get vitrineDeMedalhas(): MedalhaConfig[] {
+    const ativas = this.conquistasDoUsuario
+      .map(codigo => this.dicionarioMedalhas[codigo])
+      .filter(medalha => medalha !== undefined);
+ 
+    const vitrine = [...ativas];
+    const maxSlots = 2;
+    
+    while (vitrine.length < maxSlots) {
+      vitrine.push({ 
+        label: 'Bloqueado', 
+        icon: '🔒', 
+        cssClass: 'empty', 
+        desc: 'Jogue torneios para desbloquear mais conquistas.' 
+      });
+    }
+
+    return vitrine;
   }
 }
