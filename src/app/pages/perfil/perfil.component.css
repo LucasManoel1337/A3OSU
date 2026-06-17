@@ -316,13 +316,13 @@
   filter: drop-shadow(0 0 15px rgba(155, 89, 182, 0.4));
 }
 
-.medal-item.sniper {
-  border-color: rgba(52, 152, 219, 0.3);
-  background: rgba(52, 152, 219, 0.05);
+.medal-item.primeira-batalha {
+  border-color: rgba(211, 132, 12, 0.3);
+  background: rgba(216, 166, 30, 0.05);
 }
 
-.medal-item.sniper .medal-icon {
-  filter: drop-shadow(0 0 15px rgba(52, 152, 219, 0.4));
+.medal-item.primeira-batalha .medal-icon {
+  filter: drop-shadow(0 0 15px rgba(216, 166, 30, 0.06));
 }
 
 .medal-item.empty {

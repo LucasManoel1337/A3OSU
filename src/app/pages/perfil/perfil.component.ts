@@ -48,6 +48,12 @@ export class PerfilComponent implements OnInit {
       icon: '💫', 
       cssClass: 'champion', 
       desc: 'Acessou o Sistema Durante o Beta' 
+    },
+    'PRIMEIRA_BATALHA': { 
+      label: 'Primeira Batalha', 
+      icon: '⚔️', 
+      cssClass: 'primeira-batalha', 
+      desc: 'Entrou em um torneio pela 1º vez' 
     }
   };
 
