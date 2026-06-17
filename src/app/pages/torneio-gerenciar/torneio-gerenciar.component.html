@@ -129,8 +129,7 @@
 
                                         <div class="flex-grow" (click)="adicionarModeradorLista(res)"
                                             style="display:flex; align-items:center; gap: 10px;">
-                                            <img [src]="res.avatarUrl || 'assets/default-avatar.png'"
-                                                class="mod-dropdown-avatar">
+                                            <img [src]="res.avatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'" class="mod-dropdown-avatar">
 
                                             <div class="mod-dropdown-info">
                                                 <div style="display: flex; align-items: center; gap: 5px;">
@@ -152,8 +151,7 @@
                                 <div class="mod-chip" *ngFor="let mod of moderadoresSelecionados">
                                     <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;"
                                         (click)="verPerfilJogador(mod)">
-                                        <img [src]="mod.avatarUrl || 'assets/default-avatar.png'"
-                                            class="mod-chip-avatar">
+                                        <img [src]="mod.avatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'" class="mod-chip-avatar">
                                         <div class="mod-chip-info">
                                             <div style="display: flex; align-items: center; gap: 5px;">
                                                 <span class="mod-chip-nick">{{ mod.username }}</span>

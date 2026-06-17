@@ -190,7 +190,7 @@
             *ngFor="let res of resultadosModeradores"
             (click)="adicionarModerador(res)"
           >
-            <img [src]="res.avatarUrl || 'assets/default-avatar.png'" class="mod-dropdown-avatar">
+            <img [src]="res.avatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'" class="mod-dropdown-avatar">
             
             <div class="mod-dropdown-info">
               <span class="mod-dropdown-nick">{{ res.username }}</span>
@@ -210,7 +210,7 @@
 
       <div class="selected-mods-grid" *ngIf="moderadoresSelecionados.length > 0">
         <div class="mod-chip" *ngFor="let mod of moderadoresSelecionados">
-          <img [src]="mod.avatarUrl || 'assets/default-avatar.png'" class="mod-chip-avatar">
+          <img [src]="mod.avatarUrl ? mod.avatarUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'" class="mod-chip-avatar">
           
           <div class="mod-chip-info">
             <div class="mod-chip-name-row">
