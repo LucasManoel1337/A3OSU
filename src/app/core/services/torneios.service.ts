@@ -15,6 +15,8 @@ export interface TorneioResponse {
   organizadorUsuario?: string;
   organizadorAvatar?: string;
   organizadorVerificado?: boolean;
+  dataInicio?: string;
+  horaInicio?: string;
 }
 
 export interface TorneioDetalhesDTO {
@@ -34,6 +36,8 @@ export interface TorneioDetalhesDTO {
   organizadorVerificado?: string;
   organizadorAvatarUrl?: string;
   criadoEm?: string;
+  dataInicio?: string;
+  horaInicio?: string;
 }
 
 @Injectable({
@@ -63,6 +67,8 @@ export class TorneioService {
     formData.append('vagas', dadosFormulario.vagas.toString());
     formData.append('descricao', dadosFormulario.descricao);
     formData.append('isPrivado', dadosFormulario.isPrivado);
+    formData.append('dataInicio', dadosFormulario.dataInicio);
+    formData.append('horaInicio', dadosFormulario.horaInicio);
 
     if (dadosFormulario.isPrivado && dadosFormulario.senha) {
       formData.append('senha', dadosFormulario.senha);

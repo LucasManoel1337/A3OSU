@@ -63,6 +63,15 @@
         </div>
       </div>
 
+      <div class="info-grid" style="margin-top: 20px;">
+        <div class="info-block">
+          <span class="info-label">Data e Hora de Início</span>
+          <span class="info-value">
+            {{ torneio?.dataInicio | date:'dd/MM/yyyy' }} às {{ torneio?.horaInicio | slice:0:5 }}
+          </span>
+        </div>
+      </div>
+
       <div class="mt-4" style="margin-top: 20px;">
         <span class="info-label mb-2" style="display:block;">Descrição e Regras</span>
         <div class="desc-box">

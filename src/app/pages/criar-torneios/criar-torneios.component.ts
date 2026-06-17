@@ -64,7 +64,9 @@ export class CriarTorneiosComponent implements OnInit {
       vagas: [null, [Validators.required, Validators.min(10), Validators.max(200)]],
       descricao: ['', [Validators.required, Validators.maxLength(1000)]],
       isPrivado: [false],
-      senha: ['']
+      senha: [''],
+      dataInicio: ['', Validators.required],
+      horaInicio: ['', Validators.required]
     });
   }
 

@@ -96,7 +96,28 @@
               (valueChange)="atualizarCampo('vagas', $event)">
             </app-custom-input>
             <small class="error-text" *ngIf="torneioForm.get('vagas')?.errors?.['required'] && torneioForm.get('vagas')?.touched">Vagas obrigatório.</small>
+            <small class="error-text" *ngIf="torneioForm.get('vagas')?.errors?.['min'] && torneioForm.get('vagas')?.touched">Minimo de 10 vagas.</small>
             <small class="error-text" *ngIf="torneioForm.get('vagas')?.errors?.['max'] && torneioForm.get('vagas')?.touched">Máximo de 200 vagas.</small>
+          </div>
+
+          <div class="input-wrapper">
+            <app-custom-input
+              label="Data do Torneio"
+              type="date"
+              [value]="torneioForm.get('dataInicio')?.value"
+              (valueChange)="atualizarCampo('dataInicio', $event)">
+            </app-custom-input>
+            <small class="error-text" *ngIf="torneioForm.get('dataInicio')?.invalid && torneioForm.get('dataInicio')?.touched">A data é obrigatória.</small>
+          </div>
+
+          <div class="input-wrapper">
+            <app-custom-input
+              label="Horário"
+              type="time"
+              [value]="torneioForm.get('horaInicio')?.value"
+              (valueChange)="atualizarCampo('horaInicio', $event)">
+            </app-custom-input>
+            <small class="error-text" *ngIf="torneioForm.get('horaInicio')?.invalid && torneioForm.get('horaInicio')?.touched">O horário é obrigatório.</small>
           </div>
         </div>
 

@@ -54,6 +54,13 @@
             </div>
           </div>
 
+          <div class="torneio-stats">
+            <div class="stat-item">
+              <span class="stat-icon">🗓️</span>
+              <span class="stat-text">Data e Hora: {{ t.dataInicio | date:'dd/MM/yyyy' }} às {{ t.horaInicio | slice:0:5 }}</span>
+            </div>
+          </div>
+
           <p class="torneio-desc">{{ t.descricao }}</p>
 
           <div class="card-organizer">
