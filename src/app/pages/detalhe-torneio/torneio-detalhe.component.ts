@@ -64,7 +64,7 @@ export class TorneioDetalheComponent implements OnInit {
     this.torneioService.buscarInscritosDoTorneio(this.torneioId).subscribe({
       next: (dados) => {
         this.jogadores = dados;
-        this.cdr.detectChanges(); // Atualiza a tela com a nova lista
+        this.cdr.detectChanges();
       },
       error: (erro) => {
         console.error('Erro ao carregar os inscritos:', erro);
@@ -109,7 +109,6 @@ export class TorneioDetalheComponent implements OnInit {
         this.fecharModal();
         this.modalService.abrir('success', 'Inscrição confirmada com sucesso!');
         
-        // Recarrega as vagas E a lista de jogadores logo após se inscrever!
         this.carregarDadosDoTorneio(); 
         this.carregarInscritos(); 
       },

@@ -17,6 +17,7 @@ export interface TorneioResponse {
   organizadorVerificado?: boolean;
   dataInicio?: string;
   horaInicio?: string;
+  status?: string;
 }
 
 export interface TorneioDetalhesDTO {
@@ -50,11 +51,17 @@ export class TorneioService {
 
   private getHeadersJson() {
     const token = localStorage.getItem('jwt_token');
-    return {
+    if (token && token.length > 2000) {
+      console.error("Token suspeito! Limpando localStorage.");
+      localStorage.removeItem('jwt_token');
+      return {}; 
+    }
+
+    return token ? {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${token}`
       })
-    };
+    } : {};
   }
 
   criarTorneio(dadosFormulario: any, criadorId: number, moderadoresIds: number[], isRascunho: boolean): Observable<TorneioResponse> {
@@ -110,5 +117,19 @@ export class TorneioService {
 
   buscarInscritosDoTorneio(torneioId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${torneioId}/inscritos`, this.getHeadersJson());
+  }
+
+  listarParticipando(idUsuario: number): Observable<TorneioResponse[]> {
+    return this.http.get<TorneioResponse[]>(`${this.apiUrl}/participando/${idUsuario}`, this.getHeadersJson());
+  }
+
+  // Busca os que o jogador criou
+  listarCriados(idUsuario: number): Observable<TorneioResponse[]> {
+    return this.http.get<TorneioResponse[]>(`${this.apiUrl}/criados/${idUsuario}`, this.getHeadersJson());
+  }
+
+  // Busca os que o jogador é moderador
+  listarModerando(idUsuario: number): Observable<TorneioResponse[]> {
+    return this.http.get<TorneioResponse[]>(`${this.apiUrl}/moderando/${idUsuario}`, this.getHeadersJson());
   }
 }
