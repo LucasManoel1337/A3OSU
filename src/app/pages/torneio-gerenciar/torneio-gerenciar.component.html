@@ -181,19 +181,20 @@
                     participantes inscritos.</p>
 
                 <div class="sidebar-buttons">
-                    <button *ngIf="torneio?.status !== 'Em Andamento' && torneio?.status !== 'Encerrado'"
-                        class="btn-side-start" (click)="alterarStatus('Em Andamento')">
-                        ▶️ Começar Torneio
-                    </button>
-
-                    <button *ngIf="torneio?.status === 'Em Andamento'" class="btn-side-end"
-                        (click)="alterarStatus('Encerrado')">
-                        ⏹️ Encerrar Torneio
+    
+                    <button *ngIf="proximoStatus"
+                            class="btn-side-start" 
+                            (click)="alterarStatus(proximoStatus.status)">
+                        {{ proximoStatus.icon }} {{ proximoStatus.label }}
                     </button>
 
                     <button class="btn-side-voltar" [routerLink]="['/torneios', torneioId]">
                         👁️ Ver Visão Pública
                     </button>
+
+                    <div *ngIf="torneio?.status === 'Encerrado'" class="sidebar-desc" style="text-align: center; margin-top: 10px;">
+                        🏁 Torneio Finalizado
+                    </div>
                 </div>
             </div>
 

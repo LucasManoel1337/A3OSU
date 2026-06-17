@@ -206,4 +206,19 @@ export class TorneioGerenciarComponent implements OnInit {
         }
     });
     }
+
+    get proximoStatus(): { label: string, status: string, icon: string } | null {
+      if (!this.torneio || !this.torneio.status) return null;
+
+      switch (this.torneio.status) {
+        case 'Em Rascunho':
+          return { label: 'Publicar Torneio', status: 'Aguardando Início', icon: '📢' };
+        case 'Aguardando Início':
+          return { label: 'Começar Torneio', status: 'Em Andamento', icon: '▶️' };
+        case 'Em Andamento':
+          return { label: 'Encerrar Torneio', status: 'Encerrado', icon: '⏹️' };
+        default:
+          return null;
+      }
+    }
 }
