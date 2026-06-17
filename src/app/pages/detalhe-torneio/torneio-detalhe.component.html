@@ -89,15 +89,59 @@
 
     <div class="details-footer-layout mt-5 mb-4">
       
-      <div class="table-container-side">
-        <app-ranking-table
-          [title]="'Inscritos na Competição'"
-          icon="🏆"
-          [columns]="colunasTabela"
-          [data]="jogadores"
-          (rowClick)="verPerfilJogador($event)">
-        </app-ranking-table>
-      </div>
+      <section class="inscritos-section mt-5">
+        <div class="ranking-card dark-theme-wrapper">
+          <div class="ranking-header">
+            <h3 class="ranking-title">🏆 Inscritos na Competição</h3>
+            
+            <div class="search-wrapper">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Buscar jogador, pontos..." class="dark-input search-input">
+            </div>
+          </div>
+
+          <div class="ranking-list">
+            
+            <div class="ranking-list-header">
+              <div class="col-pos">#</div>
+              <div class="col-player">JOGADOR</div>
+              <div class="col-score">PONTUAÇÃO</div>
+            </div>
+
+            <div class="ranking-row" 
+                *ngFor="let jogador of jogadores; let i = index" 
+                (click)="verPerfilJogador(jogador)">
+              
+              <div class="col-pos">
+                <span *ngIf="i === 0" class="crown">👑</span>
+                <span class="pos-number" [class.first-place]="i === 0">{{ i + 1 }}</span>
+              </div>
+              
+              <div class="col-player">
+                <img [src]="jogador.avatarUrl || 'assets/default-avatar.png'" class="player-avatar" alt="Avatar">
+                <img [src]="'https://flagcdn.com/w20/' + jogador.nacionalidade + '.png'" class="player-flag" *ngIf="jogador.nacionalidade">
+                <span class="player-nick">{{ jogador.username }}</span>
+                
+                <span class="verified-badge-mini" *ngIf="jogador.isVerified" title="Jogador Verificado">
+                  <svg viewBox="0 0 24 24" aria-label="Verificado" role="img">
+                    <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z" fill="#ff66aa"></path>
+                  </svg>
+                </span>
+              </div>
+
+              <div class="col-score">
+                <span class="score-value">{{ jogador.pontuacao | number:'1.0-0' }}</span>
+              </div>
+
+            </div>
+
+            <div class="empty-state" *ngIf="jogadores.length === 0">
+              <p>Nenhum jogador inscrito neste torneio ainda.</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
 
       <div class="actions-sidebar-card">
         <h4 class="sidebar-title">Painel do Torneio</h4>
@@ -114,3 +158,32 @@
 
   </div>
 </main>
+
+<div class="modal-overlay" *ngIf="mostrarModalSenha">
+  <div class="modal-content dark-theme-modal">
+    <div class="modal-header">
+      <h3>Torneio Privado 🔒</h3>
+      <button class="btn-close" (click)="fecharModal()">✕</button>
+    </div>
+    
+    <div class="modal-body">
+      <p>Este torneio é protegido. Digite a senha para entrar:</p>
+      <div class="input-wrapper">
+        <input 
+          type="password" 
+          class="dark-input" 
+          placeholder="Digite a senha..." 
+          [(ngModel)]="senhaDigitada"
+          (keyup.enter)="enviarInscricao()"
+        >
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn-cancelar" (click)="fecharModal()" [disabled]="carregandoInscricao">Cancelar</button>
+      <button class="btn-confirmar" (click)="enviarInscricao()" [disabled]="carregandoInscricao || !senhaDigitada">
+        {{ carregandoInscricao ? 'Verificando...' : 'Entrar' }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -100,4 +100,15 @@ export class TorneioService {
   buscarTorneioPorId(id: number): Observable<TorneioDetalhesDTO> {
     return this.http.get<TorneioDetalhesDTO>(`${this.apiUrl}/${id}`, this.getHeadersJson());
   }
+
+  entrarNoTorneio(torneioId: number, dados: { jogadorId: number, senha?: string }) {
+    return this.http.post(`${this.apiUrl}/${torneioId}/entrar`, dados, {
+      ...this.getHeadersJson(),
+      responseType: 'text' as const
+    });
+  }
+
+  buscarInscritosDoTorneio(torneioId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${torneioId}/inscritos`, this.getHeadersJson());
+  }
 }
