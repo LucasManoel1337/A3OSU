@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { LoadingService } from '../../core/services/loading.service';
-import { FormsModule } from '@angular/forms';
 import { TorneioResponse, TorneioService } from '../../core/services/torneios.service';
+import { LoadingService } from '../../core/services/loading.service';
+import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-torneios',
+  selector: 'app-meus-torneios',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
-  templateUrl: './torneios.component.html',
-  styleUrls: ['./torneios.component.css']
+  templateUrl: './meus-torneios.component.html',
+  styleUrls: ['./meus-torneios.component.css']
 })
-export class TorneiosComponent implements OnInit {
+export class MeusTorneiosComponent implements OnInit {
 
   torneios: TorneioResponse[] = [];
   torneiosFiltrados: TorneioResponse[] = [];

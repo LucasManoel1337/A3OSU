@@ -91,7 +91,7 @@
             <app-custom-input
               label="Máx. Inscritos (Vagas)"
               type="number"
-              placeholder="0 a 200"
+              placeholder="10 a 200"
               [value]="torneioForm.get('vagas')?.value"
               (valueChange)="atualizarCampo('vagas', $event)">
             </app-custom-input>
@@ -144,6 +144,9 @@
 
       <div class="form-actions">
         <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+        <button type="submit" class="btn-criar" [disabled]="carregando">
+          {{ carregando ? 'Criando...' : 'Salvar Rascunho' }}
+        </button>
         <button type="submit" class="btn-criar" [disabled]="carregando">
           {{ carregando ? 'Criando...' : 'Criar Torneio' }}
         </button>

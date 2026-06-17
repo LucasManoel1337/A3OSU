@@ -61,7 +61,7 @@ export class CriarTorneiosComponent implements OnInit {
       nome: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(80)]],
       tipo: ['', Validators.required],
       modo: ['', Validators.required],
-      vagas: [null, [Validators.required, Validators.min(0), Validators.max(200)]],
+      vagas: [null, [Validators.required, Validators.min(10), Validators.max(200)]],
       descricao: ['', [Validators.required, Validators.maxLength(1000)]],
       isPrivado: [false],
       senha: ['']
@@ -95,7 +95,7 @@ export class CriarTorneiosComponent implements OnInit {
     if (campo === 'vagas') {
       let val = parseInt(valor, 10);
       if (val > 200) val = 200;
-      if (val < 0) val = 0;
+      if (val < 10) val = 10;
       this.torneioForm.get(campo)?.setValue(val);
     } else {
       this.torneioForm.get(campo)?.setValue(valor);

@@ -15,6 +15,8 @@ import { UserService } from '../../core/services/user.service';
 export class HeaderComponent implements OnInit {
 
   username = 'Jogador';
+  userId!: number;
+  isVerificado = false;
   menuAberto = false;
   avatarPreview = '';
 
@@ -43,6 +45,8 @@ export class HeaderComponent implements OnInit {
     this.userService.getProfile().subscribe({
       next: (user) => {
         this.username = user.username;
+        this.isVerificado = user.verificado;
+        this.userId = user.idUser;
         this.buscarAvatar(user.idUser);
       },
       error: () => console.log('Erro ao carregar perfil no header')

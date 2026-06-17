@@ -10,7 +10,11 @@ export interface TorneioResponse {
   descricao: string;
   isPrivado: boolean;
   banner?: string; 
-  logo?: string;   
+  logo?: string;
+  organizadorId?: string;
+  organizadorUsuario?: string;
+  organizadorAvatar?: string;
+  organizadorVerificado?: boolean;
 }
 
 export interface TorneioDetalhesDTO {

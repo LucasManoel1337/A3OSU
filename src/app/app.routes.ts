@@ -11,6 +11,7 @@ import { CriarTorneiosComponent } from './pages/criar-torneios/criar-torneios.co
 import { PesquisarComponent } from './pages/pesquisar/pesquisar.component';
 import { PegadinhaComponent } from './pages/pegadinha/pegadinha.component';
 import { TorneioDetalheComponent } from './pages/detalhe-torneio/torneio-detalhe.component';
+import { MeusTorneiosComponent } from './pages/meus-torneios/meus-torneios.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -30,6 +31,7 @@ export const routes: Routes = [
       { path: 'perfil/:idUsuario', component: PerfilComponent },
       { path: 'pegadinha', component: PegadinhaComponent },
       { path: 'torneios/:id', component: TorneioDetalheComponent },
+      { path: 'meus-torneios/:idUsuario', component: MeusTorneiosComponent },
     ]
   },
 
