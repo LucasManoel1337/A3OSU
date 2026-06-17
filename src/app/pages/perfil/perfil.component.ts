@@ -164,7 +164,7 @@ export class PerfilComponent implements OnInit {
       .filter(medalha => medalha !== undefined);
  
     const vitrine = [...ativas];
-    const maxSlots = 2;
+    const maxSlots = 4;
     
     while (vitrine.length < maxSlots) {
       vitrine.push({ 
