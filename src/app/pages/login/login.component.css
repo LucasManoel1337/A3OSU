@@ -73,6 +73,12 @@
   transform: scale(1.02);
 }
 
+.osu-btn:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .switch-page {
   margin-top: 20px;
   font-size: 0.9rem;
@@ -82,4 +88,25 @@
   color: var(--osu-pink);
   text-decoration: none;
   font-weight: bold;
+}
+
+/* Novos estilos para o aviso do Render */
+.render-notice {
+  margin-top: 24px;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid var(--osu-pink);
+  border-radius: 4px 8px 8px 4px;
+  text-align: left;
+}
+
+.render-notice p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #ccc; /* Um pouco mais claro que o text-muted para leitura, mas sem chamar muita atenção */
+  line-height: 1.5;
+}
+
+.render-notice strong {
+  color: white;
 }
