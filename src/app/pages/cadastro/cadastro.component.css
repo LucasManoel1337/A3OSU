@@ -87,7 +87,78 @@
 .cadastro-form-flow {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Mantém um espaçamento elegante de 20px entre cada bloco de input */
+  gap: 20px;
   width: 100%;
   margin-top: 20px;
+}
+
+.auth-form {
+  margin-top: 20px;
+}
+
+.auth-form .input-group {
+  margin-bottom: 20px;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px;
+  background-color: #2a2a2a;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  color: white;
+  box-sizing: border-box;
+}
+
+.auth-form input:focus {
+  outline: 2px solid var(--osu-pink);
+}
+
+.auth-form small,
+.password-hint {
+  display: block;
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.password-hint {
+  margin: -12px 0 0;
+}
+
+.auth-feedback {
+  margin-top: 18px;
+  line-height: 1.5;
+}
+
+.auth-feedback.error {
+  color: #ff8f8f;
+}
+
+.auth-feedback.success {
+  color: #8fe3a1;
+}
+
+.text-button {
+  margin-top: 16px;
+  padding: 8px;
+  border: 0;
+  background: transparent;
+  color: var(--osu-pink);
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.text-button:disabled {
+  color: #999;
+  cursor: wait;
+}
+
+.button-link {
+  display: block;
+  margin-top: 20px;
+  text-decoration: none;
 }

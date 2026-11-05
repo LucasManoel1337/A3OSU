@@ -1,9 +1,11 @@
-import { Component, OnInit, HostListener, Inject, PLATFORM_ID, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, HostListener, Inject, PLATFORM_ID, NgZone, ChangeDetectorRef, DestroyRef } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { UserService } from '../../core/services/user.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -24,9 +26,11 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private authService: AuthService,
     private userService: UserService,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
+    private destroyRef: DestroyRef,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -34,6 +38,15 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.isBrowser) return;
+
+    this.userService.avatarUpdated$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(avatar => {
+        this.ngZone.run(() => {
+          this.avatarPreview = avatar;
+          this.cdr.detectChanges();
+        });
+      });
 
     const nickSalvo = localStorage.getItem('username');
     if (nickSalvo) this.username = nickSalvo;
@@ -82,7 +95,7 @@ export class HeaderComponent implements OnInit {
   }
 
   sair(): void {
-    localStorage.clear();
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 

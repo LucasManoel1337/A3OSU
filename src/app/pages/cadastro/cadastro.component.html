@@ -1,49 +1,98 @@
 <div class="auth-container">
-  <h2>Criar nova conta</h2>
-  
-  <form (submit)="onCadastro($event)" class="cadastro-form-flow">
-    
-    <app-custom-input 
-      label="E-mail" 
-      type="email" 
-      name="email" 
-      placeholder="seu@email.com" 
-      [(value)]="email">
-    </app-custom-input>
+  @if (etapa() === 'cadastro') {
+    <h2>Criar nova conta</h2>
 
-    <app-custom-input 
-      label="Usuário" 
-      name="username" 
-      placeholder="Como quer ser chamado?" 
-      [(value)]="username">
-    </app-custom-input>
-    
-    <app-custom-input 
-      label="Senha" 
-      type="password" 
-      name="password" 
-      placeholder="Crie uma senha forte" 
-      [(value)]="password">
-    </app-custom-input>
+    <form (submit)="onCadastro($event)" class="cadastro-form-flow">
+      <app-custom-input
+        label="E-mail"
+        type="email"
+        name="email"
+        placeholder="seu@email.com"
+        [(value)]="email">
+      </app-custom-input>
 
-    <app-custom-select
-      label="Nacionalidade"
-      name="nacionalidade"
-      [options]="listaNacionalidades"
-      [(value)]="nacionalidade">
-    </app-custom-select>
+      <app-custom-input
+        label="Usuário"
+        name="username"
+        placeholder="Como quer ser chamado?"
+        [(value)]="username">
+      </app-custom-input>
 
-    <app-custom-select
-      label="Idioma Padrão"
-      name="idioma"
-      [options]="listaIdiomas"
-      [(value)]="idioma">
-    </app-custom-select>
-    
-    <button type="submit" class="osu-btn" [disabled]="carregando">
-      {{ carregando ? 'Registrando...' : 'Registrar e Jogar' }}
+      <app-custom-input
+        label="Senha"
+        type="password"
+        name="password"
+        placeholder="Crie uma senha forte"
+        [showPasswordToggle]="true"
+        [(value)]="password">
+      </app-custom-input>
+
+      <p class="password-hint">6 a 20 caracteres, com maiúscula, minúscula, número e símbolo.</p>
+
+      <app-custom-input
+        label="Confirmar senha"
+        type="password"
+        name="confirm-password"
+        placeholder="Digite novamente sua senha"
+        [showPasswordToggle]="true"
+        [(value)]="confirmPassword">
+      </app-custom-input>
+
+      <app-custom-select
+        label="Nacionalidade"
+        name="nacionalidade"
+        [options]="listaNacionalidades"
+        [(value)]="nacionalidade">
+      </app-custom-select>
+
+      <app-custom-select
+        label="Idioma Padrão"
+        name="idioma"
+        [options]="listaIdiomas"
+        [(value)]="idioma">
+      </app-custom-select>
+
+      <button type="submit" class="osu-btn" [disabled]="carregando()">
+        {{ carregando() ? 'Cadastrando...' : 'Cadastrar' }}
+      </button>
+    </form>
+
+    <p class="switch-page">Já tem uma conta? <a routerLink="/login">Faça Login</a></p>
+  } @else if (etapa() === 'verificacao') {
+    <h2>Confirme seu email</h2>
+    <p>Enviamos um código para <strong>{{ email }}</strong>. O código expira em 10 minutos.</p>
+    <form (submit)="onVerificarEmail($event)" class="auth-form">
+      <div class="input-group">
+        <label for="verification-code">Código de confirmação</label>
+        <input
+          id="verification-code"
+          name="code"
+          type="text"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+          [(ngModel)]="code"
+          aria-describedby="verification-help"
+          required>
+        <small id="verification-help">Digite o código exatamente como recebeu, incluindo zeros à esquerda.</small>
+      </div>
+      <button type="submit" class="osu-btn" [disabled]="carregando()">
+        {{ carregando() ? 'Confirmando...' : 'Confirmar email' }}
+      </button>
+    </form>
+    <button type="button" class="text-button" (click)="onReenviarCodigo()" [disabled]="carregando()">
+      Reenviar código
     </button>
-  </form>
-  
-  <p class="switch-page">Já tem uma conta? <a routerLink="/login">Faça Login</a></p>
+    <p>O código expirou? Solicite um novo código acima.</p>
+  } @else {
+    <h2>Email confirmado</h2>
+    <p>Sua conta foi confirmada. Agora você já pode entrar.</p>
+    <a class="osu-btn button-link" routerLink="/login">Ir para o login</a>
+  }
+
+  @if (mensagem()) {
+    <p class="auth-feedback" [class.error]="tipoMensagem() === 'error'" [class.success]="tipoMensagem() === 'success'"
+      [attr.role]="tipoMensagem() === 'error' ? 'alert' : 'status'" aria-live="polite">
+      {{ mensagem() }}
+    </p>
+  }
 </div>

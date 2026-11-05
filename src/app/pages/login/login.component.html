@@ -1,26 +1,97 @@
 <div class="auth-container">
-  <form (submit)="onLogin($event)">
+  @if (modo() === 'login') {
+  <h2>Entrar</h2>
+  <form (submit)="onLogin($event)" class="auth-form">
     <div class="input-group">
-      <label for="username">Usuário</label>
-      <input type="text" id="username" name="username" [(ngModel)]="username" placeholder="Seu nome de jogador" required>
+      <label for="login-email">E-mail</label>
+      <input type="email" id="login-email" name="email" [(ngModel)]="email" placeholder="seu@email.com"
+        autocomplete="email" required>
     </div>
-    
-    <div class="input-group">
-      <label for="password">Senha</label>
-      <input type="password" id="password" name="password" [(ngModel)]="password" placeholder="Sua senha" required>
-    </div>
-    
-    <button type="submit" class="osu-btn" [disabled]="carregando">
-      {{ carregando ? 'Conectando...' : 'Entrar' }}
+
+    <app-custom-input label="Senha" type="password" name="login-password" placeholder="Sua senha"
+      [showPasswordToggle]="true" [(value)]="password">
+    </app-custom-input>
+
+    <button type="submit" class="osu-btn" [disabled]="carregando()">
+      {{ carregando() ? 'Conectando...' : 'Entrar' }}
     </button>
   </form>
-  
-  <!-- Aviso sobre o Render -->
+  <button type="button" class="text-button" (click)="modo.set('esqueci-senha'); mensagem.set('')">
+    Esqueci minha senha
+  </button>
+
   <div class="render-notice">
     <p>
-      ℹ️ <strong>Projeto Acadêmico:</strong> Nosso backend está hospedado no plano gratuito do Render. Caso o servidor esteja suspenso por inatividade, o primeiro login pode levar até cinco minutos para ser processado.
+      ℹ️ <strong>Projeto Acadêmico:</strong> Nosso backend está hospedado no plano gratuito do Render. Caso o servidor
+      esteja suspenso por inatividade, o primeiro login pode levar até cinco minutos para ser processado.
     </p>
   </div>
-  
+
   <p class="switch-page">Ainda não tem conta? <a routerLink="/cadastro">Cadastre-se</a></p>
+  } @else if (modo() === 'esqueci-senha') {
+  <h2>Recuperar senha</h2>
+  <p>Informe seu email para receber as instruções de recuperação.</p>
+  <form (submit)="onEsqueciSenha($event)" class="auth-form">
+    <div class="input-group">
+      <label for="recovery-email">E-mail</label>
+      <input type="email" id="recovery-email" name="email" [(ngModel)]="email" placeholder="seu@email.com"
+        autocomplete="email" required>
+    </div>
+    <button type="submit" class="osu-btn" [disabled]="carregando()">
+      {{ carregando() ? 'Enviando...' : 'Enviar código' }}
+    </button>
+  </form>
+  <button type="button" class="text-button" (click)="voltarParaLogin()">Voltar para o login</button>
+  } @else if (modo() === 'redefinir-senha') {
+  <h2>Redefinir senha</h2>
+  @if (etapaRedefinicao() === 'codigo') {
+  <p>Informe o código enviado para <strong>{{ email }}</strong>. O código expira em 10 minutos.</p>
+  <form (submit)="onContinuarRedefinicao($event)" class="auth-form">
+    <div class="input-group">
+      <label for="reset-code">Código de recuperação</label>
+      <input type="text" id="reset-code" name="code" inputmode="numeric" autocomplete="one-time-code" [(ngModel)]="code"
+        aria-describedby="reset-code-help" required>
+      <small id="reset-code-help">Digite o código exatamente como recebeu, incluindo zeros à esquerda.</small>
+    </div>
+    <button type="submit" class="osu-btn" [disabled]="carregando()">
+      Continuar
+    </button>
+  </form>
+  <button type="button" class="text-button" (click)="onReenviarCodigoRedefinicao()" [disabled]="carregando()">
+    Enviar novo código
+  </button>
+  } @else {
+  <p>Crie sua nova senha para <strong>{{ email }}</strong>.</p>
+  <form (submit)="onRedefinirSenha($event)" class="auth-form">
+    <app-custom-input label="Nova senha" type="password" name="new-password" placeholder="Digite sua nova senha"
+      [showPasswordToggle]="true" [(value)]="newPassword">
+    </app-custom-input>
+    <small class="password-hint">6 a 20 caracteres, com maiúscula, minúscula, número e símbolo.</small>
+    <app-custom-input label="Confirmar nova senha" type="password" name="confirm-new-password"
+      placeholder="Digite novamente sua nova senha" [showPasswordToggle]="true" [(value)]="confirmNewPassword">
+    </app-custom-input>
+    <button type="submit" class="osu-btn" [disabled]="carregando()">
+      {{ carregando() ? 'Salvando...' : 'Redefinir senha' }}
+    </button>
+  </form>
+  <button type="button" class="text-button" (click)="etapaRedefinicao.set('codigo'); mensagem.set('')">
+    Voltar ao código
+  </button>
+  <button type="button" class="text-button" (click)="onReenviarCodigoRedefinicao()" [disabled]="carregando()">
+    Código expirado? Enviar novo código
+  </button>
+  }
+  <button type="button" class="text-button" (click)="voltarParaLogin()">Voltar para o login</button>
+  } @else {
+  <h2>Senha alterada</h2>
+  <p>Sua senha foi alterada com sucesso. Agora você já pode entrar com a nova senha.</p>
+  <button type="button" class="osu-btn" (click)="voltarParaLogin()">Ir para o login</button>
+  }
+
+  @if (mensagem()) {
+  <p class="auth-feedback" [class.error]="tipoMensagem() === 'error'" [class.success]="tipoMensagem() === 'success'"
+    [attr.role]="tipoMensagem() === 'error' ? 'alert' : 'status'" aria-live="polite">
+    {{ mensagem() }}
+  </p>
+  }
 </div>

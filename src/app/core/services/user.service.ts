@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 export interface UsuarioBusca {
   id: number;
@@ -17,8 +17,14 @@ export interface UsuarioBusca {
 export class UserService {
   
   private apiUrl = '/users';
+  private readonly avatarUpdatedSubject = new Subject<string>();
+  readonly avatarUpdated$ = this.avatarUpdatedSubject.asObservable();
 
   constructor(private http: HttpClient) {}
+
+  notifyAvatarUpdated(avatar: string): void {
+    this.avatarUpdatedSubject.next(avatar);
+  }
 
   // Helper para rotas que devolvem apenas Texto (String pura) do Spring Boot
   private getHeadersText() {

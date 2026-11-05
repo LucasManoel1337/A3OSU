@@ -15,10 +15,23 @@ export class CustomInputComponent {
   @Input() placeholder: string = '';
   @Input() name: string = '';
   @Input() disabled: boolean = false;
+  @Input() showPasswordToggle = false;
 
   // Lógica para fazer o [(value)] funcionar externamente
   @Input() value: string = '';
   @Output() valueChange = new EventEmitter<string>();
+
+  passwordVisible = false;
+
+  get inputType(): string {
+    return this.showPasswordToggle && this.type === 'password' && this.passwordVisible
+      ? 'text'
+      : this.type;
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
 
   onValueChange(newValue: string) {
     this.value = newValue;

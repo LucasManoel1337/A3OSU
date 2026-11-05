@@ -6,11 +6,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client
   },
   {
-    path: '**',
-    renderMode: RenderMode.Prerender
+    path: 'perfil',
+    renderMode: RenderMode.Client
   },
   {
-    path: 'perfil/:username',
+    path: 'perfil/:idUsuario',
     renderMode: RenderMode.Client
   },
   {
@@ -23,6 +23,10 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'torneios/gerenciar/:id',
+    renderMode: RenderMode.Client
+  },
+  {
+    path: '**',
     renderMode: RenderMode.Client
   }
 ];

@@ -196,21 +196,33 @@ export class ConfigComponent implements OnInit {
 
     const reader = new FileReader();
     reader.onload = (e: any) => {
+      const preview = e.target?.result;
+      if (typeof preview !== 'string') {
+        this.ngZone.run(() => this.modalService.abrir('error', 'Não foi possível ler o arquivo selecionado.'));
+        return;
+      }
+
       this.ngZone.run(() => {
-        if (type === 'avatar') this.avatarPreview = e.target.result;
-        else this.bannerPreview = e.target.result;
+        if (type === 'avatar') this.avatarPreview = preview;
+        else this.bannerPreview = preview;
         this.cdr.detectChanges();
       });
+
+      this.userService.uploadAsset(file, type).subscribe({
+        next: () => {
+          if (type === 'avatar') this.userService.notifyAvatarUpdated(preview);
+          this.modalService.abrir('success', 'Imagem alterada com sucesso!');
+        },
+        error: (err) => {
+          this.modalService.abrir('error', 'Erro ao enviar a imagem.');
+          console.error(err);
+        }
+      });
+    };
+    reader.onerror = () => {
+      this.ngZone.run(() => this.modalService.abrir('error', 'Não foi possível ler o arquivo selecionado.'));
     };
     reader.readAsDataURL(file);
-
-    this.userService.uploadAsset(file, type).subscribe({
-      next: () => this.modalService.abrir('success', 'Imagem alterada com sucesso!'),
-      error: (err) => {
-        this.modalService.abrir('error', 'Erro ao enviar a imagem.');
-        console.error(err);
-      }
-    });
   }
 
   getSafeUrl(url: string): SafeStyle {

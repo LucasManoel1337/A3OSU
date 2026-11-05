@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -22,7 +22,10 @@ export class PesquisarComponent implements OnInit {
   pesquisaRealizada: boolean = false;
 
   // 2. Injete o UserService no construtor
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     // Escuta tudo que o usuário digita no campo de busca
@@ -39,6 +42,7 @@ export class PesquisarComponent implements OnInit {
         if (termo && termo.trim() !== '') {
           this.carregando = true;
           this.pesquisaRealizada = true;
+          this.cdr.markForCheck();
         }
       }),
       
@@ -49,6 +53,7 @@ export class PesquisarComponent implements OnInit {
           this.usuarios = [];
           this.carregando = false;
           this.pesquisaRealizada = false;
+          this.cdr.markForCheck();
           return of([]); 
         }
         
@@ -67,6 +72,7 @@ export class PesquisarComponent implements OnInit {
         // Recebe os dados do Spring Boot e atualiza o HTML
         this.usuarios = resultados;
         this.carregando = false;
+        this.cdr.markForCheck();
       }
     });
   }
