@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   
   avisos = [
+    { tipo: 'update', icon: '🚀', data: '14 Nov, 2026', titulo: 'Versão v1.0.1', texto: 'Ajustado problema de autenticação, F5 e de carregamentos de telas.' },
     { tipo: 'update', icon: '🚀', data: '15 Jun, 2026', titulo: 'Bem-vindo ao Beta!', texto: 'O sistema de torneios já está no ar.' },
-    { tipo: 'alert', icon: '⚠️', data: '14 Jun, 2026', titulo: 'Manutenção', texto: 'Instabilidade prevista na madrugada.' }
   ];
 
   // 1. AVISANDO A TABELA ONDE FICA A BANDEIRA (hasFlag: true)

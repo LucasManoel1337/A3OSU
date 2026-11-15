@@ -13,6 +13,7 @@ import { PegadinhaComponent } from './pages/pegadinha/pegadinha.component';
 import { TorneioDetalheComponent } from './pages/detalhe-torneio/torneio-detalhe.component';
 import { MeusTorneiosComponent } from './pages/meus-torneios/meus-torneios.component';
 import { TorneioGerenciarComponent } from './pages/torneio-gerenciar/torneio-gerenciar.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -37,5 +38,5 @@ export const routes: Routes = [
     ]
   },
 
-  { path: '**', redirectTo: 'login' }
+  { path: '**', component: NotFoundComponent }
 ];

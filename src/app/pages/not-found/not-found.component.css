@@ -1,0 +1,83 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.not-found-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(255, 102, 170, 0.1), transparent 55%),
+    var(--osu-bg, #111);
+}
+
+.not-found-card {
+  width: min(100%, 560px);
+  box-sizing: border-box;
+  padding: clamp(32px, 7vw, 64px);
+  border: 1px solid rgba(255, 102, 170, 0.2);
+  border-radius: 20px;
+  background: linear-gradient(145deg, #1d171d, #161616 72%);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+  text-align: center;
+}
+
+.not-found-code {
+  margin: 0;
+  color: var(--osu-pink, #ff66aa);
+  font-size: clamp(6rem, 24vw, 9rem);
+  font-weight: 900;
+  letter-spacing: -0.09em;
+  line-height: 0.95;
+  text-shadow: 0 0 36px rgba(255, 102, 170, 0.2);
+}
+
+.not-found-eyebrow {
+  margin: 24px 0 8px;
+  color: var(--osu-pink, #ff66aa);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.not-found-card h1 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.7rem, 6vw, 2.25rem);
+}
+
+.not-found-description {
+  max-width: 410px;
+  margin: 16px auto 28px;
+  color: var(--text-muted, #aaa);
+  line-height: 1.65;
+}
+
+.not-found-button {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0 24px;
+  border-radius: 9px;
+  background: var(--osu-pink, #ff66aa);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.not-found-button:hover {
+  transform: translateY(-2px);
+  background: var(--osu-pink-hover, #ff4499);
+}
+
+.not-found-button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
