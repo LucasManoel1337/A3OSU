@@ -44,7 +44,7 @@
    VISUAL DO TORNEIO (BANNER + LOGO NO DARK)
    ========================================= */
 .identity-card {
-  padding: 0 !important; 
+  padding: 0;
   overflow: visible;     
   border-radius: 12px;
   background-color: transparent;
@@ -516,4 +516,389 @@
   display: flex;
   align-items: center;
   gap: 4px; /* Espacinho curto para o selo ficar colado no nome */
+}
+
+.content-area {
+  padding: clamp(20px, 4vw, 48px);
+}
+
+.config-container {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  animation: createPageEnter 0.35s ease both;
+}
+
+@keyframes createPageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.create-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  padding: clamp(24px, 4vw, 40px);
+  border: 1px solid rgba(255, 102, 170, 0.18);
+  border-radius: 22px;
+  background:
+    radial-gradient(ellipse at 90% 0%, rgba(255, 102, 170, 0.15), transparent 44%),
+    linear-gradient(135deg, #1d171c, #171719 58%);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.24);
+}
+
+.intro-copy {
+  max-width: 620px;
+}
+
+.intro-kicker {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #ff8cbd;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: clamp(25px, 4vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.8px;
+}
+
+.page-subtitle {
+  margin-top: 10px;
+  max-width: 560px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.intro-points {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 150px;
+  color: #b7aeb3;
+  font-size: 12px;
+}
+
+.intro-points span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.intro-points b {
+  color: #ff8cbd;
+  font-size: 10px;
+  letter-spacing: 0.6px;
+}
+
+.config-card {
+  padding: clamp(20px, 3.2vw, 32px);
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #19191b, #151517);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  margin-top: 30px;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.section-index {
+  display: grid;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgba(255, 102, 170, 0.2);
+  border-radius: 11px;
+  background: rgba(255, 102, 170, 0.09);
+  color: #ff8cbd;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.section-title {
+  margin: 0 0 5px;
+  font-size: 17px;
+}
+
+.section-desc {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.identity-card {
+  margin-bottom: 0;
+  padding: 22px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #19191b, #151517);
+  border: 1px solid rgba(255, 255, 255, 0.065);
+}
+
+.visual-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 4px 18px;
+}
+
+.visual-card-heading .section-title {
+  margin-bottom: 5px;
+}
+
+.optional-tag {
+  flex: 0 0 auto;
+  padding: 6px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 20px;
+  color: #a7a0a4;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+
+.banner-box {
+  height: clamp(160px, 25vw, 230px);
+  border: 1px dashed #51434a;
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(255, 102, 170, 0.08), transparent 55%),
+    #141416;
+}
+
+.upload-placeholder {
+  gap: 2px;
+}
+
+.upload-placeholder .icon {
+  margin-bottom: 7px;
+  filter: saturate(0.8);
+}
+
+.placeholder-text {
+  color: #ded6da;
+  font-weight: 700;
+}
+
+.upload-hint {
+  margin-top: 4px;
+  color: #777076;
+  font-size: 11px;
+}
+
+.logo-box {
+  bottom: -34px;
+  left: 28px;
+  width: 104px;
+  height: 104px;
+  border-color: #19191b;
+  border-radius: 18px;
+}
+
+.identity-card + .config-card {
+  margin-top: 16px;
+}
+
+.config-form > .config-card {
+  margin-bottom: 0;
+}
+
+.form-grid-2x2 {
+  gap: 22px 20px;
+}
+
+.input-wrapper {
+  min-width: 0;
+}
+
+.custom-label {
+  color: #c2b9be;
+}
+
+.dark-textarea {
+  min-height: 132px;
+  border-color: #343034;
+  border-radius: 10px;
+  background: #121214;
+  line-height: 1.55;
+}
+
+.dark-textarea:focus {
+  border-color: #ff66aa;
+  box-shadow: 0 0 0 3px rgba(255, 102, 170, 0.1);
+}
+
+.char-counter {
+  color: #888087;
+}
+
+.password-stack {
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.13);
+}
+
+.password-stack .mt-3 {
+  margin-top: 18px;
+}
+
+.team-card .section-subtitle {
+  margin: 5px 0 0;
+  color: #969096;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.mod-search-wrapper {
+  position: relative;
+  width: min(100%, 540px);
+}
+
+.mod-search-input {
+  min-height: 48px;
+  border-color: #343034;
+  background: #121214;
+}
+
+.selected-mods-grid {
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.mod-chip {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: #131315;
+}
+
+.form-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  margin-top: 2px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  background: rgba(21, 21, 23, 0.94);
+  box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.16);
+  backdrop-filter: blur(14px);
+  margin-top: 30px;
+}
+
+.btn-cancelar,
+.btn-criar {
+  min-height: 44px;
+  border-radius: 10px;
+}
+
+.btn-cancelar {
+  border-color: #3a363a;
+}
+
+.btn-rascunho {
+  border: 1px solid rgba(255, 102, 170, 0.35);
+  background: rgba(255, 102, 170, 0.1);
+  color: #ffadd0;
+}
+
+.btn-rascunho:hover:not(:disabled) {
+  background: rgba(255, 102, 170, 0.17);
+}
+
+.btn-criar:not(.btn-rascunho) {
+  box-shadow: 0 7px 18px rgba(229, 92, 153, 0.2);
+}
+
+.btn-cancelar:focus-visible,
+.btn-criar:focus-visible,
+.btn-remove-mod:focus-visible,
+.mod-dropdown-item:focus-visible {
+  outline: 2px solid #ff8cbd;
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .content-area {
+    padding: 18px 14px 28px;
+  }
+
+  .create-intro {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 17px;
+  }
+
+  .intro-points {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+
+  .identity-card {
+    padding: 16px;
+  }
+
+  .banner-box {
+    height: 150px;
+  }
+
+  .logo-box {
+    left: 16px;
+    width: 86px;
+    height: 86px;
+    bottom: -28px;
+  }
+
+  .identity-card + .config-card {
+    margin-top: 12px;
+  }
+
+  .form-actions {
+    position: static;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .form-actions button {
+    flex: 1 1 auto;
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+}
+
+@media (max-width: 440px) {
+  .visual-card-heading {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .optional-tag {
+    padding: 5px 7px;
+  }
+
+  .form-actions button {
+    flex-basis: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .config-container {
+    animation: none;
+  }
 }

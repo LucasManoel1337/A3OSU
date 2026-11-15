@@ -182,12 +182,14 @@ export class CriarTorneiosComponent implements OnInit {
       tap(termo => {
         if (termo && termo.trim() !== '') {
           this.buscandoMod = true;
+          this.cdr.detectChanges();
         }
       }),
       switchMap(termo => {
         if (!termo || termo.trim() === '') {
           this.resultadosModeradores = [];
           this.buscandoMod = false;
+          this.cdr.detectChanges();
           return of([]); 
         }
         
@@ -201,6 +203,7 @@ export class CriarTorneiosComponent implements OnInit {
           (r: any) => !this.moderadoresSelecionados.some(m => m.id === r.id)
         );
         this.buscandoMod = false;
+        this.cdr.detectChanges();
       }
     });
   }

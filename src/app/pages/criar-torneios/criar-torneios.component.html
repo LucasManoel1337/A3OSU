@@ -1,14 +1,29 @@
 <main class="content-area dark-theme-wrapper">
   <div class="config-container">
 
-    <div class="config-header-card mb-4">
-      <h1 class="page-title">Criar Novo Torneio</h1>
-      <p class="page-subtitle">Configure o visual, as regras e o formato da sua competição.</p>
+    <div class="config-header-card create-intro">
+      <div class="intro-copy">
+        <span class="intro-kicker">CENTRAL DO ORGANIZADOR</span>
+        <h1 class="page-title">Seu próximo torneio começa aqui</h1>
+        <p class="page-subtitle">Monte a identidade da competição, defina como ela vai funcionar e convide sua equipe.</p>
+      </div>
+      <div class="intro-points" aria-label="Etapas da criação">
+        <span><b>01</b> Identidade</span>
+        <span><b>02</b> Formato</span>
+        <span><b>03</b> Equipe</span>
+      </div>
     </div>
 
     <form [formGroup]="torneioForm" (ngSubmit)="criarTorneio()" class="config-form">
 
       <section class="config-card identity-card mb-5">
+        <div class="visual-card-heading">
+          <div>
+            <h2 class="section-title">Identidade visual</h2>
+            <p class="section-desc">Uma capa e um logo ajudam os jogadores a reconhecer seu torneio.</p>
+          </div>
+          <span class="optional-tag">OPCIONAL</span>
+        </div>
         <div class="tournament-visuals">
           
           <div class="banner-box" [class.has-image]="bannerSelecionado">
@@ -16,7 +31,8 @@
             
             <label for="uploadBanner" class="upload-placeholder" *ngIf="!bannerSelecionado">
               <span class="icon">🖼️</span>
-              <span class="placeholder-text">Adicionar Banner</span>
+              <span class="placeholder-text">Adicionar banner</span>
+              <span class="upload-hint">Imagem de capa do torneio</span>
             </label>
 
             <img *ngIf="bannerSelecionado" [src]="bannerSelecionado" alt="Banner" class="banner-img">
@@ -31,7 +47,7 @@
             
             <label for="uploadLogo" class="upload-placeholder logo-placeholder" *ngIf="!logoSelecionada">
               <span class="icon">📷</span>
-              <span class="placeholder-text text-mini">Logo</span>
+              <span class="placeholder-text text-mini">Adicionar logo</span>
             </label>
 
             <img *ngIf="logoSelecionada" [src]="logoSelecionada" alt="Logo" class="logo-img">
@@ -45,8 +61,11 @@
 
       <section class="config-card mb-4">
         <div class="section-header">
-          <h3 class="section-title">Detalhes do Torneio</h3>
-          <p class="section-desc">Defina o nome, formato, vagas e as regras gerais da competição.</p>
+          <span class="section-index">01</span>
+          <div>
+            <h3 class="section-title">Detalhes do torneio</h3>
+            <p class="section-desc">Defina o nome, formato, vagas e as regras gerais da competição.</p>
+          </div>
         </div>
 
         <div class="form-grid-2x2">
@@ -138,8 +157,11 @@
 
       <section class="config-card mb-4">
         <div class="section-header">
-          <h3 class="section-title">Privacidade</h3>
-          <p class="section-desc">Controle quem pode acessar e participar do seu torneio.</p>
+          <span class="section-index">02</span>
+          <div>
+            <h3 class="section-title">Privacidade</h3>
+            <p class="section-desc">Controle quem pode acessar e participar do seu torneio.</p>
+          </div>
         </div>
 
         <div class="password-stack">
@@ -163,50 +185,52 @@
         </div>
       </section>
 
-      <section class="config-card mb-4 mt-5">
-      <div class="section-header">
-        <h3 class="section-title">Equipe do Torneio (Moderadores)</h3>
-        <p class="section-subtitle" style="color: #888; font-size: 13px; margin-top: 5px;">
-          Pesquise e adicione jogadores para ajudar a gerenciar as partidas. (Opcional)
-        </p>
-      </div>
-
-      <div class="mod-search-wrapper" style="position: relative; max-width: 500px;">
-        <span class="search-icon" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%);">🔍</span>
-        
-        <input 
-          type="text" 
-          [formControl]="buscaModeradorControl" 
-          placeholder="Buscar nickname do moderador..." 
-          class="dark-input mod-search-input"
-          autocomplete="off"
-        >
-        
-        <span class="spinner-small" *ngIf="buscandoMod"></span>
-
-        <div class="mod-dropdown" *ngIf="resultadosModeradores.length > 0">
-          <div 
-            class="mod-dropdown-item" 
-            *ngFor="let res of resultadosModeradores"
-            (click)="adicionarModerador(res)"
-          >
-            <img [src]="res.avatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'" class="mod-dropdown-avatar">
-            
-            <div class="mod-dropdown-info">
-              <span class="mod-dropdown-nick">{{ res.username }}</span>
-              
-              <span class="verified-badge-mini" title="Jogador Verificado" *ngIf="res.isVerified">
-                <svg viewBox="0 0 24 24" aria-label="Verificado" role="img">
-                  <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z" fill="#ff66aa"></path>
-                </svg>
-              </span>
-
-              <img [src]="'https://flagcdn.com/w20/' + res.nacionalidade + '.png'" class="mod-dropdown-flag" *ngIf="res.nacionalidade">
-            </div>
-
+      <section class="config-card mb-4 team-card">
+        <div class="section-header">
+          <span class="section-index">03</span>
+          <div>
+            <h3 class="section-title">Equipe do torneio</h3>
+            <p class="section-subtitle">
+              Pesquise e adicione jogadores para ajudar a gerenciar as partidas. (Opcional)
+            </p>
           </div>
         </div>
-      </div>
+
+        <div class="mod-search-wrapper">
+          <span class="search-icon" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%);">🔍</span>
+
+          <input
+            type="text"
+            [formControl]="buscaModeradorControl"
+            placeholder="Buscar nickname do moderador..."
+            class="dark-input mod-search-input"
+            autocomplete="off"
+          >
+
+          <span class="spinner-small" *ngIf="buscandoMod"></span>
+
+          <div class="mod-dropdown" *ngIf="resultadosModeradores.length > 0">
+            <div
+              class="mod-dropdown-item"
+              *ngFor="let res of resultadosModeradores"
+              (click)="adicionarModerador(res)"
+            >
+              <img [src]="res.avatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'" class="mod-dropdown-avatar">
+
+              <div class="mod-dropdown-info">
+                <span class="mod-dropdown-nick">{{ res.username }}</span>
+
+                <span class="verified-badge-mini" title="Jogador Verificado" *ngIf="res.isVerified">
+                  <svg viewBox="0 0 24 24" aria-label="Verificado" role="img">
+                    <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z" fill="#ff66aa"></path>
+                  </svg>
+                </span>
+
+                <img [src]="'https://flagcdn.com/w20/' + res.nacionalidade + '.png'" class="mod-dropdown-flag" *ngIf="res.nacionalidade">
+              </div>
+            </div>
+          </div>
+        </div>
 
       <div class="selected-mods-grid" *ngIf="moderadoresSelecionados.length > 0">
         <div class="mod-chip" *ngFor="let mod of moderadoresSelecionados">
