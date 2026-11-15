@@ -38,58 +38,72 @@
 
             <img [src]="'https://flagcdn.com/w40/' + nacionalidade + '.png'" alt="País" class="country-flag" [title]="nacionalidade | uppercase">
           </div>
-          <p class="role-text">Competidor de Torneios</p>
+          <p class="role-text">{{ tituloSelecionado || '' }}</p>
 
-          <!-- Barra de Nível -->
-          <div class="level-container" *ngIf="false">
-            <div class="level-badge">Lv. 84</div>
-            <div class="xp-bar-bg">
-              <div class="xp-bar-fill" style="width: 72%;"></div>
-            </div>
-            <span class="xp-text">72%</span>
+        </div>
+
+        <div class="profile-actions">
+        <a *ngIf="isOwnProfile" class="profile-action primary-action" routerLink="/config">
+          <span aria-hidden="true">⚙️</span> Editar perfil
+        </a>
+        </div>
+      </div>
+    </div>
+
+    <section class="section-block profile-overview" aria-labelledby="profile-overview-title">
+      <div class="section-heading-row">
+        <div>
+        <h2 class="section-title" id="profile-overview-title">Resumo do jogador</h2>
+        <p class="section-description">Informações da conta e progresso na comunidade.</p>
+        </div>
+      </div>
+
+      <div class="profile-summary-grid">
+        <article class="summary-card achievement-summary">
+        <div class="summary-icon" aria-hidden="true">🏅</div>
+        <div class="summary-copy">
+          <span class="summary-label">Conquistas desbloqueadas</span>
+          <strong class="summary-value">{{ totalConquistasDesbloqueadas }} <small>/ {{ vitrineDeMedalhas.length }}</small></strong>
+          <div class="progress-track" role="progressbar" aria-label="Progresso das conquistas"
+            [attr.aria-valuenow]="progressoConquistas" aria-valuemin="0" aria-valuemax="100">
+            <span [style.width.%]="progressoConquistas"></span>
           </div>
-
-          <div class="info-block">
-          <span class="info-label">Membro desde</span>
-          <span class="info-value">
-            {{ criadoEm | date:'dd/MM/yyyy' }}
-          </span>
         </div>
-        </div>
-      </div>
-    </div>
+        </article>
 
-    <!-- ========================================== -->
-    <!-- 2. GRID DE ESTATÍSTICAS (STATS) -->
-    <!-- ========================================== -->
-    <div class="stats-grid" *ngIf="false">
-      <div class="stat-card glow-pink">
-        <span class="stat-label">Global Rank</span>
-        <span class="stat-value">#12,403</span>
-        <span class="stat-subtext">Top 5%</span>
+        <article class="summary-card">
+        <div class="summary-icon verification-icon" aria-hidden="true">{{ isVerified ? '✓' : '○' }}</div>
+        <div class="summary-copy">
+          <span class="summary-label">Selo de verificação</span>
+          <strong class="summary-value status-value" [class.verified-value]="isVerified">
+            {{ isVerified ? 'Jogador verificado' : 'Conta não verificada' }}
+          </strong>
+          <span class="summary-hint">{{ isVerified ? 'Reconhecido pela equipe da plataforma' : 'Concedido manualmente pela moderação' }}</span>
+        </div>
+        </article>
+
+        <article class="summary-card">
+        <div class="summary-icon member-icon" aria-hidden="true">📅</div>
+        <div class="summary-copy">
+          <span class="summary-label">Na comunidade desde</span>
+          <strong class="summary-value">{{ criadoEm ? (criadoEm | date:'dd/MM/yyyy') : 'Data indisponível' }}</strong>
+          <span class="summary-hint">Sua jornada no plataforma</span>
+        </div>
+        </article>
       </div>
-      <div class="stat-card">
-        <span class="stat-label">Accuracy (Torneios)</span>
-        <span class="stat-value">98.45%</span>
-        <span class="stat-subtext text-up">+0.12% essa semana</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">Winrate (Chaves)</span>
-        <span class="stat-value text-success">68%</span>
-        <span class="stat-subtext">34 Vitórias / 16 Derrotas</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">Max Combo Oficial</span>
-        <span class="stat-value">2,140x</span>
-        <span class="stat-subtext">Mrekk's Grandmaster Cup</span>
-      </div>
-    </div>
+    </section>
 
     <!-- ========================================== -->
     <!-- 3. VITRINE DE INSÍGNIAS E MEDALHAS -->
     <!-- ========================================== -->
-    <div class="section-block">
-      <h3 class="section-title">Conquistas Notáveis</h3>
+    <div class="section-block achievements-section">
+      <div class="section-heading-row">
+        <div>
+          <h2 class="section-title">Conquistas Notáveis</h2>
+          <p class="section-description">Insígnias conquistadas ao participar da comunidade.</p>
+        </div>
+        <span class="achievement-count">{{ totalConquistasDesbloqueadas }} de {{ vitrineDeMedalhas.length }} desbloqueadas</span>
+      </div>
       
       <div class="medals-showcase">
         <div 
@@ -103,49 +117,6 @@
         </div>
       </div>
       
-    </div>
-
-    <!-- ========================================== -->
-    <!-- 4. HISTÓRICO DE PARTIDAS (MATCH HISTORY) -->
-    <!-- ========================================== -->
-    <div class="section-block" *ngIf="false">
-      <h3 class="section-title">Últimas Partidas Oficiais</h3>
-      <div class="history-table-container">
-        <table class="history-table">
-          <thead>
-            <tr>
-              <th>Resultado</th>
-              <th>Torneio</th>
-              <th>Adversário</th>
-              <th>Beatmap (Tiebreaker)</th>
-              <th>Pontuação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="row-win">
-              <td><span class="badge win">VITÓRIA</span></td>
-              <td>Copa da Faculdade - Oitavas</td>
-              <td><strong>Ruan_Sniper</strong></td>
-              <td>xi - FREEDOM DiVE [FOUR DIMENSIONS]</td>
-              <td>1,430,200 <small>(99.1%)</small></td>
-            </tr>
-            <tr class="row-loss">
-              <td><span class="badge loss">DERROTA</span></td>
-              <td>Copa da Faculdade - Quartas</td>
-              <td><strong>Karin_Osu</strong></td>
-              <td>Camellia - GHOST [Expert]</td>
-              <td>890,500 <small>(94.2%)</small></td>
-            </tr>
-            <tr class="row-win">
-              <td><span class="badge win">VITÓRIA</span></td>
-              <td>Torneio Amador SP</td>
-              <td><strong>Guilherme99</strong></td>
-              <td>ICDD - Yomi yori [Kyouaku]</td>
-              <td>2,100,000 <small>(98.8%)</small></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
 
   </div>

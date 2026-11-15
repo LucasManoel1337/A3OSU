@@ -11,6 +11,29 @@ export interface UsuarioBusca {
   criadoEm: string;
 }
 
+export interface PerfilUsuario {
+  idUser: number;
+  username: string;
+  email: string;
+  nationality: string;
+  language: string;
+  verificado: boolean;
+  conquistas: string[];
+  titulosDisponiveis: string[];
+  tituloSelecionado: string | null;
+  criadoEm: string;
+}
+
+export interface UsuarioModeracao {
+  idUser: number;
+  username: string;
+  avatarUrl: string | null;
+  nacionalidade: string;
+  verificado: boolean;
+  conquistas: string[];
+  titulos: string[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -103,5 +126,37 @@ export class UserService {
 
   getProfileById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/perfil/${id}`, this.getHeadersJson());
+  }
+
+  selecionarTitulo(titulo: string | null): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/titulo`, { titulo }, this.getHeadersJson());
+  }
+
+  pesquisarUsuariosParaModeracao(termo: string): Observable<UsuarioModeracao[]> {
+    const params = new HttpParams().set('termo', termo);
+    return this.http.get<UsuarioModeracao[]>(`${this.apiUrl}/moderacao`, {
+      ...this.getHeadersJson(),
+      params
+    });
+  }
+
+  atualizarVerificado(userId: number, verificado: boolean): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/moderacao/${userId}/verificado`, { verificado }, this.getHeadersJson());
+  }
+
+  atualizarConquista(userId: number, codigo: string, conceder: boolean): Observable<void> {
+    return this.http.put<void>(
+      `${this.apiUrl}/moderacao/${userId}/conquistas`,
+      { codigo, conceder },
+      this.getHeadersJson()
+    );
+  }
+
+  atualizarTitulo(userId: number, titulo: string, conceder: boolean): Observable<void> {
+    return this.http.put<void>(
+      `${this.apiUrl}/moderacao/${userId}/titulos`,
+      { titulo, conceder },
+      this.getHeadersJson()
+    );
   }
 }

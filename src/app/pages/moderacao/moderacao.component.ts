@@ -1,0 +1,177 @@
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { UserService, UsuarioModeracao } from '../../core/services/user.service';
+
+@Component({
+  selector: 'app-moderacao',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './moderacao.component.html',
+  styleUrl: './moderacao.component.css'
+})
+export class ModeracaoComponent implements OnInit {
+  secaoAtiva: 'denuncias' | 'jogadores' = 'jogadores';
+  readonly conquistas = [
+    { codigo: 'FOUNDER', nome: 'Fundador da plataforma' },
+    { codigo: 'MEMBRO_BETA', nome: 'Membro Beta' },
+    { codigo: 'PRIMEIRA_BATALHA', nome: 'Primeira Batalha' },
+    { codigo: 'ORGANIZADOR', nome: 'Organizador de Copa' }
+  ];
+
+  termo = '';
+  resultados: UsuarioModeracao[] = [];
+  usuarioSelecionado: UsuarioModeracao | null = null;
+  tituloNovo = '';
+  buscando = false;
+  verificandoPermissao = true;
+  permitido = false;
+  mensagem = '';
+  erro = '';
+
+  constructor(
+    private userService: UserService,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.userService.getProfile().subscribe({
+      next: perfil => {
+        this.ngZone.run(() => {
+          this.permitido = (perfil.conquistas ?? []).includes('FOUNDER');
+          this.verificandoPermissao = false;
+          this.cdr.detectChanges();
+        });
+      },
+      error: () => {
+        this.ngZone.run(() => {
+          this.verificandoPermissao = false;
+          this.erro = 'Não foi possível validar sua permissão. Entre novamente e tente outra vez.';
+          this.cdr.detectChanges();
+        });
+      }
+    });
+  }
+
+  pesquisar(): void {
+    const termo = this.termo.trim();
+    this.mensagem = '';
+    this.erro = '';
+    this.usuarioSelecionado = null;
+    if (termo.length < 2) {
+      this.resultados = [];
+      this.erro = 'Digite pelo menos 2 caracteres para pesquisar.';
+      return;
+    }
+
+    this.buscando = true;
+    this.userService.pesquisarUsuariosParaModeracao(termo).subscribe({
+      next: usuarios => {
+        this.ngZone.run(() => {
+          this.resultados = usuarios;
+          this.buscando = false;
+          this.cdr.detectChanges();
+        });
+      },
+      error: () => {
+        this.ngZone.run(() => {
+          this.buscando = false;
+          this.erro = 'Não foi possível pesquisar usuários. Verifique sua permissão Founder e tente novamente.';
+          this.cdr.detectChanges();
+        });
+      }
+    });
+  }
+
+  selecionarUsuario(usuario: UsuarioModeracao): void {
+    this.ngZone.run(() => {
+      this.usuarioSelecionado = {
+        ...usuario,
+        conquistas: [...usuario.conquistas],
+        titulos: [...usuario.titulos]
+      };
+      this.mensagem = '';
+      this.erro = '';
+      this.cdr.detectChanges();
+    });
+  }
+
+  alterarVerificacao(event: Event): void {
+    const user = this.usuarioSelecionado;
+    if (!user) return;
+    const verificado = (event.target as HTMLInputElement).checked;
+    this.userService.atualizarVerificado(user.idUser, verificado).subscribe({
+      next: () => {
+        this.ngZone.run(() => {
+          user.verificado = verificado;
+          this.mensagem = verificado ? 'Selo de verificado concedido.' : 'Selo de verificado removido.';
+          this.cdr.detectChanges();
+        });
+      },
+      error: () => this.ngZone.run(() => {
+        this.erro = 'Não foi possível atualizar o selo de verificado.';
+        this.cdr.detectChanges();
+      })
+    });
+  }
+
+  alterarConquista(codigo: string, event: Event): void {
+    const user = this.usuarioSelecionado;
+    if (!user) return;
+    const conceder = (event.target as HTMLInputElement).checked;
+    this.userService.atualizarConquista(user.idUser, codigo, conceder).subscribe({
+      next: () => {
+        this.ngZone.run(() => {
+          user.conquistas = conceder
+            ? [...new Set([...user.conquistas, codigo])]
+            : user.conquistas.filter(item => item !== codigo);
+          this.mensagem = 'Conquistas atualizadas.';
+          this.cdr.detectChanges();
+        });
+      },
+      error: () => this.ngZone.run(() => {
+        this.erro = 'Não foi possível atualizar a conquista.';
+        this.cdr.detectChanges();
+      })
+    });
+  }
+
+  concederTitulo(): void {
+    const user = this.usuarioSelecionado;
+    const titulo = this.tituloNovo.trim();
+    if (!user || !titulo) return;
+    this.userService.atualizarTitulo(user.idUser, titulo, true).subscribe({
+      next: () => {
+        this.ngZone.run(() => {
+          user.titulos = [...new Set([...user.titulos, titulo])];
+          this.tituloNovo = '';
+          this.mensagem = 'Título concedido ao jogador.';
+          this.cdr.detectChanges();
+        });
+      },
+      error: () => this.ngZone.run(() => {
+        this.erro = 'Não foi possível conceder o título. Use até 60 caracteres.';
+        this.cdr.detectChanges();
+      })
+    });
+  }
+
+  removerTitulo(titulo: string): void {
+    const user = this.usuarioSelecionado;
+    if (!user) return;
+    this.userService.atualizarTitulo(user.idUser, titulo, false).subscribe({
+      next: () => {
+        this.ngZone.run(() => {
+          user.titulos = user.titulos.filter(item => item !== titulo);
+          this.mensagem = 'Título removido do jogador.';
+          this.cdr.detectChanges();
+        });
+      },
+      error: () => this.ngZone.run(() => {
+        this.erro = 'Não foi possível remover o título.';
+        this.cdr.detectChanges();
+      })
+    });
+  }
+}

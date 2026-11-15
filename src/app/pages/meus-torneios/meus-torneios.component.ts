@@ -7,8 +7,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../core/services/modal.service';
 import { TorneioCardComponent } from '../../components/torneio-card/torneio-card.component';
-import { forkJoin, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-meus-torneios',
@@ -24,6 +23,8 @@ export class MeusTorneiosComponent implements OnInit {
   torneiosCriados: TorneioResponse[] = [];
   torneiosModerando: TorneioResponse[] = [];
   termoBusca: string = '';
+  carregando = false;
+  erroCarregamento = '';
 
   currentUserId: number = 0;
 
@@ -40,32 +41,22 @@ export class MeusTorneiosComponent implements OnInit {
       next: (user) => {
         this.currentUserId = user.idUser;
         this.carregarTodosOsTorneios();
+      },
+      error: () => {
+        this.erroCarregamento = 'Não foi possível carregar sua conta. Atualize a página e tente novamente.';
       }
     });
   }
 
   carregarTodosOsTorneios(): void {
+    this.carregando = true;
+    this.erroCarregamento = '';
     this.loadingService.show();
 
     forkJoin({
-      participando: this.torneioService.listarParticipando(this.currentUserId).pipe(
-        catchError(err => {
-          console.warn('API Participando falhou, a retornar vazio', err);
-          return of([]); 
-        })
-      ),
-      criados: this.torneioService.listarCriados(this.currentUserId).pipe(
-        catchError(err => {
-          console.warn('API Criados falhou (provavelmente 404), a retornar vazio');
-          return of([]); 
-        })
-      ),
-      moderando: this.torneioService.listarModerando(this.currentUserId).pipe(
-        catchError(err => {
-          console.warn('API Moderando falhou (provavelmente 404), a retornar vazio');
-          return of([]); 
-        })
-      )
+      participando: this.torneioService.listarParticipando(this.currentUserId),
+      criados: this.torneioService.listarCriados(this.currentUserId),
+      moderando: this.torneioService.listarModerando(this.currentUserId)
     }).subscribe({
       next: (results) => {
         
@@ -79,14 +70,20 @@ export class MeusTorneiosComponent implements OnInit {
         this.torneiosParticipando = formatarImagens(results.participando);
         this.torneiosCriados = formatarImagens(results.criados);
         this.torneiosModerando = formatarImagens(results.moderando);
-        
+        this.carregando = false;
         this.loadingService.hide();
       },
-      error: (err) => {
-        console.error('Erro fatal no forkJoin:', err);
+      error: () => {
+        this.carregando = false;
+        this.erroCarregamento = 'Não foi possível carregar seus torneios. Tente novamente.';
         this.loadingService.hide();
       }
     });
+  }
+
+  filtrarTorneios(lista: TorneioResponse[]): TorneioResponse[] {
+    const termo = this.termoBusca.trim().toLocaleLowerCase();
+    return termo ? lista.filter(torneio => torneio.nome.toLocaleLowerCase().includes(termo)) : lista;
   }
 
   abrirDetalhes(id: number) {

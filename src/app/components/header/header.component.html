@@ -40,6 +40,9 @@
         <a routerLink="/config" (click)="menuAberto = false">
           <span class="menu-icon">⚙️</span> Configurações
         </a>
+        <a *ngIf="isFounder" routerLink="/moderacao" (click)="menuAberto = false">
+          <span class="menu-icon">🛡️</span> Moderação
+        </a>
       </div>
     </div>
 

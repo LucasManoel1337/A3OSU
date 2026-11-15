@@ -32,7 +32,10 @@
       <div class="config-header-card profile-style">
         <div class="banner-preview">
 
-          <img class="banner-image" [src]="bannerPreview" alt="Banner">
+          <div *ngIf="bannerLoading" class="config-banner-loading" role="status" aria-label="Carregando banner">
+            <span class="config-image-spinner" aria-hidden="true"></span>
+          </div>
+          <img *ngIf="!bannerLoading" class="banner-image" [src]="bannerPreview || bannerPadrao" alt="Banner">
 
           <label class="upload-overlay">
             <input type="file" (change)="onFileSelected($event, 'banner')" hidden>
@@ -44,7 +47,10 @@
         <div class="profile-info-wrapper">
           <div class="avatar-preview">
 
-            <img class="avatar-image" [src]="avatarPreview" alt="Avatar">
+            <div *ngIf="avatarLoading" class="config-avatar-loading" role="status" aria-label="Carregando avatar">
+              <span class="config-image-spinner" aria-hidden="true"></span>
+            </div>
+            <img *ngIf="!avatarLoading" class="avatar-image" [src]="avatarPreview || avatarPadrao" alt="Avatar">
 
             <label class="upload-overlay">
               <input type="file" (change)="onFileSelected($event, 'avatar')" hidden>
@@ -120,6 +126,29 @@
 
       </form>
 
+    </section>
+
+    <section class="config-card">
+      <div class="section-header">
+        <h3>🏷️ Título do perfil</h3>
+        <p>Escolha um dos títulos que você desbloqueou. Títulos especiais podem ser concedidos pela moderação.</p>
+      </div>
+
+      <div class="config-form title-settings">
+        <label for="profile-title">Título exibido no perfil</label>
+        <select id="profile-title" name="profileTitle" [(ngModel)]="tituloSelecionado">
+          <option [ngValue]="null">Sem título</option>
+          <option *ngFor="let titulo of titulosDisponiveis" [ngValue]="titulo">{{ titulo }}</option>
+        </select>
+        <p *ngIf="titulosDisponiveis.length === 0" class="title-hint">
+          Participe de um torneio ou organize um para desbloquear títulos. Outros títulos são concedidos manualmente.
+        </p>
+        <div class="button-area">
+          <button type="button" class="btn-primary" [disabled]="salvandoTitulo" (click)="salvarTitulo()">
+            {{ salvandoTitulo ? 'Salvando...' : 'Salvar título' }}
+          </button>
+        </div>
+      </div>
     </section>
 
     <!-- SENHA -->

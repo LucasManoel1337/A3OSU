@@ -1,39 +1,73 @@
 <main class="content-area dark-theme-wrapper">
-  
-  <section class="torneio-section mb-5">
-    <h2 class="section-title">Participando</h2>
-    
-    <div class="torneios-grid" *ngIf="torneiosParticipando.length > 0">
-      <app-torneio-card *ngFor="let t of torneiosParticipando" [torneio]="t"></app-torneio-card>
+  <div class="my-tournaments-page">
+    <header class="tournaments-hero">
+      <div class="hero-copy">
+        <span class="hero-kicker">SUA JORNADA COMPETITIVA</span>
+        <h1>Meus torneios</h1>
+        <p>Acompanhe suas inscrições, organizações e torneios que você modera.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="action-secondary" routerLink="/torneios">Explorar torneios</a>
+        <a class="action-primary" routerLink="/criar-torneio">＋ Criar torneio</a>
+      </div>
+    </header>
+
+    <div class="tournament-toolbar">
+      <label class="tournament-search">
+        <span aria-hidden="true">⌕</span>
+        <input type="search" name="termoBusca" [(ngModel)]="termoBusca" placeholder="Filtrar por nome do torneio">
+      </label>
+      <span class="tournament-total">
+        {{ torneiosParticipando.length + torneiosCriados.length + torneiosModerando.length }} vínculos
+      </span>
     </div>
 
-    @if (torneiosParticipando.length === 0) {
-      <p class="empty-text">Nenhum torneio encontrado que você esteja participando!</p>
-    }
-  </section>
+    <p *ngIf="erroCarregamento" class="load-error" role="alert">{{ erroCarregamento }}</p>
+    <div *ngIf="carregando" class="loading-state" role="status">Carregando seus torneios…</div>
 
-  <section class="torneio-section mb-5">
-    <h2 class="section-title">Meus Torneios Criados</h2>
-    
-    <div class="torneios-grid" *ngIf="torneiosCriados.length > 0">
-      <app-torneio-card *ngFor="let t of torneiosCriados" [torneio]="t" [modoAdmin]="true"></app-torneio-card>
-    </div>
-    
-    @if (torneiosCriados.length === 0) {
-      <p class="empty-text">Nenhum torneio encontrado que você tenha criado!</p>
-    }
-  </section>
+    <section class="tournament-group" *ngIf="!carregando">
+      <header class="group-heading">
+        <span class="group-icon participant-icon">🎮</span>
+        <div><h2>Participando</h2><p>Torneios em que você está inscrito.</p></div>
+        <span class="group-count">{{ torneiosParticipando.length }}</span>
+      </header>
+      <div class="torneios-grid" *ngIf="filtrarTorneios(torneiosParticipando).length; else emptyParticipando">
+        <app-torneio-card *ngFor="let t of filtrarTorneios(torneiosParticipando)" [torneio]="t"></app-torneio-card>
+      </div>
+      <ng-template #emptyParticipando><div class="empty-state">
+        <span aria-hidden="true">🎟️</span><strong>Nenhuma inscrição por aqui</strong>
+        <p>Encontre um torneio e participe para acompanhar sua inscrição.</p><a routerLink="/torneios">Ver torneios</a>
+      </div></ng-template>
+    </section>
 
-  <section class="torneio-section mb-5">
-    <h2 class="section-title">Moderando</h2>
-    
-    <div class="torneios-grid" *ngIf="torneiosModerando.length > 0">
-      <app-torneio-card *ngFor="let t of torneiosModerando" [torneio]="t" [modoAdmin]="true"></app-torneio-card>
-    </div>
-    
-    @if (torneiosModerando.length === 0) {
-      <p class="empty-text">Nenhum torneio encontrado que você esteja como moderador!</p>
-    }
-  </section>
+    <section class="tournament-group" *ngIf="!carregando">
+      <header class="group-heading">
+        <span class="group-icon organizer-icon">🏆</span>
+        <div><h2>Criados por você</h2><p>Gerencie os torneios que você organizou.</p></div>
+        <span class="group-count">{{ torneiosCriados.length }}</span>
+      </header>
+      <div class="torneios-grid" *ngIf="filtrarTorneios(torneiosCriados).length; else emptyCriados">
+        <app-torneio-card *ngFor="let t of filtrarTorneios(torneiosCriados)" [torneio]="t" [modoAdmin]="true"></app-torneio-card>
+      </div>
+      <ng-template #emptyCriados><div class="empty-state">
+        <span aria-hidden="true">✨</span><strong>Você ainda não criou torneios</strong>
+        <p>Monte uma competição e convide a comunidade para participar.</p><a routerLink="/criar-torneio">Criar torneio</a>
+      </div></ng-template>
+    </section>
 
+    <section class="tournament-group" *ngIf="!carregando">
+      <header class="group-heading">
+        <span class="group-icon moderator-icon">🛡️</span>
+        <div><h2>Como moderador</h2><p>Competições em que você ajuda na organização.</p></div>
+        <span class="group-count">{{ torneiosModerando.length }}</span>
+      </header>
+      <div class="torneios-grid" *ngIf="filtrarTorneios(torneiosModerando).length; else emptyModerando">
+        <app-torneio-card *ngFor="let t of filtrarTorneios(torneiosModerando)" [torneio]="t" [modoAdmin]="true"></app-torneio-card>
+      </div>
+      <ng-template #emptyModerando><div class="empty-state">
+        <span aria-hidden="true">🤝</span><strong>Nenhuma moderação atribuída</strong>
+        <p>Quando um organizador adicionar você como moderador, os torneios aparecerão aqui.</p>
+      </div></ng-template>
+    </section>
+  </div>
 </main>

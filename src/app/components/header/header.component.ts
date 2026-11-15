@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   username = 'Jogador';
   userId!: number;
   isVerificado = false;
+  isFounder = false;
   menuAberto = false;
   avatarPreview = '';
   avatarLoading = true;
@@ -63,6 +64,7 @@ export class HeaderComponent implements OnInit {
       switchMap(user => {
         this.username = user.username;
         this.isVerificado = user.verificado;
+        this.isFounder = (user.conquistas ?? []).includes('FOUNDER');
         this.userId = user.idUser;
         return this.userService.getAvatar(user.idUser).pipe(
           catchError(() => of(new Blob()))

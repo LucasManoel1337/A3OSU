@@ -1,0 +1,153 @@
+<main class="content-area moderation-page">
+  <div *ngIf="verificandoPermissao" class="moderation-card" role="status">Validando permissão Founder...</div>
+  <section *ngIf="!verificandoPermissao && !permitido" class="moderation-card access-denied" role="alert">
+    <h1>Acesso restrito</h1>
+    <p>{{ erro || 'O painel de moderação está disponível apenas para contas com a conquista Founder.' }}</p>
+  </section>
+
+  <ng-container *ngIf="permitido">
+    <header class="moderation-header">
+      <span class="moderation-icon" aria-hidden="true">🛡️</span>
+      <div>
+        <p class="eyebrow">FERRAMENTAS DA PLATAFORMA</p>
+        <h1>Painel de moderação</h1>
+        <p>Gerencie jogadores e acompanhe as ferramentas da comunidade.</p>
+      </div>
+    </header>
+
+    <nav class="moderation-tabs" aria-label="Seções de moderação">
+      <button type="button" [class.active]="secaoAtiva === 'jogadores'"
+        [attr.aria-current]="secaoAtiva === 'jogadores' ? 'page' : null"
+        (click)="secaoAtiva = 'jogadores'">
+        <span aria-hidden="true">👥</span> Gerenciar Jogadores
+      </button>
+      <button type="button" [class.active]="secaoAtiva === 'denuncias'"
+        [attr.aria-current]="secaoAtiva === 'denuncias' ? 'page' : null"
+        (click)="secaoAtiva = 'denuncias'">
+        <span aria-hidden="true">🚩</span> Denúncias <span class="coming-soon">Em breve</span>
+      </button>
+    </nav>
+
+    <section *ngIf="secaoAtiva === 'denuncias'" class="moderation-card future-section">
+      <span aria-hidden="true">🚧</span>
+      <div>
+        <h2>Denúncias</h2>
+        <p>Esta área será usada para revisar denúncias da comunidade. O fluxo será disponibilizado em uma atualização futura.</p>
+      </div>
+    </section>
+
+    <ng-container *ngIf="secaoAtiva === 'jogadores'">
+      <section class="moderation-card search-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">COMUNIDADE</p>
+            <h2>Encontrar jogadores</h2>
+            <p>Pesquise pelo nickname para abrir as ferramentas de gerenciamento.</p>
+          </div>
+          <span class="search-icon" aria-hidden="true">🔍</span>
+        </div>
+        <div class="search-form">
+          <label class="visually-hidden" for="player-search">Nickname do jogador</label>
+          <input id="player-search" name="playerSearch" [(ngModel)]="termo"
+            placeholder="Digite o nickname..." autocomplete="off">
+          <button type="button" [disabled]="buscando" (click)="pesquisar()">
+            {{ buscando ? 'Buscando...' : 'Buscar' }}
+          </button>
+        </div>
+
+        <p *ngIf="erro" class="feedback error" role="alert">{{ erro }}</p>
+        <p *ngIf="mensagem" class="feedback success" role="status">{{ mensagem }}</p>
+
+        <div *ngIf="resultados.length" class="player-list" aria-label="Resultados da busca">
+          <button *ngFor="let usuario of resultados" type="button" class="player-result"
+            [class.selected]="usuarioSelecionado?.idUser === usuario.idUser" (click)="selecionarUsuario(usuario)">
+            <img class="player-avatar"
+              [src]="usuario.avatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'"
+              alt="">
+            <span class="player-result-info">
+              <span class="player-name">{{ usuario.username }}</span>
+              <span class="player-nationality">
+                <img [src]="'https://flagcdn.com/w20/' + (usuario.nacionalidade || 'un').toLowerCase() + '.png'"
+                  [alt]="'Bandeira ' + usuario.nacionalidade">
+                {{ usuario.nacionalidade || 'un' | uppercase }}
+              </span>
+            </span>
+            <span class="player-status" [class.is-verified]="usuario.verificado">
+              <span aria-hidden="true">{{ usuario.verificado ? '✓' : '○' }}</span>
+              {{ usuario.verificado ? 'Verificado' : 'Não verificado' }}
+            </span>
+          </button>
+        </div>
+        <p *ngIf="!buscando && termo.trim().length >= 2 && resultados.length === 0 && !erro" class="empty-result">
+          Nenhum jogador encontrado com esse nickname.
+        </p>
+      </section>
+
+      <section *ngIf="usuarioSelecionado as usuario" class="moderation-card player-settings">
+        <div class="player-heading">
+          <img class="selected-avatar"
+            [src]="usuario.avatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'"
+            alt="">
+          <div class="selected-player-info">
+            <p class="eyebrow">GERENCIAR JOGADOR</p>
+            <h2>{{ usuario.username }}</h2>
+            <span class="player-nationality">
+              <img [src]="'https://flagcdn.com/w20/' + (usuario.nacionalidade || 'un').toLowerCase() + '.png'"
+                [alt]="'Bandeira ' + usuario.nacionalidade">
+              {{ usuario.nacionalidade || 'un' | uppercase }} <span class="player-id">· #{{ usuario.idUser }}</span>
+            </span>
+          </div>
+        </div>
+
+        <section class="settings-category">
+          <header class="category-heading">
+            <span aria-hidden="true">✓</span>
+            <div><h3>Jogador verificado</h3><p>Reconhecimento concedido pela equipe da plataforma.</p></div>
+          </header>
+          <label class="setting-row">
+            <span>
+              <strong>{{ usuario.verificado ? 'Este jogador está verificado' : 'Este jogador não está verificado' }}</strong>
+              <small>O selo de verificação é independente da confirmação de e-mail.</small>
+            </span>
+            <input type="checkbox" [checked]="usuario.verificado" (change)="alterarVerificacao($event)">
+          </label>
+        </section>
+
+        <section class="settings-category">
+          <header class="category-heading title-category">
+            <span aria-hidden="true">🏷️</span>
+            <div><h3>Títulos</h3><p>Conceda e remova títulos especiais do jogador.</p></div>
+          </header>
+          <form class="title-form" (submit)="$event.preventDefault(); concederTitulo()">
+            <label class="visually-hidden" for="new-title">Novo título</label>
+            <input id="new-title" name="newTitle" [(ngModel)]="tituloNovo" maxlength="60"
+              placeholder="Ex.: Competidor profissional">
+            <button type="submit" [disabled]="!tituloNovo.trim()">Conceder título</button>
+          </form>
+          <div *ngIf="usuario.titulos.length; else noTitles" class="title-list">
+            <span *ngFor="let titulo of usuario.titulos" class="title-chip">
+              {{ titulo }}
+              <button type="button" [attr.aria-label]="'Remover título ' + titulo" (click)="removerTitulo(titulo)">×</button>
+            </span>
+          </div>
+          <ng-template #noTitles><p class="section-hint">Este jogador ainda não possui títulos concedidos manualmente.</p></ng-template>
+        </section>
+
+        <section class="settings-category">
+          <header class="category-heading achievement-category">
+            <span aria-hidden="true">🏅</span>
+            <div><h3>Conquistas</h3><p>Gerencie as conquistas disponíveis na plataforma.</p></div>
+          </header>
+          <label *ngFor="let conquista of conquistas" class="setting-row">
+            <span>
+              <strong>{{ conquista.nome }}</strong>
+              <small>{{ conquista.codigo }}</small>
+            </span>
+            <input type="checkbox" [checked]="usuario.conquistas.includes(conquista.codigo)"
+              (change)="alterarConquista(conquista.codigo, $event)">
+          </label>
+        </section>
+      </section>
+    </ng-container>
+  </ng-container>
+</main>

@@ -41,8 +41,15 @@ export class ConfigComponent implements OnInit {
 
   currentUserId: number = 0;
   isVerified: boolean = false;
-  avatarPreview = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s';
-  bannerPreview = 'https://images4.alphacoders.com/991/thumb-1920-991403.png';
+  titulosDisponiveis: string[] = [];
+  tituloSelecionado: string | null = null;
+  salvandoTitulo = false;
+  avatarPreview = '';
+  bannerPreview = '';
+  avatarLoading = true;
+  bannerLoading = true;
+  readonly avatarPadrao = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s';
+  readonly bannerPadrao = 'https://images4.alphacoders.com/991/thumb-1920-991403.png';
 
   private isBrowser: boolean;
 
@@ -83,9 +90,13 @@ export class ConfigComponent implements OnInit {
         this.idioma = user.language || '';
         this.currentUserId = user.idUser;
         this.isVerified = user.verificado;
+        this.titulosDisponiveis = user.titulosDisponiveis ?? [];
+        this.tituloSelecionado = user.tituloSelecionado ?? null;
         this.buscarImagens();
       },
       error: () => {
+        this.avatarLoading = false;
+        this.bannerLoading = false;
         this.loadingService.hide();
         this.modalService.abrir('error', 'Erro ao carregar perfil.');
       }
@@ -93,40 +104,60 @@ export class ConfigComponent implements OnInit {
   }
 
   private blobParaBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (!this.isBrowser) {
         resolve('');
         return;
       }
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject(reader.error ?? new Error('Não foi possível ler a imagem do perfil.'));
       reader.readAsDataURL(blob);
     });
   }
 
   buscarImagens(): void {
+    if (!this.isBrowser) {
+      this.avatarLoading = false;
+      this.bannerLoading = false;
+      this.loadingService.hide();
+      return;
+    }
+
     const avatar$ = this.userService.getAvatar(this.currentUserId).pipe(
-      catchError(() => of(new Blob())) // se falhar, retorna blob vazio
+      catchError(() => of(new Blob()))
     );
     const banner$ = this.userService.getBanner(this.currentUserId).pipe(
-      catchError(() => of(new Blob())) // se falhar, retorna blob vazio
+      catchError(() => of(new Blob()))
     );
 
     forkJoin([avatar$, banner$]).subscribe({
-      next: async ([avatarBlob, bannerBlob]) => {
-        if (avatarBlob?.size > 0) {
-          this.avatarPreview = await this.blobParaBase64(avatarBlob);
-        }
-        if (bannerBlob?.size > 0) {
-          this.bannerPreview = await this.blobParaBase64(bannerBlob);
-        }
-        this.ngZone.run(() => this.cdr.detectChanges());
+      next: ([avatarBlob, bannerBlob]) => {
+        Promise.all([
+          avatarBlob.size > 0 ? this.blobParaBase64(avatarBlob) : Promise.resolve(''),
+          bannerBlob.size > 0 ? this.blobParaBase64(bannerBlob) : Promise.resolve('')
+        ]).then(([avatar, banner]) => {
+          this.ngZone.run(() => {
+            this.avatarPreview = avatar;
+            this.bannerPreview = banner;
+            this.avatarLoading = false;
+            this.bannerLoading = false;
+            this.cdr.detectChanges();
+          });
+        }).catch(error => {
+          console.error('Erro ao converter as imagens de perfil.', error);
+          this.ngZone.run(() => {
+            this.avatarLoading = false;
+            this.bannerLoading = false;
+            this.cdr.detectChanges();
+          });
+        }).finally(() => this.loadingService.hide());
       },
       error: () => {
-        console.log('Erro inesperado ao buscar imagens');
+        this.avatarLoading = false;
+        this.bannerLoading = false;
         this.loadingService.hide();
-      },
-      complete: () => this.loadingService.hide()
+      }
     });
   }
 
@@ -183,6 +214,20 @@ export class ConfigComponent implements OnInit {
     });
   }
 
+  salvarTitulo(): void {
+    this.salvandoTitulo = true;
+    this.userService.selecionarTitulo(this.tituloSelecionado).subscribe({
+      next: () => {
+        this.salvandoTitulo = false;
+        this.modalService.abrir('success', 'Título do perfil atualizado.');
+      },
+      error: () => {
+        this.salvandoTitulo = false;
+        this.modalService.abrir('error', 'Não foi possível atualizar o título do perfil.');
+      }
+    });
+  }
+
   onFileSelected(event: any, type: 'avatar' | 'banner'): void {
     if (!this.isBrowser) return;
 
@@ -203,8 +248,13 @@ export class ConfigComponent implements OnInit {
       }
 
       this.ngZone.run(() => {
-        if (type === 'avatar') this.avatarPreview = preview;
-        else this.bannerPreview = preview;
+        if (type === 'avatar') {
+          this.avatarPreview = preview;
+          this.avatarLoading = false;
+        } else {
+          this.bannerPreview = preview;
+          this.bannerLoading = false;
+        }
         this.cdr.detectChanges();
       });
 

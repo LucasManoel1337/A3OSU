@@ -4,7 +4,7 @@ import { forkJoin, catchError, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '../../core/services/user.service';
 import { LoadingService } from '../../core/services/loading.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 export interface MedalhaConfig {
   label: string;
@@ -16,16 +16,18 @@ export interface MedalhaConfig {
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
 })
 export class PerfilComponent implements OnInit {
 
   username: string | null = 'Jogador';
+  tituloSelecionado: string | null = null;
   dataEntrada: string = '';
   criadoEm: string = '';
   currentUserId: number = 0;
+  isOwnProfile = true;
 
   avatarPreview = '';
   bannerPreview = '';
@@ -62,7 +64,7 @@ export class PerfilComponent implements OnInit {
       label: 'Organizador de Copa', 
       icon: '🏆', 
       cssClass: 'organizador', 
-      desc: 'Entrou em um torneio pela 1º vez' 
+      desc: 'Criou seu primeiro torneio' 
     }
   };
 
@@ -87,6 +89,7 @@ export class PerfilComponent implements OnInit {
       this.loadingService.show();
 
       const idUrl = params.get('idUsuario'); 
+      this.isOwnProfile = !idUrl;
 
       if (idUrl) {
         this.buscarPerfilPublico(Number(idUrl)); 
@@ -103,7 +106,8 @@ export class PerfilComponent implements OnInit {
         this.currentUserId = user.idUser;
         this.nacionalidade = user.nationality;
         this.isVerified = user.verificado;
-        this.conquistasDoUsuario = user.conquistas;
+        this.conquistasDoUsuario = user.conquistas ?? [];
+        this.tituloSelecionado = user.tituloSelecionado ?? null;
         this.criadoEm = user.criadoEm;
         this.buscarImagens();
       },
@@ -122,6 +126,7 @@ export class PerfilComponent implements OnInit {
         this.currentUserId = user.idUser; 
         this.nacionalidade = user.nationality || 'un';
         this.isVerified = user.verificado || false;
+        this.tituloSelecionado = user.tituloSelecionado ?? null;
         this.criadoEm = user.criadoEm;
 
         if (user.criadoEm) {
@@ -129,7 +134,7 @@ export class PerfilComponent implements OnInit {
           this.dataEntrada = `${dataBanco.toLocaleString('pt-BR', { month: 'long' })} de ${dataBanco.getFullYear()}`;
         }
 
-        this.conquistasDoUsuario = user.conquistas;
+        this.conquistasDoUsuario = user.conquistas ?? [];
 
         this.buscarImagens(); 
       },
@@ -196,12 +201,14 @@ export class PerfilComponent implements OnInit {
   }
 
   get vitrineDeMedalhas(): MedalhaConfig[] {
-    const ativas = this.conquistasDoUsuario
-      .map(codigo => this.dicionarioMedalhas[codigo])
+    const medalhasVisiveis = this.medalhasVisiveis;
+    const codigosConhecidos = [...new Set(this.conquistasDoUsuario)];
+    const ativas = codigosConhecidos
+      .map(codigo => medalhasVisiveis[codigo])
       .filter(medalha => medalha !== undefined);
  
     const vitrine = [...ativas];
-    const maxSlots = 4;
+    const maxSlots = Object.keys(medalhasVisiveis).length;
     
     while (vitrine.length < maxSlots) {
       vitrine.push({ 
@@ -213,5 +220,23 @@ export class PerfilComponent implements OnInit {
     }
 
     return vitrine;
+  }
+
+  get totalConquistasDesbloqueadas(): number {
+    return new Set(this.conquistasDoUsuario.filter(codigo => this.medalhasVisiveis[codigo])).size;
+  }
+
+  get progressoConquistas(): number {
+    const totalConquistas = Object.keys(this.medalhasVisiveis).length;
+    return totalConquistas === 0 ? 0 : (this.totalConquistasDesbloqueadas / totalConquistas) * 100;
+  }
+
+  private get medalhasVisiveis(): Record<string, MedalhaConfig> {
+    if (this.conquistasDoUsuario.includes('FOUNDER')) {
+      return this.dicionarioMedalhas;
+    }
+
+    const { FOUNDER: _conquistaSecreta, ...medalhasPublicas } = this.dicionarioMedalhas;
+    return medalhasPublicas;
   }
 }

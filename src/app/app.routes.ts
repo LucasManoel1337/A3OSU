@@ -14,6 +14,7 @@ import { TorneioDetalheComponent } from './pages/detalhe-torneio/torneio-detalhe
 import { MeusTorneiosComponent } from './pages/meus-torneios/meus-torneios.component';
 import { TorneioGerenciarComponent } from './pages/torneio-gerenciar/torneio-gerenciar.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ModeracaoComponent } from './pages/moderacao/moderacao.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -27,6 +28,7 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'perfil', component: PerfilComponent },
       { path: 'config', component: ConfigComponent },
+      { path: 'moderacao', component: ModeracaoComponent },
       { path: 'torneios', component: TorneiosComponent },
       { path: 'criar-torneio', component: CriarTorneiosComponent },
       { path: 'pesquisar-perfil', component: PesquisarComponent },

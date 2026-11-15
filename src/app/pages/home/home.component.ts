@@ -13,7 +13,8 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   
   avisos = [
-    { tipo: 'update', icon: '🚀', data: '14 Nov, 2026', titulo: 'Versão v1.0.1', texto: 'Ajustado problema de autenticação, F5 e de carregamentos de telas.' },
+    { tipo: 'update', icon: '🚀', data: '14 Nov, 2026', titulo: 'Versão 1.1.0', texto: 'Chegaram os títulos de perfil, painel Founder para verificação e concessão de conquistas, além de uma nova experiência em Meus Torneios.' },
+    { tipo: 'update', icon: '🚀', data: '14 Nov, 2026', titulo: 'Versão 1.0.1', texto: 'Ajustado problema de autenticação, F5 e de carregamentos de telas.' },
     { tipo: 'update', icon: '🚀', data: '15 Jun, 2026', titulo: 'Bem-vindo ao Beta!', texto: 'O sistema de torneios já está no ar.' },
   ];
 

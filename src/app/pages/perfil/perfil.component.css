@@ -106,6 +106,60 @@
   z-index: 2;
 }
 
+.profile-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 9px;
+  padding-bottom: 10px;
+}
+
+.profile-action {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.profile-action:hover {
+  transform: translateY(-1px);
+}
+
+.primary-action {
+  background: #ff66aa;
+  color: #fff;
+}
+
+.primary-action:hover {
+  background: #ff4499;
+}
+
+.secondary-action {
+  border-color: #373037;
+  background: rgba(15, 15, 15, 0.72);
+  color: #ddd;
+}
+
+.secondary-action:hover {
+  border-color: rgba(255, 102, 170, 0.45);
+  color: #ff8cbb;
+}
+
+.profile-action:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
 .avatar-section {
   position: relative;
 }
@@ -170,118 +224,6 @@
   text-transform: uppercase;
 }
 
-/* BARRA DE XP */
-.level-container {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 8px 15px;
-  border-radius: 12px;
-  width: fit-content;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.level-badge {
-  background: #ff66aa;
-  color: #fff;
-  font-weight: bold;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-}
-
-.xp-bar-bg {
-  width: 200px;
-  height: 10px;
-  background: #222;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.xp-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #d42276, #ff66aa);
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(255, 102, 170, 0.5);
-}
-
-.xp-text {
-  color: #888;
-  font-size: 0.85rem;
-  font-weight: bold;
-}
-
-/* ========================================== */
-/* GRID DE ESTATÍSTICAS */
-/* ========================================== */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-}
-
-.stat-card {
-  background-color: #161616;
-  padding: 25px;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255, 102, 170, 0.3);
-}
-
-.stat-card.glow-pink {
-  position: relative;
-  overflow: hidden;
-  border-color: rgba(255, 102, 170, 0.2);
-}
-
-.stat-card.glow-pink::before {
-  content: '';
-  position: absolute;
-  top: -50px;
-  right: -50px;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, rgba(255, 102, 170, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
-  border-radius: 50%;
-}
-
-.stat-label {
-  color: #888;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 600;
-}
-
-.stat-value {
-  color: #fff;
-  font-size: 2rem;
-  font-weight: 800;
-}
-
-.stat-subtext {
-  color: #666;
-  font-size: 0.85rem;
-}
-
-.text-success {
-  color: #2ecc71;
-  text-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
-}
-
-.text-up {
-  color: #2ecc71;
-}
-
 /* ========================================== */
 /* SEÇÕES E MEDALHAS */
 /* ========================================== */
@@ -298,6 +240,144 @@
   font-weight: 600;
   border-left: 4px solid #ff66aa;
   padding-left: 12px;
+}
+
+.section-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.section-description {
+  margin: 8px 0 0;
+  color: #858585;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.profile-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.summary-card {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 14px;
+  box-sizing: border-box;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #1a1a1a, #151515);
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 102, 170, 0.28);
+}
+
+.summary-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  place-items: center;
+  border: 1px solid rgba(255, 102, 170, 0.18);
+  border-radius: 12px;
+  background: rgba(255, 102, 170, 0.1);
+  color: #ff8cbb;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.verification-icon {
+  border-color: rgba(46, 204, 113, 0.16);
+  background: rgba(46, 204, 113, 0.08);
+  color: #58d68d;
+}
+
+.summary-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.summary-label {
+  color: #929292;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.summary-value {
+  overflow: hidden;
+  color: #f3f3f3;
+  font-size: 18px;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summary-value small {
+  color: #898989;
+  font-size: 13px;
+  font-weight: 550;
+}
+
+.summary-value.status-value {
+  font-size: 14px;
+}
+
+.summary-value.verified-value {
+  color: #58d68d;
+}
+
+.summary-hint {
+  overflow: hidden;
+  color: #777;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progress-track {
+  height: 5px;
+  overflow: hidden;
+  margin-top: 3px;
+  border-radius: 999px;
+  background: #303030;
+}
+
+.progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #d42276, #ff66aa);
+  transition: width 300ms ease;
+}
+
+.achievement-count {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 102, 170, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 102, 170, 0.08);
+  color: #ff9ac4;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.achievements-section .medals-showcase {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .medals-showcase {
@@ -376,87 +456,6 @@
   cursor: not-allowed;
 }
 
-/* ========================================== */
-/* HISTÓRICO DE PARTIDAS (TABELA) */
-/* ========================================== */
-.history-table-container {
-  background: #161616;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  overflow: hidden;
-}
-
-.history-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-.history-table th {
-  background: rgba(0, 0, 0, 0.4);
-  color: #888;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 18px 20px;
-  font-weight: 600;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.history-table td {
-  padding: 18px 20px;
-  color: #ddd;
-  font-size: 0.95rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-  vertical-align: middle;
-}
-
-.history-table tbody tr {
-  transition: background-color 0.2s ease;
-}
-
-.history-table tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.02);
-}
-
-.history-table td strong {
-  color: #fff;
-}
-
-.history-table td small {
-  color: #888;
-  margin-left: 5px;
-}
-
-/* Estilos de Vitória e Derrota nas linhas */
-.row-win td:first-child {
-  box-shadow: inset 4px 0 0 #2ecc71;
-}
-
-.row-loss td:first-child {
-  box-shadow: inset 4px 0 0 #e74c3c;
-}
-
-.badge {
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.badge.win {
-  background: rgba(46, 204, 113, 0.1);
-  color: #2ecc71;
-  border: 1px solid rgba(46, 204, 113, 0.2);
-}
-
-.badge.loss {
-  background: rgba(231, 76, 60, 0.1);
-  color: #e74c3c;
-  border: 1px solid rgba(231, 76, 60, 0.2);
-}
-
 .title-row {
   display: flex;
   align-items: center;
@@ -489,34 +488,111 @@
   transform: scale(1.1); /* Dá um leve "pulo" ao passar o mouse */
 }
 
-.info-block {
-  background-color: #161616;
-  border: 1px solid #2a2a2a;
-  padding: 18px 20px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+@media (max-width: 1000px) {
+  .profile-info-wrapper {
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 20px;
+    padding-right: 28px;
+    padding-left: 28px;
+  }
+
+  .profile-actions {
+    flex-direction: row;
+    padding-left: 180px;
+  }
+
+  .profile-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-.info-block:hover {
-  border-color: #3a3a3a;
-  transform: translateY(-2px);
+@media (max-width: 650px) {
+  .content-area {
+    padding: 20px;
+  }
+
+  .perfil-container {
+    gap: 24px;
+  }
+
+  .cover-image {
+    height: 150px;
+  }
+
+  .profile-info-wrapper {
+    align-items: center;
+    gap: 14px;
+    margin-top: -48px;
+    padding: 0 18px 22px;
+  }
+
+  .avatar-large {
+    width: 112px;
+    height: 112px;
+    border-radius: 20px;
+  }
+
+  .user-details {
+    min-width: 0;
+    padding-bottom: 0;
+  }
+
+  .title-row {
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .nick-title {
+    font-size: 24px;
+    overflow-wrap: anywhere;
+  }
+
+  .role-text {
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+  }
+
+  .profile-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+
+  .profile-action {
+    flex: 1;
+  }
+
+  .profile-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card {
+    padding: 16px;
+  }
+
+  .section-heading-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .achievements-section .medals-showcase {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .medal-item {
+    padding: 14px 10px;
+    text-align: center;
+  }
 }
 
-.info-label {
-  font-size: 12px;
-  color: #777;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.info-value {
-  font-size: 18px;
-  color: #eee;
-  font-weight: 600;
-  margin-top: auto;    /* Empurra o texto para baixo... */
-  margin-bottom: auto; /* ...e centraliza ele no meio do card! */
+@media (prefers-reduced-motion: reduce) {
+  .perfil-container,
+  .summary-card,
+  .profile-action,
+  .progress-track span {
+    animation: none;
+    transition: none;
+  }
 }
