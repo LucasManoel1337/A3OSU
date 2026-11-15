@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { TorneioDetalhesDTO, TorneioService } from '../../core/services/torneios.service';
 import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../core/services/modal.service';
+import { parseActiveTournamentSuspension } from '../../core/models/user-punishment.model';
 import { catchError, finalize, forkJoin, of } from 'rxjs';
 
 @Component({
@@ -136,6 +137,10 @@ export class TorneioDetalheComponent implements OnInit, OnDestroy {
   }
   
   inscreverNoTorneio() {
+    if (this.carregandoInscricao) {
+      return;
+    }
+
     if (this.currentUserId === 0) {
       this.modalService.abrir('warning', 'Você precisa estar logado para participar.');
       return;
@@ -155,6 +160,10 @@ export class TorneioDetalheComponent implements OnInit, OnDestroy {
   }
 
   enviarInscricao() {
+    if (this.carregandoInscricao) {
+      return;
+    }
+
     this.carregandoInscricao = true;
 
     const payload = {
@@ -173,6 +182,9 @@ export class TorneioDetalheComponent implements OnInit, OnDestroy {
       },
       error: (erro) => {
         this.carregandoInscricao = false;
+        if (parseActiveTournamentSuspension(erro.error)) {
+          return;
+        }
         const msgErro = erro.error || 'Erro ao realizar inscrição. Tente novamente.';
         this.modalService.abrir('error', msgErro);
       }

@@ -3,6 +3,7 @@ import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { forkJoin, catchError, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '../../core/services/user.service';
+import { UserPunishment, UserPunishmentType } from '../../core/models/user-punishment.model';
 import { LoadingService } from '../../core/services/loading.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -40,6 +41,7 @@ export class PerfilComponent implements OnInit {
   private isBrowser: boolean;
 
   conquistasDoUsuario: string[] = []; 
+  punicoes: UserPunishment[] = [];
 
   dicionarioMedalhas: Record<string, MedalhaConfig> = {
     'FOUNDER': { 
@@ -86,6 +88,7 @@ export class PerfilComponent implements OnInit {
       this.bannerPreview = '';
       this.avatarLoading = true;
       this.bannerLoading = true;
+      this.punicoes = [];
       this.loadingService.show();
 
       const idUrl = params.get('idUsuario'); 
@@ -107,6 +110,7 @@ export class PerfilComponent implements OnInit {
         this.nacionalidade = user.nationality;
         this.isVerified = user.verificado;
         this.conquistasDoUsuario = user.conquistas ?? [];
+        this.punicoes = user.punicoes ?? [];
         this.tituloSelecionado = user.tituloSelecionado ?? null;
         this.criadoEm = user.criadoEm;
         this.buscarImagens();
@@ -135,6 +139,7 @@ export class PerfilComponent implements OnInit {
         }
 
         this.conquistasDoUsuario = user.conquistas ?? [];
+        this.punicoes = user.punicoes ?? [];
 
         this.buscarImagens(); 
       },
@@ -229,6 +234,15 @@ export class PerfilComponent implements OnInit {
   get progressoConquistas(): number {
     const totalConquistas = Object.keys(this.medalhasVisiveis).length;
     return totalConquistas === 0 ? 0 : (this.totalConquistasDesbloqueadas / totalConquistas) * 100;
+  }
+
+  nomePunicao(type: UserPunishmentType): string {
+    switch (type) {
+      case 'BANIMENTO_PERMANENTE': return 'Banimento permanente';
+      case 'BANIMENTO_TEMPORARIO': return 'Banimento temporário';
+      case 'SUSPENSAO_RANQUEADO': return 'Suspensão de torneios ranked';
+      case 'SUSPENSAO_CASUAL': return 'Suspensão de torneios casuais';
+    }
   }
 
   private get medalhasVisiveis(): Record<string, MedalhaConfig> {

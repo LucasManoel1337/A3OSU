@@ -1,4 +1,4 @@
-<main class="content-area moderation-page">
+<div class="moderation-page">
   <div *ngIf="verificandoPermissao" class="moderation-card" role="status">Validando permissão Founder...</div>
   <section *ngIf="!verificandoPermissao && !permitido" class="moderation-card access-denied" role="alert">
     <h1>Acesso restrito</h1>
@@ -72,13 +72,22 @@
                 {{ usuario.nacionalidade || 'un' | uppercase }}
               </span>
             </span>
-            <span class="player-status" [class.is-verified]="usuario.verificado">
-              <span aria-hidden="true">{{ usuario.verificado ? '✓' : '○' }}</span>
-              {{ usuario.verificado ? 'Verificado' : 'Não verificado' }}
+            <span class="player-status" [class.is-verified]="usuario.verificado"
+              [attr.title]="usuario.verificado ? 'Verificado' : 'Não verificado'"
+              [attr.aria-label]="usuario.verificado ? 'Jogador verificado' : 'Jogador não verificado'">
+              <svg *ngIf="usuario.verificado; else unverifiedIcon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z" fill="#ff66aa"></path>
+              </svg>
+              <ng-template #unverifiedIcon>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
+                  <path d="M5.64 5.64l12.72 12.72" fill="none" stroke="currentColor" stroke-width="2"></path>
+                </svg>
+              </ng-template>
             </span>
           </button>
         </div>
-        <p *ngIf="!buscando && termo.trim().length >= 2 && resultados.length === 0 && !erro" class="empty-result">
+        <p *ngIf="!buscando && resultados.length === 0 && !erro" class="empty-result">
           Nenhum jogador encontrado com esse nickname.
         </p>
       </section>
@@ -97,6 +106,7 @@
               {{ usuario.nacionalidade || 'un' | uppercase }} <span class="player-id">· #{{ usuario.idUser }}</span>
             </span>
           </div>
+          <a class="visit-profile-button" [routerLink]="['/perfil', usuario.idUser]">Visitar perfil</a>
         </div>
 
         <section class="settings-category">
@@ -147,7 +157,72 @@
               (change)="alterarConquista(conquista.codigo, $event)">
           </label>
         </section>
+
+        <section class="settings-category punishment-category">
+          <header class="category-heading">
+            <span aria-hidden="true">⚖️</span>
+            <div><h3>Punições</h3><p>Aplique banimentos ou restrinja o acesso a torneios. Todas as ações exigem motivo e ficam no histórico público.</p></div>
+          </header>
+
+          <form class="punishment-form" (submit)="$event.preventDefault(); aplicarPunicao()">
+            <label for="punishment-type">Tipo de punição</label>
+            <select id="punishment-type" name="punishmentType" [(ngModel)]="tipoPunicao">
+              <option value="BANIMENTO_PERMANENTE">Banimento permanente da plataforma</option>
+              <option value="BANIMENTO_TEMPORARIO">Banimento temporário da plataforma</option>
+              <option value="SUSPENSAO_RANQUEADO">Suspensão de torneios ranked</option>
+              <option value="SUSPENSAO_CASUAL">Suspensão de torneios casuais</option>
+            </select>
+
+            <label *ngIf="tipoPunicao !== 'BANIMENTO_PERMANENTE'" for="punishment-expiration">
+              {{ tipoPunicao === 'BANIMENTO_TEMPORARIO' ? 'Acesso será liberado em' : 'Término da suspensão (opcional; vazio = permanente)' }}
+            </label>
+            <input *ngIf="tipoPunicao !== 'BANIMENTO_PERMANENTE'" id="punishment-expiration"
+              name="punishmentExpiration" type="datetime-local" [(ngModel)]="validadePunicao"
+              [required]="tipoPunicao === 'BANIMENTO_TEMPORARIO'">
+
+            <label for="punishment-reason">Motivo</label>
+            <textarea id="punishment-reason" name="punishmentReason" [(ngModel)]="motivoPunicao"
+              maxlength="1000" rows="4" required placeholder="Descreva o motivo da punição (até 1000 caracteres)."></textarea>
+            <div class="punishment-form-footer">
+              <small>{{ motivoPunicao.length }}/1000</small>
+              <button type="submit" [disabled]="aplicandoPunicao || !motivoPunicao.trim()">
+                {{ aplicandoPunicao ? 'Aplicando...' : 'Aplicar punição' }}
+              </button>
+            </div>
+          </form>
+
+          <div class="punishment-history" *ngIf="usuario.punicoes.length; else noPunishments">
+            <h4>Histórico de punições</h4>
+            <article *ngFor="let punicao of usuario.punicoes" class="punishment-record"
+              [class.punishment-active]="punicao.active">
+              <div class="punishment-record-top">
+                <strong>{{ nomePunicao(punicao.type) }}</strong>
+                <span class="punishment-status" [class.active]="punicao.active">{{ statusPunicao(punicao) }}</span>
+              </div>
+              <p class="punishment-reason">{{ punicao.reason }}</p>
+              <div class="punishment-record-meta">
+                <span>Aplicada em {{ punicao.appliedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                <span *ngIf="punicao.expiresAt">Até {{ punicao.expiresAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                <span *ngIf="punicao.endedAt">Encerrada em {{ punicao.endedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+              </div>
+              <div class="punishment-moderator">
+                <img *ngIf="punicao.appliedByAvatarUrl" [src]="punicao.appliedByAvatarUrl" alt="">
+                <span *ngIf="!punicao.appliedByAvatarUrl" class="moderator-avatar-fallback" aria-hidden="true">👤</span>
+                <span>{{ punicao.appliedByUsername }}
+                  <span *ngIf="punicao.appliedByVerified" class="moderator-verified" aria-label="Moderador verificado">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z" fill="#ff66aa"></path>
+                    </svg>
+                  </span>
+                </span>
+              </div>
+              <button *ngIf="punicao.active" type="button" class="revoke-punishment"
+                (click)="revogarPunicao(punicao)">Encerrar punição</button>
+            </article>
+          </div>
+          <ng-template #noPunishments><p class="section-hint">Este jogador ainda não possui punições registradas.</p></ng-template>
+        </section>
       </section>
     </ng-container>
   </ng-container>
-</main>
+</div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
+import { UserPunishment, UserPunishmentRequest } from '../models/user-punishment.model';
 
 export interface UsuarioBusca {
   id: number;
@@ -22,6 +23,7 @@ export interface PerfilUsuario {
   titulosDisponiveis: string[];
   tituloSelecionado: string | null;
   criadoEm: string;
+  punicoes: UserPunishment[];
 }
 
 export interface UsuarioModeracao {
@@ -32,6 +34,7 @@ export interface UsuarioModeracao {
   verificado: boolean;
   conquistas: string[];
   titulos: string[];
+  punicoes: UserPunishment[];
 }
 
 @Injectable({
@@ -156,6 +159,21 @@ export class UserService {
     return this.http.put<void>(
       `${this.apiUrl}/moderacao/${userId}/titulos`,
       { titulo, conceder },
+      this.getHeadersJson()
+    );
+  }
+
+  aplicarPunicao(userId: number, request: UserPunishmentRequest): Observable<UserPunishment> {
+    return this.http.post<UserPunishment>(
+      `${this.apiUrl}/moderacao/${userId}/punicoes`,
+      request,
+      this.getHeadersJson()
+    );
+  }
+
+  revogarPunicao(punishmentId: number): Observable<UserPunishment> {
+    return this.http.delete<UserPunishment>(
+      `${this.apiUrl}/moderacao/punicoes/${punishmentId}`,
       this.getHeadersJson()
     );
   }

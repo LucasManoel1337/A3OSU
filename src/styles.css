@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+html {
+  width: 100%;
+  min-height: 100%;
+}
+
 :root {
   --osu-pink: #ff66aa;
   --osu-pink-hover: #ff4499;
@@ -17,12 +22,6 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-}
-
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--osu-bg);
-  color: var(--text-main);
-  /* Removemos o display: flex e o justify-content daqui */
+  width: 100%;
+  overflow-x: hidden;
 }

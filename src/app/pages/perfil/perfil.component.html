@@ -119,5 +119,39 @@
       
     </div>
 
+    <section *ngIf="punicoes.length" class="section-block punishment-history-section" aria-labelledby="punishment-history-title">
+      <div class="section-heading-row">
+        <div>
+          <h2 class="section-title" id="punishment-history-title">Histórico de moderação</h2>
+          <p class="section-description">Punições ativas e anteriores registradas para este jogador.</p>
+        </div>
+      </div>
+
+      <article *ngFor="let punicao of punicoes" class="profile-punishment-record"
+        [class.profile-punishment-active]="punicao.active">
+        <div class="profile-punishment-heading">
+          <strong>{{ nomePunicao(punicao.type) }}</strong>
+          <span [class.active]="punicao.active">{{ punicao.active ? 'Ativa' : 'Encerrada ou expirada' }}</span>
+        </div>
+        <p class="profile-punishment-reason">{{ punicao.reason }}</p>
+        <div class="profile-punishment-dates">
+          <span>Aplicada em {{ punicao.appliedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+          <span *ngIf="punicao.expiresAt">Válida até {{ punicao.expiresAt | date:'dd/MM/yyyy HH:mm' }}</span>
+          <span *ngIf="punicao.endedAt">Encerrada em {{ punicao.endedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="profile-punishment-moderator">
+          <img *ngIf="punicao.appliedByAvatarUrl" [src]="punicao.appliedByAvatarUrl" alt="">
+          <span *ngIf="!punicao.appliedByAvatarUrl" class="profile-moderator-avatar-fallback" aria-hidden="true">👤</span>
+          <span>Aplicada por {{ punicao.appliedByUsername }}
+            <span *ngIf="punicao.appliedByVerified" class="profile-moderator-verified" aria-label="Moderador verificado">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.44-.106.375-.167.77-.167 1.16 0 2.21 1.71 3.998 3.918 3.998.535 0 1.043-.118 1.5-.325C9.232 21.365 10.536 22.5 12 22.5c1.464 0 2.768-1.135 3.385-2.715.457.207.965.325 1.5.325 2.21 0 3.918-1.79 3.918-4 0-.39-.06-.785-.167-1.16 1.127-.694 1.867-1.98 1.867-3.44zm-11.457 5.09l-4.5-4.5 1.414-1.414 3.086 3.086 7.086-7.086 1.414 1.414-8.5 8.5z" fill="#ff66aa"></path>
+              </svg>
+            </span>
+          </span>
+        </div>
+      </article>
+    </section>
+
   </div>
 </main>

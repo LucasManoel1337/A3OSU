@@ -332,6 +332,13 @@ export function mensagemErroAuth(error: unknown, fallback: string): string {
       }
     }
 
+    if (body && typeof body === 'object' && 'detail' in body) {
+      const detail = body.detail;
+      if (typeof detail === 'string' && detail.trim()) {
+        return detail;
+      }
+    }
+
     if (body && typeof body === 'object' && 'error' in body) {
       const message = body.error;
       if (typeof message === 'string' && message.trim()) {

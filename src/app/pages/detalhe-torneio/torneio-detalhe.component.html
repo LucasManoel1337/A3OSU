@@ -157,8 +157,9 @@
         
         <div class="sidebar-buttons">
           @if (torneio?.status == "Aguardando Início") {
-            <button class="btn-side-participar" (click)="inscreverNoTorneio()">
-            🎮 Entrar no Torneio
+            <button type="button" class="btn-side-participar" (click)="inscreverNoTorneio()"
+              [disabled]="carregandoInscricao">
+            {{ carregandoInscricao ? 'Entrando no torneio...' : '🎮 Entrar no Torneio' }}
             </button>
           } 
 

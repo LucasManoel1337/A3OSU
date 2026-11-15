@@ -1,10 +1,13 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService, mensagemErroAuth, senhaValida } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ModalService } from '../../core/services/modal.service';
 import { CustomInputComponent } from '../../components/custom-input/custom-input.component';
+import { parseActiveBan } from '../../core/models/user-punishment.model';
+import { PunishmentNoticeService } from '../../core/services/punishment-notice.service';
 
 @Component({
   selector: 'app-login',
@@ -26,11 +29,11 @@ export class LoginComponent {
   readonly carregando = signal(false);
   readonly mensagem = signal('');
   readonly tipoMensagem = signal<'success' | 'error' | 'info'>('info');
-
   constructor(
     private authService: AuthService,
     private router: Router,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private punishmentNoticeService: PunishmentNoticeService
   ) { }
 
   onLogin(event: Event) {
@@ -53,6 +56,11 @@ export class LoginComponent {
       },
       error: (error: unknown) => {
         this.carregando.set(false);
+        const punishment = error instanceof HttpErrorResponse ? parseActiveBan(error.error) : null;
+        if (punishment) {
+          this.punishmentNoticeService.show(punishment, 'account');
+          return;
+        }
         this.definirMensagem(
           mensagemErroAuth(error, 'Não foi possível entrar. Verifique suas credenciais e tente novamente.'),
           'error'
@@ -151,6 +159,7 @@ export class LoginComponent {
 
   voltarParaLogin(): void {
     this.modo.set('login');
+    this.mensagem.set('');
     this.password = '';
     this.code = '';
     this.newPassword = '';
@@ -162,4 +171,7 @@ export class LoginComponent {
     this.mensagem.set(message);
     this.tipoMensagem.set(type);
   }
+
 }
+
+export { parseActiveBan } from '../../core/models/user-punishment.model';

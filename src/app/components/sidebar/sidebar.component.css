@@ -2,10 +2,12 @@
   width: 260px;
   background-color: #111111;
   display: flex;
-  height: 100vh;
+  height: 100%;
+  min-height: 0;
   flex-direction: column;
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.4);
   z-index: 10;
+  box-sizing: border-box;
 }
 
 .brand-container {
