@@ -1,11 +1,12 @@
 import { Component, OnInit, HostListener, Inject, PLATFORM_ID, NgZone, ChangeDetectorRef, DestroyRef } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { catchError, of } from 'rxjs';
+import { catchError, finalize, from, of, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { UserService } from '../../core/services/user.service';
 import { AuthService } from '../../core/services/auth.service';
+import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
   isVerificado = false;
   menuAberto = false;
   avatarPreview = '';
+  avatarLoading = true;
 
   private isBrowser: boolean;
 
@@ -28,6 +30,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
+    private loadingService: LoadingService,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private destroyRef: DestroyRef,
@@ -55,32 +58,38 @@ export class HeaderComponent implements OnInit {
   }
 
   private buscarPerfil(): void {
-    this.userService.getProfile().subscribe({
-      next: (user) => {
+    this.loadingService.show();
+    this.userService.getProfile().pipe(
+      switchMap(user => {
         this.username = user.username;
         this.isVerificado = user.verificado;
         this.userId = user.idUser;
-        this.buscarAvatar(user.idUser);
+        return this.userService.getAvatar(user.idUser).pipe(
+          catchError(() => of(new Blob()))
+        );
+      }),
+      switchMap(blob => blob.size > 0 ? from(this.blobParaBase64(blob)) : of('')),
+      takeUntilDestroyed(this.destroyRef),
+      finalize(() => {
+        this.avatarLoading = false;
+        this.loadingService.hide();
+        this.cdr.markForCheck();
+      })
+    ).subscribe({
+      next: avatar => {
+        this.avatarPreview = avatar;
+        this.cdr.markForCheck();
       },
-      error: () => console.log('Erro ao carregar perfil no header')
+      error: error => console.error('Erro ao carregar perfil no header.', error)
     });
   }
 
-  private buscarAvatar(userId: number): void {
-    this.userService.getAvatar(userId).pipe(
-      catchError(() => of(new Blob()))
-    ).subscribe({
-      next: (blob) => {
-        if (!blob || blob.size === 0) return;
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.ngZone.run(() => {
-            this.avatarPreview = reader.result as string;
-            this.cdr.detectChanges();
-          });
-        };
-        reader.readAsDataURL(blob);
-      }
+  private blobParaBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(typeof reader.result === 'string' ? reader.result : '');
+      reader.onerror = () => reject(reader.error ?? new Error('Não foi possível ler o avatar.'));
+      reader.readAsDataURL(blob);
     });
   }
 
@@ -100,6 +109,6 @@ export class HeaderComponent implements OnInit {
   }
 
   get avatarSrc(): string {
-    return this.avatarPreview || 'assets/avatar.png';
+    return this.avatarPreview || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s';
   }
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit, Inject, PLATFORM_ID, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, NgZone, ChangeDetectorRef, DestroyRef } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { forkJoin, catchError, of } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '../../core/services/user.service';
 import { LoadingService } from '../../core/services/loading.service';
 import { ActivatedRoute } from '@angular/router';
@@ -28,6 +29,8 @@ export class PerfilComponent implements OnInit {
 
   avatarPreview = '';
   bannerPreview = '';
+  avatarLoading = true;
+  bannerLoading = true;
 
   nacionalidade: string = 'br';
   isVerified: boolean = false;
@@ -69,15 +72,20 @@ export class PerfilComponent implements OnInit {
     private loadingService: LoadingService,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private destroyRef: DestroyRef
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   ngOnInit(): void {
-    this.loadingService.show();
+    this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
+      this.avatarPreview = '';
+      this.bannerPreview = '';
+      this.avatarLoading = true;
+      this.bannerLoading = true;
+      this.loadingService.show();
 
-    this.route.paramMap.subscribe(params => {
       const idUrl = params.get('idUsuario'); 
 
       if (idUrl) {
@@ -100,6 +108,8 @@ export class PerfilComponent implements OnInit {
         this.buscarImagens();
       },
       error: () => {
+        this.avatarLoading = false;
+        this.bannerLoading = false;
         this.loadingService.hide();
       }
     });
@@ -125,22 +135,27 @@ export class PerfilComponent implements OnInit {
       },
       error: () => {
         console.error('Perfil não encontrado');
+        this.avatarLoading = false;
+        this.bannerLoading = false;
         this.loadingService.hide();
       }
     });
   }
 
   private blobParaBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (!this.isBrowser) { resolve(''); return; }
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject(reader.error ?? new Error('Não foi possível ler a imagem do perfil.'));
       reader.readAsDataURL(blob);
     });
   }
 
   buscarImagens(): void {
     if (!this.isBrowser) {
+      this.avatarLoading = false;
+      this.bannerLoading = false;
       this.loadingService.hide();
       return;
     }
@@ -153,20 +168,30 @@ export class PerfilComponent implements OnInit {
     );
 
     forkJoin([avatar$, banner$]).subscribe({
-      next: async ([avatarBlob, bannerBlob]) => {
-        if (avatarBlob?.size > 0) {
-          this.avatarPreview = await this.blobParaBase64(avatarBlob);
-        }
-        if (bannerBlob?.size > 0) {
-          this.bannerPreview = await this.blobParaBase64(bannerBlob);
-        }
-        this.ngZone.run(() => this.cdr.detectChanges());
+      next: ([avatarBlob, bannerBlob]) => {
+        Promise.all([
+          avatarBlob?.size > 0 ? this.blobParaBase64(avatarBlob) : Promise.resolve(''),
+          bannerBlob?.size > 0 ? this.blobParaBase64(bannerBlob) : Promise.resolve('')
+        ]).then(([avatar, banner]) => {
+          this.avatarPreview = avatar;
+          this.bannerPreview = banner;
+        }).catch(error => {
+          console.error('Erro ao converter as imagens do perfil.', error);
+        }).finally(() => this.finalizarCarregamentoImagens());
       },
       error: () => {
         console.log('Erro ao buscar imagens do perfil');
-        this.loadingService.hide();
+        this.finalizarCarregamentoImagens();
       },
-      complete: () => this.loadingService.hide()
+    });
+  }
+
+  private finalizarCarregamentoImagens(): void {
+    this.ngZone.run(() => {
+      this.avatarLoading = false;
+      this.bannerLoading = false;
+      this.loadingService.hide();
+      this.cdr.detectChanges();
     });
   }
 

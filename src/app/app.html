@@ -1,8 +1,8 @@
-<div class="loading-overlay" *ngIf="loadingService.loading$ | async">
+<div class="loading-overlay" *ngIf="loadingService.loading$ | async" role="status" aria-live="polite">
     <div class="loading-box">
-        <div class="spinner"></div>
+        <div class="spinner" aria-hidden="true"></div>
         <h2>Carregando...</h2>
-        <p>Aguarde um momento</p>
+        <p>Estamos preparando tudo para você.</p>
     </div>
 </div>
 

@@ -56,6 +56,26 @@
   transition: all 0.3s ease;
 }
 
+.avatar-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 102, 170, 0.08);
+}
+
+.avatar-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 102, 170, 0.25);
+  border-top-color: #ff66aa;
+  border-radius: 50%;
+  animation: avatar-spin 0.75s linear infinite;
+}
+
+@keyframes avatar-spin {
+  to { transform: rotate(360deg); }
+}
+
 .avatar:hover {
   border-color: #ff66aa;
   transform: translateY(-2px);

@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { of } from 'rxjs';
+import { UserService } from '../../core/services/user.service';
+import { LoadingService } from '../../core/services/loading.service';
 
 import { PerfilComponent } from './perfil.component';
 
@@ -8,7 +12,33 @@ describe('PerfilComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PerfilComponent]
+      imports: [PerfilComponent],
+      providers: [
+        provideRouter([]),
+        {
+          provide: UserService,
+          useValue: {
+            getProfile: () => of({
+              username: 'player',
+              idUser: 1,
+              nationality: 'br',
+              verificado: false,
+              conquistas: [],
+              criadoEm: ''
+            }),
+            getProfileById: () => of({
+              username: 'player',
+              idUser: 1,
+              nationality: 'br',
+              verificado: false,
+              conquistas: [],
+              criadoEm: ''
+            }),
+            getAvatar: () => of(new Blob()),
+            getBanner: () => of(new Blob())
+          }
+        }
+      ]
     })
     .compileComponents();
 
@@ -19,5 +49,22 @@ describe('PerfilComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('shows the default image states after the profile has no uploaded images', async () => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    let isLoading = true;
+    TestBed.inject(LoadingService).loading$.subscribe(value => isLoading = value);
+
+    expect(component.avatarLoading).toBe(false);
+    expect(component.bannerLoading).toBe(false);
+    expect(component.avatarPreview).toBe('');
+    expect(component.bannerPreview).toBe('');
+    expect(isLoading).toBe(false);
+    expect(fixture.nativeElement.querySelector('.avatar-loading')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.image-spinner')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.avatar-large')).not.toBeNull();
   });
 });

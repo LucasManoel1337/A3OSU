@@ -19,8 +19,12 @@
     </div>
 
     <div class="avatar-container">
+      <div *ngIf="avatarLoading" class="avatar avatar-loading" role="status" aria-label="Carregando foto do usuário">
+        <span class="avatar-spinner" aria-hidden="true"></span>
+      </div>
       <img
-        [src]="avatarPreview || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&s'"
+        *ngIf="!avatarLoading"
+        [src]="avatarSrc"
         alt="Avatar"
         class="avatar"
         (click)="toggleMenu($event)"

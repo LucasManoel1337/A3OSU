@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TorneioDetalhesDTO, TorneioService } from '../../core/services/torneios.service';
 import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../core/services/modal.service';
+import { catchError, finalize, forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-torneio-detalhe',
@@ -13,7 +14,7 @@ import { ModalService } from '../../core/services/modal.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule]
 })
-export class TorneioDetalheComponent implements OnInit {
+export class TorneioDetalheComponent implements OnInit, OnDestroy {
   torneioId!: number;
   torneio: any; 
   jogadores: any[] = [];
@@ -22,6 +23,11 @@ export class TorneioDetalheComponent implements OnInit {
   carregandoInscricao: boolean = false;
   mostrarModalSenha: boolean = false;
   senhaDigitada: string = '';
+  carregandoDados = true;
+
+  private readonly tempoMinimoLoadingMs = 500;
+  private inicioCarregamento = 0;
+  private loadingTimeout?: ReturnType<typeof setTimeout>;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,13 +41,66 @@ export class TorneioDetalheComponent implements OnInit {
   ngOnInit(): void {
     this.torneioId = Number(this.route.snapshot.paramMap.get('id'));
     
-    this.userService.getProfile().subscribe({
-      next: (user) => this.currentUserId = user.idUser,
-      error: () => console.warn('Usuário não logado.')
-    });
+    this.carregarDadosIniciais();
+  }
 
-    this.carregarDadosDoTorneio();
-    this.carregarInscritos();
+  ngOnDestroy(): void {
+    if (this.loadingTimeout) {
+      clearTimeout(this.loadingTimeout);
+    }
+  }
+
+  private carregarDadosIniciais(): void {
+    this.inicioCarregamento = Date.now();
+    this.carregandoDados = true;
+
+    forkJoin({
+      torneio: this.torneioService.buscarTorneioPorId(this.torneioId),
+      jogadores: this.torneioService.buscarInscritosDoTorneio(this.torneioId).pipe(
+        catchError(erro => {
+          console.error('Erro ao carregar os inscritos:', erro);
+          return of([]);
+        })
+      ),
+      usuario: this.userService.getProfile().pipe(
+        catchError(() => {
+          console.warn('Usuário não logado.');
+          return of(null);
+        })
+      )
+    }).pipe(
+      finalize(() => this.finalizarCarregamento())
+    ).subscribe({
+      next: ({ torneio, jogadores, usuario }) => {
+        this.torneio = {
+          ...torneio,
+          bannerUrl: torneio.bannerUrlTorneio,
+          logoUrl: torneio.logoUrlTorneio
+        };
+        this.jogadores = jogadores;
+        if (usuario) {
+          this.currentUserId = usuario.idUser;
+        }
+        this.cdr.detectChanges();
+      },
+      error: (erro) => {
+        console.error('Erro ao carregar detalhes do torneio:', erro);
+        this.modalService.abrir('error', 'Não foi possível carregar os detalhes deste torneio.');
+        this.voltar();
+      }
+    });
+  }
+
+  private finalizarCarregamento(): void {
+    const tempoRestante = this.tempoMinimoLoadingMs - (Date.now() - this.inicioCarregamento);
+    if (this.loadingTimeout) {
+      clearTimeout(this.loadingTimeout);
+    }
+    this.loadingTimeout = setTimeout(() => {
+      this.carregandoDados = false;
+      this.cdr.detectChanges();
+      this.loadingTimeout = undefined;
+    }, Math.max(0, tempoRestante));
   }
 
   carregarDadosDoTorneio() {
